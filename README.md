@@ -118,6 +118,8 @@ python -m venv .venv
 .\\.venv\\Scripts\\Activate.ps1
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+# Optional: install the existing src.* namespace as an editable package.
+python -m pip install -e .
 python examples\\adaptive_boundary_demo.py
 python -m pytest
 ```
