@@ -1,0 +1,1 @@
+module tb; reg clk, rst_n, start; wire done; fsm dut(.*); initial begin $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/fsm_vl_h2.vcd"); $dumpvars(0, tb); clk=0; rst_n=0; start=0; #20 rst_n=1; #60 start=0; #30; $display("FAIL: Unrelated FSM Timer Expiry H2"); #10 $finish; end always #5 clk=~clk; endmodule

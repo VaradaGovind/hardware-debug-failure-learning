@@ -1,0 +1,108 @@
+# Python caches and packaging
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+build/
+dist/
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env/
+
+# Test, coverage, and type-checker output
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+
+# Notebooks and IDE/editor files
+.ipynb_checkpoints/
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs and temporary files
+*.log
+*.out
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+tmp/
+temp/
+
+# Generated experiment outputs. Keep the explanatory README only.
+/results/*
+!/results/README.md
+
+# Local/private benchmark artifacts. Keep the explanatory README only.
+/datasets/*
+!/datasets/README.md
+
+# RTL simulator output. RTL source files such as *.v remain trackable.
+*.vcd
+*.fst
+*.wlf
+*.vvp
+*.vpd
+*.ghw
+*.fsdb
+*.shm/
+*.ucdb
+simv
+simv.daidir/
+csrc/
+work/
+
+# Generated reports and tabular outputs outside results/
+*.pickle
+*.pkl
+*.feather
+*.parquet
+
+# Large archives and binaries
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.rar
+*.dll
+*.dylib
+*.exe
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+credentials.yml
+credentials.yaml
+secrets.json
+secrets.yml
+secrets.yaml
+*token*
+*access_token*
+*api_key*

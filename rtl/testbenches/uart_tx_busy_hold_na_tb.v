@@ -1,0 +1,31 @@
+
+module tb;
+    reg clk, rst_n;
+    
+    
+    
+    reg start; wire tx; uart dut(.*);
+    
+
+    initial begin
+        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/uart_tx_busy_hold_na.vcd");
+        $dumpvars(0, tb);
+        clk = 0; rst_n = 0;
+        
+        
+        start = 0;
+        
+        #20 rst_n = 1;
+        
+        
+        
+        
+        #10 start = 1; #40 start = 0;
+        
+        
+        #20;
+        $display("FAIL: UART_TX_BUSY_HOLD Protocol Stalled (P2)");
+        #10 $finish;
+    end
+    always #5 clk = ~clk;
+endmodule

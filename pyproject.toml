@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rca-reuse"
+version = "0.1.0"
+description = "Research prototype for safe reuse of RTL root-cause analysis across repeated failures."
+readme = "README.md"
+authors = [
+    {name = "Varada Govind Aakula"},
+]
+dependencies = [
+    "pandas>=2.0.0",
+    "matplotlib>=3.7.0",
+    "pyvcd>=0.4.0",
+    "pytest>=7.0.0",
+    "scikit-learn>=1.2.0",
+    "numpy>=1.24.0",
+]
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

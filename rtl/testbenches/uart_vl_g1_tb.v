@@ -1,0 +1,1 @@
+module tb; reg clk, rst_n, start; wire tx; uart dut(.*); initial begin $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/uart_vl_g1.vcd"); $dumpvars(0, tb); clk=0; rst_n=0; start=0; #20 rst_n=1; #10 start=1; #40 start=0; #30; $display("FAIL: UART Sampling Error G1"); #10 $finish; end always #5 clk=~clk; endmodule

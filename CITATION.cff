@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use RCA-Reuse, please cite this software repository."
+type: software
+title: "RCA-Reuse"
+authors:
+  - family-names: "Aakula"
+    given-names: "Varada Govind"
+version: "0.1.0"
+repository-code: "https://github.com/VaradaGovind"

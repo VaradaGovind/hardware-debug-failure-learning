@@ -1,0 +1,31 @@
+
+module tb;
+    reg clk, rst_n;
+    
+    
+    reg start; wire done; fsm dut(.*);
+    
+    
+
+    initial begin
+        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/fsm_reset_recovery_nb.vcd");
+        $dumpvars(0, tb);
+        clk = 0; rst_n = 0;
+        
+        
+        start = 0;
+        
+        #20 rst_n = 1;
+        
+        
+        
+        #10 start = 1; #10 start = 0; #20;
+        
+        
+        
+        #20;
+        $display("FAIL: FSM_RESET_RECOVERY Interface Error (NB)");
+        #10 $finish;
+    end
+    always #5 clk = ~clk;
+endmodule
