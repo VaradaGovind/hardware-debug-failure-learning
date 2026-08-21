@@ -1,40 +1,42 @@
-# RCA-Reuse limitations
+# RCA-Reuse Limitations and Research Boundaries
 
-The current results do not establish universal RCA reuse. They are evidence from bounded experiments on a finite set of generated RTL families, protocols, and failure manifestations.
+The current results do not establish universal RCA reuse. They provide empirical evidence from bounded experiments on a finite set of generated RTL families, protocols, and controlled failure manifestations.
 
-## Evaluation scope
+---
 
-The blind result covers 50 unseen instances across five hardware families. The variable-latency stress report covers 75 held-out targets, including 10 incomplete traces. These are useful adversarial checks but are not a broad sample of RTL bugs, verification environments, or SoC integrations.
+## 1. End-to-End Bug Resolution vs. Reuse Validation
+- **Direct Resolution Unmeasured:** End-to-end bug resolution has not yet been directly compared against full RCA.
+- **Scope of Validation:** The current pipeline terminates at the triage decision (`REUSE_RCA` vs. `FALLBACK_INDEPENDENT_RCA`). It evaluates whether the causal certificate matches the target trace, but does not simulate patch generation, RTL editing, or regression closure.
+- **Metric Separation:** Reuse precision must not be conflated with or reported as a bug resolution rate.
 
-## Bug-class and protocol dependence
+## 2. Hardware Family and Benchmark Scope
+- **Limited Coverage:** Current evaluation is strictly limited to five controlled RTL hardware families: FIFO, AXI, FSM, UART, and PIPELINE (controlled research fixtures).
+- **Benchmark Scope:** Stimulus sequences and testbenches are controlled research fixtures designed for adversarial validation, not industrial-scale SoC regression suites.
+- **Bug-Class Dependence:** Bug-class dependence has not yet been systematically characterized across complex microarchitectural bugs (e.g., speculative execution side channels, multi-master cache coherence races).
 
-Reuse behavior depends on the defect class, transaction protocol, stimulus, and observability of the relevant signals. A certificate that works for one causal mechanism can be invalid for another mechanism with the same symptom. The current reports also document a UART extractor limitation: the frozen extractor selected FIFO-style context for UART cases, causing conservative `INSUFFICIENT_EVIDENCE` outcomes. This must be addressed before treating the results as protocol-independent.
+## 3. Boundary Inference and Protocol Specificity
+- **Safety over Recall:** Adaptive transaction boundaries improve safety and evidence sufficiency in the current experiments (rejecting 10/10 incomplete traces and reducing false reuse to 3.1%), but do not yet demonstrate improved positive recall over fixed-window controls.
+- **Heuristic Boundaries:** Boundary recovery relies on observable transitions, handshakes, and quiescence. Ambiguous handshakes, overlapping pipelined transactions, and asynchronous clock crossings can obscure transaction boundaries.
+- **Extractor Mismatches:** The prototype's certificate extractor can select mismatched context templates (e.g., selecting FIFO stream context for UART dividers), leading to conservative `INSUFFICIENT_EVIDENCE` fallback.
 
-## Boundary inference
+## 4. Scalability and System Integration
+- **SoC-Level Scalability Untested:** Multi-block integration, multi-clock domains, hierarchy crossing, and long-running emulation traces remain unvalidated.
+- **Trace Window Size:** Evaluated traces range from 10 to 100 cycles. Industrial verification traces spanning millions of cycles will require hierarchical transaction filtering.
 
-Adaptive boundary recovery relies on observable activity, transitions, handshakes, state changes, data movement, and quiescence. It can encounter ambiguous boundaries, missing signals, reset interactions, overlapping transactions, asynchronous behavior, or traces that end before causal propagation. The implementation has bounded and heuristic parameters, including quiescence and maximum-window settings. It should not be treated as a formal proof of transaction boundaries.
+## 5. Token and Compute Cost Accounting
+- **Analytical Model vs. Physical Measurement:** Full token/compute measurements are based on an analytical tool-call cost model calibrated on debugging trajectories, not continuous LLM token logging or physical energy/wall-clock measurement.
+- **License and Infrastructure Overhead:** Simulation costs do not account for proprietary EDA simulator licenses, compilation servers, or compute cluster queuing times.
 
-## Recall and resolution claims
+## 6. Reproducibility and Data Packaging
+- **Historical Benchmark Boundary:** The complete original 50-case blind test is treated as a historical experiment rather than a freshly reproducible benchmark from a clean checkout, because raw multi-megabyte VCD waveforms and simulator binaries are intentionally gitignored, and the historical Phase 4.1 artifact contains 19 PRECHECK rows.
+- **Minimal Clean Reproduction:** A clean repository clone reproduces the core code, unit tests, and the self-contained RTL smoke pipeline (`scripts/run_rtl_smoke.py`).
 
-Adaptive boundaries did not improve positive-transfer recall over the fixed-window controls in the current variable-latency stress experiment. Their demonstrated value in that experiment is primarily safety and evidence sufficiency. The project also does not yet provide a direct, end-to-end bug-resolution comparison against full RCA. Reuse precision, false reuse, positive transfer/recall, and cost compression must remain separate metrics.
+## 7. Prototype Boundary
+- **Not a Universal Replacement:** RCA-Reuse is not a universal replacement for root-cause analysis. It is an upstream triage filter designed to bypass expensive redundant search only when strict transaction and causal obligations are met, safely falling back to full RCA whenever evidence is ambiguous.
 
-In particular, no current result justifies reporting a universal or fixed end-to-end bug-resolution rate for RCA-Reuse.
+---
 
-## Scaling and cost measurement
-
-SoC-level scaling, multi-clock protocols, long-running traces, and integration with production verification environments remain to be validated. The cost analysis uses modeled tool-call-equivalent or search costs and does not constitute a complete token, compute, wall-clock, simulator-license, or energy accounting.
-
-## Reproducibility and data availability
-
-Raw traces, waveform files, simulator outputs, held-out labels, and generated results are local artifacts. Some may be private or may not have redistribution terms. They are excluded by default from the initial Git history. Full reproduction therefore requires the local benchmark artifacts and the exact external RTL simulator environment.
-
-The Phase 4.1/4.2 reports also record a benchmark compilation error that affected an initial blind run. Any future public result should preserve the audit trail and state exactly which benchmark generation and simulation artifacts were used.
-
-## Future validation required
-
-- broader and independently reviewed bug corpora;
-- direct full-RCA versus RCA-Reuse resolution studies;
-- protocol-specific and asynchronous boundary handling;
-- SoC-level evaluation with multiple interacting transactions;
-- per-class uncertainty and abstention reporting;
-- independently reproducible cost and resource measurements.
+## 8. Summary of Open Research Questions
+1. How does RCA-Reuse perform when paired with automated LLM bug-fixing agents on real-world open-source RTL bugs (e.g., OpenTitan, RISC-V cores)?
+2. Can protocol-aware boundary detectors handle multi-channel interleaved protocols (e.g., AXI4 burst transactions, PCIe, TileLink) without manual signal annotations?
+3. What is the empirical token and latency speedup when integrated into interactive developer debugging loops?

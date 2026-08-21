@@ -1,176 +1,216 @@
-# RCA-Reuse
+# RCA-Reuse: Safe Reuse of RTL Root-Cause Analysis
 
-## Safe Reuse of RTL Root-Cause Analysis Across Repeated Failures
+> Research prototype for evaluating whether an expensive RTL root-cause analysis (RCA) can be safely validated and reused for later manifestations of related failures.
 
-> Research prototype for evaluating whether an expensive RTL root-cause analysis (RCA) result can be validated and reused for later manifestations of a related failure.
+---
 
-## Overview
+## 1. What Problem is RCA-Reuse Solving?
 
-Debugging an RTL failure can require repeated signal inspection, simulation, source searches, and hypothesis testing. RCA-Reuse studies whether the result of one expensive RCA can be turned into a causal artifact and checked against later failures before running the full RCA again.
+Debugging hardware failure manifestations in RTL simulation is expensive. Diagnosing a single failing testbench often requires iterative signal tracing, waveform inspection, source-code analysis, and hypothesis testing. When similar failure manifestations recur during hardware development or regression testing, engineers or automated debugging agents often repeat the entire investigation from scratch.
 
-The central safety requirement is conservative reuse: a similar symptom is not enough. A later failure should be reused only when the observed transaction context, protocol obligations, causal behavior, and available evidence are consistent with the stored RCA. If the trace is incomplete or the evidence is insufficient, the prototype can recommend falling back to a new RCA.
+**RCA-Reuse** evaluates whether the causal explanation produced by an initial root-cause analysis can be formalized into a reusable **causal certificate** and checked against subsequent failures, bypassing redundant search when the underlying defect mechanism is identical.
 
-This repository contains the implementation and local experiment artifacts for an ongoing research project. It is private by default and is not configured for publication or automated pushing.
+---
 
-## Motivation
+## 2. Why is RCA Reuse Difficult?
 
-Repeated failure manifestations can cause an engineer or debugging agent to repeat much of the same expensive investigation. Reusing a prior RCA could reduce redundant work, but an unsafe reuse decision can transfer the wrong explanation to a different bug. The project therefore treats reuse as a verification problem, not as a nearest-neighbor lookup.
+Reusing a prior debugging explanation is not a simple string or waveform similarity search:
 
-## Key observation
+1. **Symptom Aliasing:** Completely different defects often produce identical symptoms (e.g., buffer overflow, timeout, or dropped handshake).
+2. **Invariant Ambiguity:** Low-level signal properties (e.g., signal stability or counter increments) can be identical between correct execution, benign timing variations, and distinct bugs.
+3. **Variable Transaction Latency:** Handshake stalls, pipeline backpressure, and arbitrary testbench delays change the cycle distance between trigger and manifestation.
+4. **Incomplete Traces:** Truncated waveforms or aborted testbenches may display matching initial states before downstream causal divergence occurs.
+5. **Asymmetric Cost of False Reuse:** In hardware debugging, a false reuse (transferring the wrong root cause) misdirects verification engineers and costs significantly more time than falling back to independent search.
 
-Low-level signal behavior is not sufficient for safe RCA reuse. Different bugs can produce similar values, transitions, or invariants at the signal level. The same observed delta may have different meanings depending on which transaction was initiated, which protocol obligation applied, and whether the causal effect propagated through the design.
+---
 
-## Approach
+## 3. What is the Proposed Approach?
 
-The current code supports the following research-level pipeline:
+RCA-Reuse frames reuse as a **formal causal verification and safety triage pipeline**:
 
-1. An initial RCA investigates a failure using the project’s simulation, waveform, RTL-search, and agent components.
-2. A causal representation is stored as a generic or transaction-semantic certificate. The implementation includes `CausalCertificate`, `GenericCausalCertificate`, and `TransactionSemanticCertificate`.
-3. Transaction-level context records initiating signals, active windows, and other observable context.
-4. Protocol obligations express conditions that must hold for a transaction and the expected causal behavior.
-5. Reuse matching and validation compare a target waveform against the stored certificate. Low-level, remediated, and transaction-semantic validators are available for comparison.
-6. Safety checks reject mismatches and can return `INSUFFICIENT_EVIDENCE` when a transaction was not exercised or the trace ended before the relevant behavior was observable.
-7. The adaptive boundary detector recovers a variable-length evidence segment from observable activity, and the adaptive evidence classifier decides whether the frozen transaction-semantic validator has enough evidence to run.
+```text
+Target Failure Trace (VCD)
+         │
+         ▼
+┌────────────────────────────────────────────────────────┐
+│ 1. Adaptive Transaction Boundary Recovery              │
+│    Isolates active transaction segment from waveform   │
+└────────────────────────┬───────────────────────────────┘
+                         │
+                         ▼
+┌────────────────────────────────────────────────────────┐
+│ 2. Evidence Sufficiency Gate                           │
+│    Rejects incomplete, truncated, or unexercised traces│
+└────────┬───────────────────────────────────────┬───────┘
+         │ [Sufficient Evidence]                 │ [Incomplete / Ambiguous]
+         ▼                                       │
+┌─────────────────────────────────────────┐      │
+│ 3. Transaction-Semantic Validator       │      │
+│    - Transaction Preconditions          │      │
+│    - Protocol Obligations               │      │
+│    - Downstream Causal Propagation      │      │
+└────────┬────────────────────────┬───────┘      │
+         │ [Validated PASS]       │ [FAIL]       │
+         ▼                        ▼              ▼
+┌─────────────────┐     ┌────────────────────────────────┐
+│  REUSE_RCA      │     │  FALLBACK_INDEPENDENT_RCA      │
+│  (Bypass Search)│     │  (Run Full Autonomous Search)  │
+└─────────────────┘     └────────────────────────────────┘
+```
 
-The adaptive adapter is designed to select an evidence window and delegate the causal decision to the transaction-semantic validator. It does not establish that adaptive windows improve recall in general.
+1. **Transaction-Semantic Certificates:** Capture initiating transaction preconditions, protocol-level obligations, and required downstream causal propagation signals.
+2. **Adaptive Boundary Detection:** Recovers variable-length evidence windows directly from observable signal activity and quiescence without relying on fixed cycle counts.
+3. **Conservative Safety Policy:** If evidence is insufficient, truncated, or inconsistent with the certificate, the policy avoids guessing and safely triggers `FALLBACK_INDEPENDENT_RCA`.
 
-## Research questions
+---
 
-- Can RCA knowledge be safely reused across future failure manifestations?
-- Does transaction-level context improve reuse precision and negative discrimination over low-level signal matching?
-- Can protocol-aware transaction boundaries reduce unsafe reuse on incomplete or variable-length traces?
-- When does reuse become cost-effective after initial RCA and certificate extraction costs are included?
-- Which bug classes and protocol families remain difficult for certificate reuse?
+## 4. Project Evolution
 
-## Experimental setup
+The project progressed through empirical hypothesis-and-failure iterations:
 
-The repository contains several generations of experiments. The claims summarized below focus on the transaction-semantic blind evaluation and the variable-latency safety/cost audits.
+- **Initial Idea:** Can an existing RCA result be safely reused for future failure manifestations?
+- **First Approach (Phase 3 - Low-Level Invariants):** Matched signal-level invariants and stability constraints.
+- **Problem Discovered:** Failed on adversarial controls; different defects produced identical low-level deltas, leading to a 44.4% false reuse rate.
+- **Next Approach (Phase 4 - Transaction Semantics):** Introduced transaction-level context and protocol obligations (`TransactionSemanticCertificate`).
+- **Blind Evaluation (Phase 4.1):** 50 unseen failures across 5 hardware families (`FIFO`, `AXI`, `FSM`, `UART`, `PIPELINE`).
+  - *Result:* Precision improved from 55.6% to 71.4%, and false reuse dropped to 28.6%.
+- **Next Problem Discovered:** Rigid static transaction windows (4 cycles) collapsed positive recall (33.3%) on variable-latency testbench stimulus.
+- **Adaptive Boundaries (Phase 4.2 / 4.3):** Added dynamic boundary recovery based on signal transitions, handshakes, and quiescence.
+  - *Result:* False reuse dropped to 3.1%, and 10/10 incomplete traces were conservatively rejected.
+- **Cost Analysis:** Modeled full-lifecycle tool costs, demonstrating a ~1.24x search compression and break-even at 2 total manifestations.
+- **Current Research Question:** Can transaction boundaries and protocol obligations be inferred dynamically across complex, interleaved multi-clock protocols without human annotations?
 
-- Frozen blind evaluation: 50 unseen failure instances across five hardware families (FIFO, AXI, FSM, UART, and PIPELINE).
-- Variable-length stress evaluation: held-out traces covering short, delayed, multi-beat, stalled/backpressured, negative, and incomplete-evidence cases. The local Phase 4.3 report describes 75 targets, including 10 incomplete traces.
-- Controls: low-level and remediated validators, fixed transaction windows, adaptive boundary recovery, and non-semantic window controls where applicable.
-- Cost model: validation, fallback RCA, initial source RCA, and certificate extraction are accounted for in the full-lifecycle analysis.
+---
 
-Inference is intended to be blind to target labels and ground-truth metadata; labels are used by the experiment harness only for post-hoc scoring. The held-out datasets and raw traces are local artifacts and are not included in the initial shareable package.
+## 5. Summary of Experimental Results
 
-## Results
+| Metric | Baseline (Low-Level) | Proposed (Transaction-Semantic) | Evaluation Scope |
+|---|:---:|:---:|---|
+| **Reuse Precision** | 55.6% | **71.4%** (Frozen) / **96.9%** (Adaptive) | 50-target blind test / 75-target stress test |
+| **False Reuse Rate (FRR)** | 44.4% | **28.6%** (Frozen) / **3.1%** (Adaptive) | 50-target blind test / 75-target stress test |
+| **Positive Transfer (Recall)** | 33.3% | **33.3%** (Frozen) / **77.5%** (Adaptive) | 15 designated positive controls |
+| **Incomplete Trace Handling** | 0% Rejected | **10/10 Rejected (100%)** | 10 truncated stress cases (Class I) |
+| **Search Compression Ratio (SCR)** | 0.96x | **~1.24x** | Analytical full-lifecycle cost model |
+| **Break-Even Point** | Never | **2 total manifestations** | 1 initial source RCA + 1 subsequent target reuse |
 
-The table separates the scope of the 50-instance blind comparison from the 75-target variable-latency safety/cost audit. Percentages are shown as percentages rather than as probabilities to avoid conflating precision with recall.
+*Note: These metrics measure triage and validation decisions, not end-to-end bug resolution rates. See [docs/rca_vs_reuse.md](docs/rca_vs_reuse.md).*
 
-| Metric | Result |
-|---|---|
-| Blind-test failures | 50 |
-| Hardware families | 5 |
-| Reuse precision, low-level baseline → frozen transaction-semantic result | 55.6% → 71.4% |
-| False reuse, low-level baseline → frozen transaction-semantic result | 44.4% → 28.6% |
-| Adaptive-boundary false reuse, variable-latency audit | 3.1% |
-| Incomplete traces rejected conservatively by adaptive evidence checks | 10/10 |
-| Full-lifecycle search compression, adaptive pipeline | ~1.24× |
-| Break-even including the source manifestation | 2 total manifestations (1 source + 1 subsequent target) |
+---
 
-These values are measured experiment outputs, not an end-to-end bug-resolution claim. In particular, the project has not established a universal RCA reuse rate or a particular end-to-end bug resolution rate.
+## 6. Reproducibility Boundaries
 
-### Metric definitions
+### What Can Currently Be Reproduced
+- **Unit Tests:** All unit tests for boundary detection, evidence classification, and certificate parsing run via `pytest`.
+- **End-to-End RTL Smoke Test:** `python scripts/run_rtl_smoke.py` compiles real Verilog fixtures with Icarus Verilog (`iverilog`), runs simulation, generates VCDs, extracts waveforms, checks transaction semantics, and executes the reuse/fallback policy.
+- **Adaptive Boundary Demo:** `python examples/adaptive_boundary_demo.py` demonstrates boundary segmentation on synthetic traces.
 
-- **Reuse precision**: the fraction of reuse decisions that are correct reuse decisions among the decisions that attempted reuse in the reported comparison.
-- **False reuse rate**: the fraction of reuse decisions that incorrectly accepted a different defect; it is not the complement of recall.
-- **Positive transfer / recall**: the fraction of designated same-defect positive manifestations accepted by the reuse validator; it is not bug resolution rate.
-- **Bug resolution rate**: not directly measured end-to-end in the current project. A conservative validation decision or a fallback RCA should not be counted as a resolved bug without a separate resolution study.
-- **Search compression ratio**: the modeled independent-search cost divided by the modeled reuse-pipeline cost. The `~1.24×` value includes the initial RCA and certificate extraction in the full-lifecycle audit.
+### What Is Treated as Historical Artifacts
+- **The 50-Target Blind Benchmark:** The historical 50-row CSV ([results/transaction_semantic_certs/blind_validation/processed/scored_heldout_evaluation.csv](results/transaction_semantic_certs/blind_validation/processed/scored_heldout_evaluation.csv)) contains 19 rows where VCDs were unsimulated during the initial Phase 4.1 run (17 testbench string escaping typos and 2 AXI net conflicts). All 50 rows were retained in the denominator.
+- **Raw Waveform Traces:** 295 local `.vcd` trace files and compiled `.vvp` simulator binaries are excluded from version control via `.gitignore` to prevent repository bloat.
 
-The cost audit distinguishes one subsequent reuse target (`N_targets* = 1`) from two total manifestations (`N* = 2`, counting the source failure). This is why the repository reports the break-even result as two total manifestations.
+See [docs/blind_test_audit.md](docs/blind_test_audit.md) and [docs/reproducibility.md](docs/reproducibility.md) for full audit records.
 
-## Interpretation
+---
 
-The blind comparison supports the claim that transaction-semantic context can improve reuse precision and reduce false reuse relative to the low-level baseline on the evaluated benchmark. The variable-latency audit supports a narrower safety claim: adaptive boundaries and evidence-sufficiency checks reduced false reuse, especially for incomplete traces, while the current stress test did not show a recall improvement over the fixed-window controls.
+## 7. Quickstart & Running the Prototype
 
-Adaptive transaction boundaries should therefore be described as a safety and evidence-efficiency mechanism in the current results, not as a demonstrated recall engine. The experiments also expose important failure modes, including fixed-window sensitivity and a UART extractor mismatch. Broader evaluation is needed before drawing conclusions about arbitrary RTL designs or SoC-scale debugging.
+### Prerequisites
+- **Python:** 3.11 or newer
+- **External RTL Simulator:** Icarus Verilog (`iverilog` and `vvp`). On Windows, Icarus 12.0 at `C:\iverilog\bin` is automatically detected by `VerilogSimulator`.
 
-## Limitations
-
-The current limitations are documented in [docs/limitations.md](docs/limitations.md). The most important are:
-
-- the evaluation scale and hardware-family coverage are limited;
-- results can depend strongly on bug class, protocol, and stimulus;
-- transaction-boundary inference can be ambiguous or incomplete;
-- SoC-level and multi-clock scaling remain unvalidated;
-- direct comparison against end-to-end bug resolution by full RCA is future work;
-- compute and token accounting are modeled experiment costs rather than a complete hardware or wall-clock accounting;
-- some held-out datasets, waveforms, and results are local/private artifacts and are intentionally excluded here.
-
-## Roadmap
-
-- Improve protocol-aware boundary inference, including asynchronous and UART-specific control protocols.
-- Evaluate a larger and more diverse bug corpus with independently reviewed ground truth.
-- Extend validation to SoC-level and multi-clock environments.
-- Compare full RCA and RCA-Reuse directly on the same manifestations, including resolution outcomes.
-- Add explicit token, compute, wall-clock, and simulator-cost accounting.
-- Strengthen failure-mode classification and report per-class precision, false reuse, recall, and insufficiency rates.
-
-## Reproducibility
-
-The project requires Python 3.11 or newer and the Python packages listed in `requirements.txt`. The RTL simulator helpers also expect `iverilog` and `vvp` to be available on `PATH`; these are external tools and are not installed by pip.
-
-From the repository root:
-
+### Setup
 ```powershell
+# 1. Create and activate virtual environment
 python -m venv .venv
-.\\.venv\\Scripts\\Activate.ps1
+.\.venv\Scripts\Activate.ps1
+
+# 2. Install dependencies
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-# Optional: install the existing src.* namespace as an editable package.
+
+# 3. Optional: Install src namespace in editable mode
 python -m pip install -e .
-python examples\\adaptive_boundary_demo.py
-python -m pytest
 ```
 
-The larger experiment runners are intentionally explicit scripts rather than a single package command. Examples are:
-
+### Running the End-to-End Smoke Test
 ```powershell
-python experiments\\run_phase4_1_blind_validation.py
-python experiments\\run_phase4_2_adaptive_boundary.py
-python experiments\\run_phase4_3_variable_latency.py
-python scripts\\run_phase4_3a_safety_cost_audit.py
-python scripts\\run_phase4_3b_cost_consistency_audit.py
+python scripts/run_rtl_smoke.py
 ```
 
-These commands can regenerate local results, waveforms, and reports and may require the local benchmark artifacts. Full reproducibility is not claimed until the private/held-out datasets and their redistribution terms are resolved. See [results/README.md](results/README.md) and [datasets/README.md](datasets/README.md) before sharing anything outside the private research group.
+Expected output:
+```json
+{
+  "fixture": "fifo_f2",
+  "simulator_compiled": true,
+  "simulation_execution": "PASS",
+  "simulation_status": "EXPECTED_FAILURE",
+  "expected_failure_detected": true,
+  "vcd_extracted": true,
+  "causal_decision": "PASS",
+  "transaction_semantic_decision": "PASS",
+  "adaptive_decision": "PASS",
+  "reuse_policy": {
+    "policy_action": "REUSE_RCA",
+    "safe_to_reuse": true
+  },
+  "fallback_policy_for_insufficient_evidence": {
+    "policy_action": "FALLBACK_INDEPENDENT_RCA",
+    "safe_to_reuse": false
+  }
+}
+```
 
-## Repository structure
+### Running Unit Tests
+```powershell
+python -m pytest -q
+```
 
-The existing layout is preserved where changing paths would change experiment behavior:
+---
+
+## 8. Limitations & Scope
+
+A complete list of research limitations is maintained in [docs/limitations.md](docs/limitations.md):
+
+1. **Bug Resolution Unmeasured:** End-to-end bug resolution has not yet been directly compared against full RCA.
+2. **Benchmark Scope:** Limited to five controlled RTL hardware families (`FIFO`, `AXI`, `FSM`, `UART`, `PIPELINE`) using controlled research fixtures.
+3. **Adaptive Recall:** Adaptive boundaries demonstrate safety and false-reuse reduction, but do not improve recall over fixed-window controls.
+4. **SoC-Level Scalability:** Multi-clock domains, hierarchy crossing, and million-cycle traces remain unvalidated.
+5. **Cost Accounting:** Cost compression is derived from an analytical tool-call model, not physical LLM token or wall-clock logging.
+6. **Not a Universal RCA Replacement:** Designed strictly as an upstream safety triage filter.
+
+---
+
+## 9. Repository Structure
 
 ```text
 src/
-  reuse/          causal certificates, semantic validators, adaptive boundary/evidence code
-  agent/          baseline, constrained, and re-evaluation agent components
-  tools/          RTL search, simulation, and waveform utilities
-  evaluation/     metric calculation
-  reporting/      plot helpers
-  trajectory/     trajectory schemas and logging
-  constraints/    negative-constraint schemas
-  credit/         action-credit and counterfactual components
-  mining/         pattern-mining components
-experiments/      end-to-end experiment runners
-scripts/          benchmark generation and audit utilities
-tests/            unit tests for reusable components
-datasets/         local benchmark metadata; excluded from the initial commit by default
-rtl/              RTL fixtures and generated simulator outputs; waveforms/binaries are ignored
-results/           generated reports and artifacts; see results/README.md
-docs/              architecture, methodology, and limitations
-examples/          small local smoke examples
+  reuse/          Causal certificates, semantic validators, adaptive boundary/evidence code
+  agent/          Baseline, constrained, and re-evaluation agent components
+  tools/          RTL search, Icarus simulator wrapper, and VCD waveform extraction utilities
+  evaluation/     Metrics and evaluation scoring
+  reporting/      Plot generation utilities
+  trajectory/     Agent trajectory schema and logging
+scripts/          Smoke test runner, benchmark generators, and audit scripts
+tests/            Unit tests for boundary detectors and safety validators
+examples/         Self-contained demo scripts and minimal certificate fixtures
+results/          Audited summary CSVs and experimental documentation
+docs/             Architecture, methodology, limitations, audit reports, and comparisons
+rtl/              Verilog designs and testbenches (raw VCDs/VVPs are gitignored)
 ```
+
+---
+
+## 10. Documentation Index
+
+- [docs/architecture.md](docs/architecture.md): Component pipeline and certificate representations.
+- [docs/methodology.md](docs/methodology.md): Experimental methodology, baselines, and safety checks.
+- [docs/limitations.md](docs/limitations.md): Explicit research boundaries and unproven hypotheses.
+- [docs/rca_vs_reuse.md](docs/rca_vs_reuse.md): Direct comparison of RCA vs. RCA-Reuse metrics, resolution, and costs.
+- [docs/blind_test_audit.md](docs/blind_test_audit.md): Forensic audit of the 50-failure blind evaluation.
+- [docs/reproducibility.md](docs/reproducibility.md): Reproducibility tier breakdown and command verification.
+
+---
 
 ## License
 
-The source code in this repository is released under the MIT License; see [LICENSE](LICENSE). Dataset, RTL, waveform, and generated-result redistribution is a separate question and is intentionally not implied by the source license.
-
-## Research status
-
-This repository contains an ongoing research prototype. Results and implementation are subject to change.
-
-## Contact
-
-Varada Govind Aakula<br>
-IIIT Allahabad<br>
-GitHub: <https://github.com/VaradaGovind>
+Source code is released under the [MIT License](LICENSE).

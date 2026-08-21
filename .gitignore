@@ -53,6 +53,15 @@ temp/
 # Generated experiment outputs. Keep the explanatory README only.
 /results/*
 !/results/README.md
+!/results/blind_test/
+!/results/blind_test/README.md
+!/results/blind_test/summary.csv
+!/results/variable_latency/
+!/results/variable_latency/README.md
+!/results/variable_latency/summary.csv
+!/results/cost_analysis/
+!/results/cost_analysis/README.md
+!/results/cost_analysis/summary.csv
 
 # Local/private benchmark artifacts. Keep the explanatory README only.
 /datasets/*

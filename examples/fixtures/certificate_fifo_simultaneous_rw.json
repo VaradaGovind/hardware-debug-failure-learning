@@ -1,0 +1,46 @@
+{
+  "certificate_id": "CERT_FIFO_SIMULTANEOUS_RW_001",
+  "source_failure": "fifo_f1",
+  "target_module": "fifo",
+  "target_signals": [
+    "count",
+    "write_en",
+    "read_en",
+    "full",
+    "empty",
+    "write_ptr",
+    "read_ptr"
+  ],
+  "defect_mechanism": "Count register fails to preserve net occupancy during simultaneous active write_en and read_en (increments count by 1)",
+  "trigger_predicate": {
+    "simultaneous_rw": true,
+    "condition": "write_en == 1 && read_en == 1 && full == 0 && empty == 0"
+  },
+  "propagation_chain": [
+    {
+      "step": 1,
+      "event": "Trigger condition satisfied (simultaneous active write_en & read_en)",
+      "predicate": "write_en == 1 && read_en == 1 && !full && !empty"
+    },
+    {
+      "step": 2,
+      "event": "Count overincrement (occupancy invariant violated)",
+      "predicate": "count(t+1) == count(t) + 1"
+    },
+    {
+      "step": 3,
+      "event": "Count desynchronizes from true pointer occupancy ((write_ptr - read_ptr) % 16)",
+      "predicate": "count != (write_ptr - read_ptr) % 16"
+    },
+    {
+      "step": 4,
+      "event": "Premature full/empty or pointer overflow manifests as testbench failure",
+      "predicate": "status_flags_corrupted"
+    }
+  ],
+  "invariant_violation": "Occupancy conservation invariant count(t+1) == count(t) during simultaneous read/write",
+  "metadata": {
+    "root_cause_signal": "count",
+    "fix_template": "if (write_en && !full && read_en && !empty) count <= count; else if (write_en && !full) count <= count + 1; else if (read_en && !empty) count <= count - 1;"
+  }
+}

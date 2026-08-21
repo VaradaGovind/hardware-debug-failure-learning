@@ -2,7 +2,9 @@
 
 This directory contains local experiment outputs such as reports, processed tables, plots, certificates, raw trajectories, and audit manifests.
 
-Generated results are intentionally excluded from the initial Git commit by the repository `.gitignore`. In particular, do not commit raw logs, JSONL trajectories, VCD waveforms, simulator binaries, held-out ground truth, or large generated plots without first checking ownership, sensitivity, and redistribution permission.
+Generated results are intentionally excluded from the initial Git commit by the repository `.gitignore`. In particular, do not commit raw logs, JSONL trajectories, VCD waveforms, simulator binaries, held-out ground truth, or large generated plots without first checking ownership, sensitivity, and redistribution permission. The small, provenance-labeled summaries under `blind_test/`, `variable_latency/`, and `cost_analysis/` are the deliberate exception.
+
+The summary directories contain no raw outputs and are marked `historical_artifact`: their values were checked against the local processed CSVs during the verification pass, but the full benchmark runners were not rerun.
 
 The local reports that informed the packaging documentation include:
 
