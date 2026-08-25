@@ -385,7 +385,7 @@ def main():
     report_content = f"""# Phase 1 Model-Sensitivity & Leakage-Free Re-evaluation Report
 
 # Experimental Question
-Does EDA-grounded counterfactual reasoning (Method 6) provide incremental value over generic contextual counterfactual reasoning (Method 5) ($\Delta_{{EDA}} = P@1(M6) - P@1(M5)$) when evaluated using a substantially stronger reasoning model and a non-leaky debugging environment?
+Does EDA-grounded counterfactual reasoning (Method 6) provide incremental value over generic contextual counterfactual reasoning (Method 5) ($\\Delta_{{EDA}} = P@1(M6) - P@1(M5)$) when evaluated using a substantially stronger reasoning model and a non-leaky debugging environment?
 
 ---
 
@@ -397,7 +397,7 @@ In the initial Phase 1 experiment:
 - Method 4: Generic Counterfactual — Precision@1 = 0.00
 - Method 5: Generic Contextual Counterfactual — Precision@1 = 0.87
 - Method 6: EDA-Grounded Counterfactual — Precision@1 = 0.87
-- **Previous Decision**: KILL (due to $\Delta_{{EDA}} = 0.00$, with uncorrected structural termination leakage).
+- **Previous Decision**: KILL (due to $\\Delta_{{EDA}} = 0.00$, with uncorrected structural termination leakage).
 
 ---
 
@@ -451,7 +451,7 @@ As verified by the pilot gate, root-cause queries now occur mid-trajectory (aver
 
 # Model Sensitivity Comparison Table (Precision@1)
 
-| Method | Weak Model (Model A) P@1 (95% CI) | Strong Model (Model B) P@1 (95% CI) | $\Delta$ (Model B - Model A) |
+| Method | Weak Model (Model A) P@1 (95% CI) | Strong Model (Model B) P@1 (95% CI) | $\\Delta$ (Model B - Model A) |
 |---|:---:|:---:|:---:|
 | **Method 1: Uniform** | {summary_metrics['Model A (Weak Heuristic)']['Uniform (M1)']['P@1_mean']:.2f} [{summary_metrics['Model A (Weak Heuristic)']['Uniform (M1)']['P@1_ci'][0]:.2f}, {summary_metrics['Model A (Weak Heuristic)']['Uniform (M1)']['P@1_ci'][1]:.2f}] | {summary_metrics['Model B (Strong Causal)']['Uniform (M1)']['P@1_mean']:.2f} [{summary_metrics['Model B (Strong Causal)']['Uniform (M1)']['P@1_ci'][0]:.2f}, {summary_metrics['Model B (Strong Causal)']['Uniform (M1)']['P@1_ci'][1]:.2f}] | {summary_metrics['Model B (Strong Causal)']['Uniform (M1)']['P@1_mean'] - summary_metrics['Model A (Weak Heuristic)']['Uniform (M1)']['P@1_mean']:+.2f} |
 | **Method 2: Final-Step** | {summary_metrics['Model A (Weak Heuristic)']['Final-Step (M2)']['P@1_mean']:.2f} [{summary_metrics['Model A (Weak Heuristic)']['Final-Step (M2)']['P@1_ci'][0]:.2f}, {summary_metrics['Model A (Weak Heuristic)']['Final-Step (M2)']['P@1_ci'][1]:.2f}] | {summary_metrics['Model B (Strong Causal)']['Final-Step (M2)']['P@1_mean']:.2f} [{summary_metrics['Model B (Strong Causal)']['Final-Step (M2)']['P@1_ci'][0]:.2f}, {summary_metrics['Model B (Strong Causal)']['Final-Step (M2)']['P@1_ci'][1]:.2f}] | {summary_metrics['Model B (Strong Causal)']['Final-Step (M2)']['P@1_mean'] - summary_metrics['Model A (Weak Heuristic)']['Final-Step (M2)']['P@1_mean']:+.2f} |
@@ -462,9 +462,9 @@ As verified by the pilot gate, root-cause queries now occur mid-trajectory (aver
 
 ---
 
-# M5 vs M6 Comparison and Incremental Contribution ($\Delta_{{EDA}}$)
+# M5 vs M6 Comparison and Incremental Contribution ($\\Delta_{{EDA}}$)
 
-| Model Configuration | Method 5 (Generic Context CF) P@1 | Method 6 (EDA Grounded CF) P@1 | $\Delta_{{EDA}} = M6 - M5$ (95% CI) |
+| Model Configuration | Method 5 (Generic Context CF) P@1 | Method 6 (EDA Grounded CF) P@1 | $\\Delta_{{EDA}} = M6 - M5$ (95% CI) |
 |---|:---:|:---:|:---:|
 | **Model A (Weak Heuristic)** | {weak_m5:.2f} | {weak_m6:.2f} | **{weak_delta:+.2f}** [{summary_metrics['Model A (Weak Heuristic)']['Delta_EDA']['ci'][0]:.2f}, {summary_metrics['Model A (Weak Heuristic)']['Delta_EDA']['ci'][1]:.2f}] |
 | **Model B (Strong Causal)** | {strong_m5:.2f} | {strong_m6:.2f} | **{strong_delta:+.2f}** [{strong_delta_ci[0]:.2f}, {strong_delta_ci[1]:.2f}] |
@@ -516,7 +516,7 @@ This confirms that the scoring function is causally sensitive to correct structu
 2. **Generic Context CF vs EDA-Grounded CF**:
    - Both Method 5 (Generic Context CF) and Method 6 (EDA Grounded CF) achieve **1.00** Precision@1 under both Model A and Model B in isolating the primary root-cause query at Rank 1.
    - However, when examining deeper ranking quality (**Precision@3**), Method 6 achieves **{summary_metrics['Model B (Strong Causal)']['EDA Grounded CF (M6)']['P@3_mean']:.2f}** compared to **{summary_metrics['Model B (Strong Causal)']['Generic Context CF (M5)']['P@3_mean']:.2f}** for Method 5.
-   - At Rank 1 (P@1), $\Delta_{{EDA}} = 0.00$, because combining generic counterfactual difference with a coarse action-type boost ($+0.1$ for `query_waveform`) is already sufficient to break ties in favor of the causal waveform query over generic RTL searches.
+   - At Rank 1 (P@1), $\\Delta_{{EDA}} = 0.00$, because combining generic counterfactual difference with a coarse action-type boost ($+0.1$ for `query_waveform`) is already sufficient to break ties in favor of the causal waveform query over generic RTL searches.
    - The richer EDA structural cone and behavioral relevance features become discriminative primarily in multi-action ranking (Precision@3), where EDA semantics correctly prioritize related dependent signals over unrelated distractor queries.
 
 ---
@@ -526,13 +526,13 @@ This confirms that the scoring function is causally sensitive to correct structu
 # Recommendation: {decision}
 
 **Evidence:**
-- Model B (Strong Causal) $\Delta_{{EDA}}^{{P@1}} = {strong_delta:+.2f}$ (95% CI: [{strong_delta_ci[0]:.2f}, {strong_delta_ci[1]:.2f}])
-- Model B (Strong Causal) $\Delta_{{EDA}}^{{P@3}} = {summary_metrics['Model B (Strong Causal)']['EDA Grounded CF (M6)']['P@3_mean'] - summary_metrics['Model B (Strong Causal)']['Generic Context CF (M5)']['P@3_mean']:+.2f}$
+- Model B (Strong Causal) $\\Delta_{{EDA}}^{{P@1}} = {strong_delta:+.2f}$ (95% CI: [{strong_delta_ci[0]:.2f}, {strong_delta_ci[1]:.2f}])
+- Model B (Strong Causal) $\\Delta_{{EDA}}^{{P@3}} = {summary_metrics['Model B (Strong Causal)']['EDA Grounded CF (M6)']['P@3_mean'] - summary_metrics['Model B (Strong Causal)']['Generic Context CF (M5)']['P@3_mean']:+.2f}$
 - Leakage-Free Final-Step P@1: {final_step_strong:.2f} (Clean)
 - EDA Shuffled Control: Degrades from {strong_m6:.2f} to {strong_m6_shuff:.2f} (Genuine Attribution)
 
 **Scientific Conclusion:**
-Under the primary metric ($P@1$), EDA-grounded counterfactual reasoning does not provide incremental value over generic contextual counterfactuals ($\Delta_{{EDA}}^{{P@1}} = 0.00$). Both generic and EDA-grounded counterfactuals successfully isolate the critical discovery action once termination leakage is removed. The incremental value of EDA semantics is confined to multi-step credit distribution ($P@3$). Therefore, standalone EDA-grounded action credit assignment remains **KILLED** for Rank-1 critical action identification, and we proceed to the causal RCA reuse branch.
+Under the primary metric ($P@1$), EDA-grounded counterfactual reasoning does not provide incremental value over generic contextual counterfactuals ($\\Delta_{{EDA}}^{{P@1}} = 0.00$). Both generic and EDA-grounded counterfactuals successfully isolate the critical discovery action once termination leakage is removed. The incremental value of EDA semantics is confined to multi-step credit distribution ($P@3$). Therefore, standalone EDA-grounded action credit assignment remains **KILLED** for Rank-1 critical action identification, and we proceed to the causal RCA reuse branch.
 """
 
     report_path = os.path.join(reports_dir, "phase1_model_sensitivity_report.md")
