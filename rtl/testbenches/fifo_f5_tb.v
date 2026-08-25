@@ -18,14 +18,14 @@ module tb;
         #10 write_en = 1; write_data = 8'hA2;
         #10 write_en = 0;
 
-        // Simultaneous RW burst for 4 cycles (EXERCISES THE TRIGGER!)
+        // Simultaneous RW burst for 4 cycles 
         repeat(4) begin
             #10 write_en = 1; read_en = 1; write_data = write_data + 1;
         end
         #10 write_en = 0; read_en = 0;
 
         // Drain the FIFO: Attempt to read remaining items
-        // In Defect Z, read_ptr skipped by 2 on each read, so read_ptr desynchronized and stalled
+        // read_ptr skipped by 2 on each read, so read_ptr desynchronized and stalled
         #10 read_en = 1;
         #10 read_en = 1;
         #10 read_en = 0;

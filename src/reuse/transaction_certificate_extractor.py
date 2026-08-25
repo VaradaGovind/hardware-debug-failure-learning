@@ -18,7 +18,6 @@ class TransactionCertificateExtractor:
                          spec_override: Optional[Dict[str, Any]] = None) -> TransactionSemanticCertificate:
         t0 = time.time()
         
-        # 1. Determine transaction context
         if design_family == "fsm":
             tx_ctx = TransactionContext(
                 transaction_type="CONTROL_STIMULUS",
@@ -71,7 +70,7 @@ class TransactionCertificateExtractor:
                 )
                 prop = {"type": "PIPELINE_CORRUPTION"}
                 inv = {"type": "STABILITY", "target_register": "valid_out"}
-            else: # FORWARDING_HAZARD_RESOLUTION
+            else:
                 tx_ctx = TransactionContext(
                     transaction_type="PIPELINE_FLOW",
                     initiating_event={"valid_in": 1},
@@ -105,7 +104,7 @@ class TransactionCertificateExtractor:
             prop = {"type": "STALL_PROPAGATION"}
             inv = {"type": "STABILITY", "target_register": "valid_out"}
             
-        else: # fifo or uart
+        else:
             tx_ctx = TransactionContext(
                 transaction_type="FIFO_STREAM",
                 initiating_event={"write_en": 1, "read_en": 1},

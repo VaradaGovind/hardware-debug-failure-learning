@@ -59,7 +59,6 @@ class ConstrainedAgent:
         score = action.get("base_weight", 1.0)
         
         for c in self.constraints:
-            # Check Context
             if not self.ignore_context:
                 family = ground_truth.get("family", "")
                 symptom = ground_truth.get("symptom", "")
@@ -68,13 +67,11 @@ class ConstrainedAgent:
                 if c.context.get("symptom") and c.context["symptom"] != symptom:
                     continue
 
-            # Match pattern
             if c.pattern.get("action") == action["type"]:
                 if action["type"] == "query_waveform":
                     target_signals = c.pattern.get("signals", "").split(",")
                     if action["target"] in target_signals:
                         score -= self.lambda_dead_end * c.confidence
-                        # Check False pruning
                         if action.get("is_root_cause", False):
                             self.false_pruning_count += 1
                         
@@ -86,8 +83,7 @@ class ConstrainedAgent:
             score = self.score_action(a, ground_truth)
             scored_actions.append((score, a))
         
-        # Exploration Override: If all actions are highly penalized (<= 0.1) but we still have budget,
-        # we revert to uniform exploration over all actions rather than getting stuck.
+        # Revert to uniform exploration if constraints heavily penalize all candidates
         max_score = max([s for s, a in scored_actions]) if scored_actions else 0
         if max_score <= 0.1:
             self.exploration_override_count += 1

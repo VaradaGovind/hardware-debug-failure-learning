@@ -14,10 +14,8 @@ class CounterfactualAgent(BaselineAgent):
     def generate_actions(self, task_id: str, ground_truth: Dict[str, Any]) -> List[Dict[str, Any]]:
         actions = super().generate_actions(task_id, ground_truth)
         
-        # Filter out the skipped action
         filtered = []
         for a in actions:
-            # We match by type and target
             if a["type"] == self.skip_action.get("action") and a.get("target") == self.skip_action.get("target"):
                 continue
             filtered.append(a)
@@ -34,18 +32,14 @@ class ReplayEngine:
         self.search = search
         
     def run_counterfactual(self, bug: Dict[str, Any], seed: int, skip_action: Dict[str, Any], logger: TrajectoryLogger) -> bool:
-        """
-        Runs a counterfactual simulation where the specified action is globally banned.
-        Returns True if the root cause was still found, False otherwise.
-        """
-        # Re-initialize agent with the counterfactual restriction
+        """Runs a counterfactual simulation where the specified action is omitted."""
         agent = CounterfactualAgent(
             simulator=self.simulator,
             waveform=self.waveform,
             search=self.search,
             logger=logger,
             seed=seed,
-            budget=6, # Standard budget for this benchmark
+            budget=6,
             skip_action=skip_action
         )
         

@@ -30,21 +30,10 @@ class TransactionSegment:
         return asdict(self)
 
 class AdaptiveTransactionBoundaryDetector:
-    """
-    Generic, domain-agnostic Adaptive Transaction Boundary Detector.
-    
-    CRITICAL SCIENTIFIC GUARANTEE:
-    This detector operates purely on observable waveform event structures (signal transitions,
-    handshake protocols, state transitions, stall intervals, and data activity).
-    It contains ZERO defect/benchmark-specific heuristics and does NOT use certificate oracles.
-    """
+    """Detects transaction boundaries from observable waveform signal events and protocol handshakes."""
     def __init__(self, quiescence_threshold: int = 2, max_window_cycles: int = 50):
         self.quiescence_threshold = quiescence_threshold
         self.max_window_cycles = max_window_cycles
-
-    # -------------------------------------------------------------------------
-    # 1. GENERIC EVENT OPERATORS
-    # -------------------------------------------------------------------------
     
     def detect_edges(self, cycle_states: List[Dict[str, Any]], signal: str) -> List[Tuple[int, str]]:
         """Detects rising (0->1) and falling (1->0) transitions for a given signal."""
@@ -75,13 +64,11 @@ class AdaptiveTransactionBoundaryDetector:
                 v_curr = curr_s.get(s, None)
                 v_prev = prev_s.get(s, None)
                 
-                # Active enable/control assertion (single-bit or pulse flags like start, en, valid, req)
                 if any(kw in s for kw in ["start", "en", "valid", "req", "read_", "write_"]):
                     if v_curr == 1:
                         has_activity = True
                         break
                         
-                # Dynamic signal transition
                 if not prev_in_reset and v_prev is not None and v_curr is not None and v_curr != v_prev:
                     has_activity = True
                     break
@@ -150,10 +137,6 @@ class AdaptiveTransactionBoundaryDetector:
                     ))
         return events
 
-    # -------------------------------------------------------------------------
-    # 2. ADAPTIVE SEGMENT EXTRACTION & BOUNDARY RECOVERY
-    # -------------------------------------------------------------------------
-
     def detect_segments(self, cycle_states: List[Dict[str, Any]], 
                         observed_signals: Optional[List[str]] = None) -> List[TransactionSegment]:
         """
@@ -165,18 +148,15 @@ class AdaptiveTransactionBoundaryDetector:
             return []
 
         if observed_signals is None:
-            # Discover all signals excluding clk and rst_n
             all_keys = set()
             for s in cycle_states:
                 all_keys.update(s.keys())
             observed_signals = [k for k in all_keys if k not in ["clk", "rst_n", "_time", "time"]]
 
-        # 1. Identify active non-reset cycles
         active_cycles = self.detect_signal_activity(cycle_states, observed_signals)
         if not active_cycles:
             return []
 
-        # 2. Cluster contiguous active cycles by quiescence threshold
         clusters: List[List[int]] = []
         curr_cluster = [active_cycles[0]]
 
@@ -189,27 +169,22 @@ class AdaptiveTransactionBoundaryDetector:
         if curr_cluster:
             clusters.append(curr_cluster)
 
-        # 3. For each cluster, recover complete transaction boundaries & events
         segments: List[TransactionSegment] = []
 
         for cluster in clusters:
             start_raw = cluster[0]
             end_raw = cluster[-1]
 
-            # Determine true initiation cycle: find earliest rising edge or activation in window
             start_c = max(1, start_raw)
             for s in observed_signals:
                 if cycle_states[start_raw].get(s, 0) != 0 and cycle_states[start_raw - 1].get(s, 0) == 0:
                     start_c = min(start_c, start_raw)
 
-            # Determine true completion cycle with causal propagation margin (+2 cycles for downstream effects)
             end_c = min(len(cycle_states) - 1, end_raw + 2)
 
-            # Collect all events within [start_c, end_c]
             event_seq: List[TransactionEvent] = []
             evidence_reasons: List[str] = []
 
-            # Check for initiation edges
             for s in observed_signals:
                 edges = self.detect_edges(cycle_states[start_c:end_c + 1], s)
                 for rel_c, edge_type in edges:
@@ -223,7 +198,6 @@ class AdaptiveTransactionBoundaryDetector:
                     if edge_type == "RISING_EDGE" and abs_c <= start_c + 1:
                         evidence_reasons.append(f"Initiation rising edge on '{s}' at cycle {abs_c}")
 
-            # Check for state transitions
             for s in observed_signals:
                 st_events = self.detect_state_transitions(cycle_states[start_c:end_c + 1], s)
                 for ev in st_events:
@@ -231,23 +205,20 @@ class AdaptiveTransactionBoundaryDetector:
                     event_seq.append(ev)
                     evidence_reasons.append(f"State transition on '{s}' ({ev.details['from']} -> {ev.details['to']}) at cycle {ev.cycle}")
 
-            # Check for data movements
             dm_events = self.detect_data_movement(cycle_states[start_c:end_c + 1], observed_signals)
             for ev in dm_events:
                 ev.cycle += start_c
                 event_seq.append(ev)
 
-            # Sort events by cycle
             event_seq.sort(key=lambda e: e.cycle)
 
-            # Calculate confidence score
-            conf = 0.4  # baseline for active cluster
+            conf = 0.4  
             if any(e.event_type == "RISING_EDGE" for e in event_seq):
                 conf += 0.2
             if any(e.event_type in ["STATE_TRANSITION", "DATA_TRANSFER", "HANDSHAKE_ACCEPT"] for e in event_seq):
                 conf += 0.2
             if end_c < len(cycle_states) - 1:
-                conf += 0.2  # clean completion before end of trace
+                conf += 0.2  
                 evidence_reasons.append(f"Transaction completed cleanly with post-activity quiescence at cycle {end_c}")
             else:
                 evidence_reasons.append(f"Transaction active through end of recorded trace at cycle {end_c}")
@@ -274,6 +245,5 @@ class AdaptiveTransactionBoundaryDetector:
         segments = self.detect_segments(cycle_states, observed_signals)
         if not segments:
             return None
-        # Sort by confidence descending, then by length
         segments.sort(key=lambda s: (s.confidence, s.length), reverse=True)
         return segments[0]

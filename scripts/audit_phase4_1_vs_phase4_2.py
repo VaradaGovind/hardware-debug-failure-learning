@@ -17,15 +17,15 @@ def run_strict_reproducibility_audit():
     phase4_1_dir = os.path.join(base_dir, "results", "transaction_semantic_certs", "blind_validation")
     phase4_2_dir = os.path.join(base_dir, "results", "transaction_semantic_certs", "adaptive_boundary")
     
-    # 1. Load Phase 4.1 scored evaluation
+    # Load Phase 4.1 scored evaluation
     p4_1_scored_p = os.path.join(phase4_1_dir, "processed", "scored_heldout_evaluation.csv")
     df_4_1 = pd.read_csv(p4_1_scored_p)
     
-    # 2. Load Phase 4.2 scored evaluation
+    # Load Phase 4.2 scored evaluation
     p4_2_scored_p = os.path.join(phase4_2_dir, "processed", "scored_phase4_2_evaluation.csv")
     df_4_2 = pd.read_csv(p4_2_scored_p)
     
-    # 3. Load benchmark manifests
+    # Load benchmark manifests
     with open(os.path.join(phase4_1_dir, "benchmark", "heldout_ground_truth.json"), "r", encoding="utf-8") as f:
         gt_4_1 = json.load(f)
     with open(os.path.join(phase4_2_dir, "benchmark", "heldout_ground_truth.json"), "r", encoding="utf-8") as f:

@@ -5,7 +5,6 @@ def tokenize_log(log_text: str) -> set:
     """Extracts alphanumeric tokens from a failure log message."""
     clean = re.sub(r'[^a-zA-Z0-9\s]', ' ', log_text.lower())
     tokens = set(clean.split())
-    # Filter out pure noise/addresses
     return {t for t in tokens if len(t) > 1}
 
 def jaccard_similarity(set_a: set, set_b: set) -> float:
@@ -35,9 +34,9 @@ def levenshtein_similarity(str_a: str, str_b: str) -> float:
         for j in range(1, len2 + 1):
             cost = 0 if s1[i - 1] == s2[j - 1] else 1
             matrix[i][j] = min(
-                matrix[i - 1][j] + 1,      # deletion
-                matrix[i][j - 1] + 1,      # insertion
-                matrix[i - 1][j - 1] + cost # substitution
+                matrix[i - 1][j] + 1,
+                matrix[i][j - 1] + 1,
+                matrix[i - 1][j - 1] + cost
             )
             
     dist = matrix[len1][len2]
@@ -68,7 +67,6 @@ class SimilarityBaselines:
         }
 
     def compute_structural_similarity(self, rtl_content_a: str, rtl_content_b: str) -> Dict[str, float]:
-        # Extract ports and internal signals
         ports_a = set(re.findall(r'(?:input|output)\s+(?:wire|reg)?\s*(?:\[.*\])?\s*(\w+)', rtl_content_a))
         ports_b = set(re.findall(r'(?:input|output)\s+(?:wire|reg)?\s*(?:\[.*\])?\s*(\w+)', rtl_content_b))
         
@@ -88,7 +86,6 @@ class SimilarityBaselines:
         }
 
     def compute_semantic_similarity(self, symptom_a: str, symptom_b: str) -> Dict[str, float]:
-        # Semantic domain matching (e.g. timeout, underflow, corruption, mismatch)
         domains = {
             "underflow": ["underflow", "stalled", "empty", "read"],
             "capacity": ["capacity", "full", "premature", "overflow"],

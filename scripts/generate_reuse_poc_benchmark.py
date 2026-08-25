@@ -13,9 +13,7 @@ def generate_reuse_poc_benchmark(base_dir: str):
     # Normalized path with forward slashes for Verilog $dumpfile
     norm_base = base_dir.replace("\\", "/")
     
-    # -------------------------------------------------------------------------
-    # 1. RTL DESIGNS
-    # -------------------------------------------------------------------------
+# Rtl designs
     
     # Defect X (F1, F2, F3): Missing simultaneous R/W counter hold logic
     rtl_defect_x = """
@@ -117,9 +115,7 @@ endmodule
     with open(os.path.join(designs_dir, "fifo_f4.v"), "w", encoding="utf-8") as f:
         f.write(rtl_defect_y)
 
-    # -------------------------------------------------------------------------
-    # 2. TESTBENCHES
-    # -------------------------------------------------------------------------
+# Testbenches
 
     # F1: Premature Full Flag / Capacity Mismatch
     tb_f1 = f"""
@@ -151,7 +147,7 @@ module tb;
 
         // Attempt next write: should have space, but full is falsely high
         #10 write_en = 1; write_data = 8'hEE;
-        #10;
+        # 10;
         if (full) begin
             $display("FAIL: Premature Full Flag / Capacity Mismatch");
         end
@@ -192,7 +188,7 @@ module tb;
         #10 read_en = 1;
         #10 read_en = 1;
         #10 read_en = 0;
-        #10;
+        # 10;
         // Verify count and pointer alignment: count should be 0, but due to Defect X count is 4!
         if (dut.count !== 0 || dut.read_ptr !== dut.write_ptr) begin
             $display("FAIL: Read Stalled / Data Underflow");
@@ -234,7 +230,7 @@ module tb;
         // Read out next data item and verify it was not overwritten
         #10 read_en = 1;
         #10 read_en = 0;
-        #10;
+        # 10;
         if (read_data !== 8'h51) begin
             $display("FAIL: Memory Overwrite / Checksum Mismatch");
         end
@@ -268,7 +264,7 @@ module tb;
         // Due to Defect Y (empty = count <= 1), empty is TRUE even though 1 item is present!
         #10 read_en = 1;
         #10 read_en = 0;
-        #10;
+        # 10;
         if (empty) begin
             $display("FAIL: Read Stalled / Data Underflow");
         end
@@ -287,9 +283,7 @@ endmodule
     with open(os.path.join(tb_dir, "fifo_f4_tb.v"), "w", encoding="utf-8") as f:
         f.write(tb_f4)
 
-    # -------------------------------------------------------------------------
-    # 3. GROUND TRUTH METADATA
-    # -------------------------------------------------------------------------
+# Ground truth metadata
     ground_truth = [
         {
             "failure_id": "fifo_f1",

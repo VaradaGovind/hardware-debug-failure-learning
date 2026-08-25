@@ -27,7 +27,6 @@ from src.reuse.transaction_semantic_validator import TransactionSemanticValidato
 from src.tools.simulator import VerilogSimulator
 from src.tools.waveform import WaveformTool
 
-
 DESIGN = ROOT / "rtl" / "designs" / "fifo_f2.v"
 TESTBENCH = ROOT / "rtl" / "testbenches" / "fifo_f2_tb.v"
 SOURCE_CERTIFICATE = (
@@ -45,7 +44,6 @@ SIGNALS = [
     "write_ptr",
     "read_ptr",
 ]
-
 
 def _copy_fixture(temp_root: Path) -> Path:
     """Copy the design and rewrite only the temporary testbench VCD path."""
@@ -66,7 +64,6 @@ def _copy_fixture(temp_root: Path) -> Path:
         raise RuntimeError(f"Could not rewrite the VCD path in {TESTBENCH}")
     (testbenches / TESTBENCH.name).write_text(rewritten, encoding="utf-8")
     return temp_root / "fifo_f2.vcd"
-
 
 def main() -> None:
     if not all(path.exists() for path in (DESIGN, TESTBENCH, SOURCE_CERTIFICATE)):
@@ -164,7 +161,6 @@ def main() -> None:
             ),
         }
         print(json.dumps(output, indent=2, sort_keys=True))
-
 
 if __name__ == "__main__":
     main()

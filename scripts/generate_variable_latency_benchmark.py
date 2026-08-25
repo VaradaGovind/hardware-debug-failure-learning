@@ -23,9 +23,7 @@ def generate_variable_latency_benchmark(base_dir: str):
         
     norm_base = base_dir.replace("\\", "/")
     
-    # -------------------------------------------------------------------------
-    # 1. VERIFY AND RECORD FROZEN MANIFEST
-    # -------------------------------------------------------------------------
+# Verify and record frozen manifest
     frozen_files = [
         os.path.join(base_dir, "src", "reuse", "transaction_semantic_certificate.py"),
         os.path.join(base_dir, "src", "reuse", "transaction_semantic_validator.py"),
@@ -58,17 +56,13 @@ def generate_variable_latency_benchmark(base_dir: str):
     with open(os.path.join(stress_dir, "frozen_manifest.json"), "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
 
-    # -------------------------------------------------------------------------
-    # 2. GENERATE 75+ VARIABLE-LATENCY BENCHMARK INSTANCES (15 per design family)
-    # -------------------------------------------------------------------------
+    # GENERATE 75+ VARIABLE-LATENCY BENCHMARK INSTANCES (15 per design family)
     
     held_out_instances = []
     
     # Configuration for 5 Design Families x 15 Cases = 75 Cases Total
     designs_config = [
-        # =========================================================================
-        # 1. FIFO Family (Defect: Simultaneous R/W occupancy counter corruption)
-        # =========================================================================
+        # FIFO Family (Defect: Simultaneous R/W occupancy counter corruption)
         {
             "family_id": "FIFO_SIMULTANEOUS_RW",
             "design": "fifo",
@@ -156,9 +150,7 @@ def generate_variable_latency_benchmark(base_dir: str):
             ]
         },
 
-        # =========================================================================
-        # 2. AXI Family (Defect: Handshake stability drop during backpressure)
-        # =========================================================================
+        # AXI Family (Defect: Handshake stability drop during backpressure)
         {
             "family_id": "AXI_HANDSHAKE_HOLD",
             "design": "axi",
@@ -245,9 +237,7 @@ def generate_variable_latency_benchmark(base_dir: str):
             ]
         },
 
-        # =========================================================================
-        # 3. FSM Family (Defect: State stuck in IDLE despite start trigger)
-        # =========================================================================
+        # FSM Family (Defect: State stuck in IDLE despite start trigger)
         {
             "family_id": "FSM_STUCK_STATE",
             "design": "fsm",
@@ -334,9 +324,7 @@ def generate_variable_latency_benchmark(base_dir: str):
             ]
         },
 
-        # =========================================================================
-        # 4. PIPELINE Family (Defect: Stall bubble / valid_out dropped)
-        # =========================================================================
+        # PIPELINE Family (Defect: Stall bubble / valid_out dropped)
         {
             "family_id": "PIPE_STALL_BUBBLE",
             "design": "pipeline",
@@ -423,9 +411,7 @@ def generate_variable_latency_benchmark(base_dir: str):
             ]
         },
 
-        # =========================================================================
-        # 5. UART Family (Documented Extractor Limitation: FIFO_STREAM context)
-        # =========================================================================
+        # UART Family (Documented Extractor Limitation: FIFO_STREAM context)
         {
             "family_id": "UART_BAUD_DIVIDER",
             "design": "uart",

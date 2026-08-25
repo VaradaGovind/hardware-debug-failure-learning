@@ -89,7 +89,6 @@ def run_pilot_gate(base_dir: str) -> bool:
     print(f"\nPilot Gate Outcome: {'PASSED (Proceed to Full Scale)' if pilot_passed else 'FAILED (Stop Execution)'}")
     return pilot_passed
 
-
 def main():
     base_dir = os.path.dirname(os.path.dirname(__file__))
     scale_dir = os.path.join(base_dir, "results", "causal_reuse_scale")
@@ -129,9 +128,7 @@ def main():
     # Group by causal family
     families = sorted(list(set(m["family_id"] for m in benchmark_metadata)))
     
-    # -------------------------------------------------------------------------
-    # 1. GENERATE CERTIFICATES FROM SOURCE FAILURES (S1)
-    # -------------------------------------------------------------------------
+    # Generate certificates from source failures (s1)
     print("\n[STEP 1] Generating Causal Certificates for 20 Causal Families...")
     family_certificates = {}
     source_costs = {}
@@ -194,9 +191,7 @@ def main():
             
     print(f"  Generated {len(family_certificates)} Causal Certificates across 5 Hardware Families.")
 
-    # -------------------------------------------------------------------------
-    # 2. RUN FULL BENCHMARK EVALUATION (120 FAILURES x ABLATIONS x BASELINES)
-    # -------------------------------------------------------------------------
+    # RUN FULL BENCHMARK EVALUATION (120 FAILURES x ABLATIONS x BASELINES)
     print("\n[STEP 2] Simulating and Validating all 120 Failure Instances...")
     
     sim_outputs = {}
@@ -250,7 +245,7 @@ def main():
         vcd_p = vcd_paths[f_id]
         src_id = f"{fam_id.lower()}_s1"
         
-        # 1. Causal Validator (all ablations)
+        # Causal Validator (all ablations)
         t0_val = time.time()
         res_l1 = validator.validate(cert, vcd_p, ablation_level="L1_TRIGGER_ONLY")
         res_l2 = validator.validate(cert, vcd_p, ablation_level="L2_TRIGGER_STATE")
@@ -259,7 +254,7 @@ def main():
         res_notemp = validator.validate(cert, vcd_p, ablation_level="NO_TEMPORAL_ORDER")
         t_val_ms = (time.time() - t0_val) * 1000
         
-        # 2. Similarity Baselines
+        # Similarity Baselines
         log_sim = baselines.compute_log_similarity(sim_outputs[src_id], sim_outputs[f_id])
         sem_sim = baselines.compute_semantic_similarity(sim_outputs[src_id], sim_outputs[f_id])
         struct_sim = baselines.compute_structural_similarity(rtl_contents[src_id], rtl_contents[f_id])
@@ -297,9 +292,7 @@ def main():
     df_eval.to_csv(os.path.join(processed_dir, "large_scale_evaluation_records.csv"), index=False)
     print(f"  Evaluated {len(df_eval)} target failure opportunities.")
 
-    # -------------------------------------------------------------------------
-    # 3. BASELINE SIMILARITY THRESHOLD TUNING (DEV SET ONLY) & TESTING
-    # -------------------------------------------------------------------------
+    # Baseline similarity threshold tuning (dev set only) & testing
     print("\n[STEP 3] Tuning Baseline Thresholds on Development Set...")
     dev_df = df_eval[df_eval["split"] == "DEV"]
     test_df = df_eval[df_eval["split"] == "TEST"]
@@ -328,9 +321,7 @@ def main():
         best_thresholds[b_name] = best_th
         print(f"  {b_name}: Best Dev Threshold = {best_th:.2f} (Dev F1 = {best_f1:.2f})")
 
-    # -------------------------------------------------------------------------
-    # 4. COMPUTE PRIMARY METRICS & CONFIDENCE INTERVALS (1000 BOOTSTRAP ITERATIONS)
-    # -------------------------------------------------------------------------
+    # Compute primary metrics & confidence intervals (1000 bootstrap iterations)
     print("\n[STEP 4] Computing Primary Metrics and 95% Bootstrap Confidence Intervals...")
     
     def evaluate_policy(df, policy_type, th=0.5):
@@ -451,9 +442,7 @@ def main():
     print(df_comparison[["Method", "Reuse_Precision", "Reuse_Coverage", "False_Reuse_Rate", "RCA_Reduction", "Compute_Reduction", "SCR"]].to_string(index=False))
     df_comparison.to_csv(os.path.join(processed_dir, "large_scale_comparison_summary.csv"), index=False)
 
-    # -------------------------------------------------------------------------
-    # 5. HELD-OUT GENERALIZATION & ABLATION METRICS
-    # -------------------------------------------------------------------------
+    # Held-out generalization & ablation metrics
     print("\n[STEP 5] Computing Generalization & Ablation Breakdown...")
     
     # Generalization subsets
@@ -494,9 +483,7 @@ def main():
     print("\nABLATION HIERARCHY EVALUATION:")
     print(df_abl_res.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 6. COMPUTATIONAL BREAK-EVEN ANALYSIS
-    # -------------------------------------------------------------------------
+# Computational break-even analysis
     print("\n[STEP 6] Computational Break-Even Analysis...")
     # Source cost per family = ~8.5 calls
     # Target cost = 1 call per reused failure, ~9 calls per independent RCA
@@ -514,9 +501,7 @@ def main():
     break_even_N = N_range[break_even_idx[0]] if len(break_even_idx) > 0 else None
     print(f"  Break-Even Failure Count: N* = {break_even_N} failures per causal family.")
 
-    # -------------------------------------------------------------------------
-    # 7. GENERATE 8 PUBLICATION-QUALITY PLOTS
-    # -------------------------------------------------------------------------
+    # Generate 8 publication-quality plots
     print("\n[STEP 7] Generating 8 Publication-Quality Plots...")
     
     # Plot 1: Reuse Precision vs Coverage (Threshold Sweep)
@@ -650,9 +635,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "break_even_analysis.png"), dpi=300)
     plt.close()
 
-    # -------------------------------------------------------------------------
-    # 8. SCIENTIFIC DECISION FORMULATION
-    # -------------------------------------------------------------------------
+# Scientific decision formulation
     causal_test_res = comparison_table[5]["raw_point"]
     comp_test_res = comparison_table[4]["raw_point"]
     
@@ -679,9 +662,7 @@ def main():
     print(f"Break-Even Point:     N* = {break_even_N} failures")
     print("=" * 80 + "\n")
 
-    # -------------------------------------------------------------------------
-    # 9. WRITE FINAL LARGE-SCALE EVALUATION REPORT
-    # -------------------------------------------------------------------------
+# Write final large-scale evaluation report
     report_lines = [
         "# Argus Phase 3: Large-Scale Verified Causal RCA Reuse Evaluation Report",
         "",

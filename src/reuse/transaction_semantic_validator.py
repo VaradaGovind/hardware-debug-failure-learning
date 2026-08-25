@@ -63,7 +63,6 @@ class TransactionSemanticValidator:
                 "reason": "Insufficient clock cycles in target waveform."
             }
 
-        # 1. Transaction Context Activation
         tx_cycles = self.detect_transaction_events(cert.transaction_context, cycle_states)
         
         if not tx_cycles:
@@ -74,7 +73,6 @@ class TransactionSemanticValidator:
                 "unexercised_precondition": cert.transaction_context.initiating_event
             }
 
-        # 2. Trigger Activation within Transaction Window
         trig_conds = cert.trigger_spec.get("conditions", {})
         trig_cycles = []
         
@@ -94,7 +92,6 @@ class TransactionSemanticValidator:
         if ablation_mode == "TRIGGER_ONLY":
             return {"decision": "PASS", "stage": "TRIGGER", "trigger_count": len(trig_cycles)}
 
-        # 3. Protocol Obligation Evaluation
         obl = cert.protocol_obligation
         obl_violations = []
 
@@ -105,12 +102,10 @@ class TransactionSemanticValidator:
             next_s = cycle_states[next_idx]
 
             if obl.obligation_type == "STATE_TRANSITION_OBLIGATION":
-                # FSM stuck in IDLE: when in IDLE (state 0) and start pulses, state must NOT remain stuck in 0 on the next cycle
                 if curr_s.get("state") == 0 and curr_s.get("start") == 1 and next_s.get("state") == 0:
                     obl_violations.append(c_idx)
 
             elif obl.obligation_type == "FORWARDING_HAZARD_RESOLUTION":
-                # Pipeline forward hazard: d_out receives raw d_in instead of staged d1
                 in_data = curr_s.get("d_in", 0)
                 staged_data = curr_s.get("d1", 0)
                 out_data = next_s.get("d_out", 0)
@@ -118,12 +113,10 @@ class TransactionSemanticValidator:
                     obl_violations.append(c_idx)
 
             elif obl.obligation_type == "STALL_DRAINAGE_PRESERVATION":
-                # Pipeline stall bubble: when valid_in was 1 on cycle c_idx, valid_out MUST assert on next cycle
                 if curr_s.get("valid_in") == 1 and next_s.get("valid_out") == 0:
                     obl_violations.append(c_idx)
 
             elif obl.obligation_type == "STAGE_ENABLE_COUPLING":
-                # Spurious stage enable: Stage 2 valid_out asserts high even though Stage 1 valid v1 was 0 on previous cycle!
                 if prev_s.get("v1") == 0 and curr_s.get("valid_out") == 1:
                     obl_violations.append(c_idx)
 
@@ -145,7 +138,6 @@ class TransactionSemanticValidator:
         if ablation_mode == "OBLIGATION_ONLY":
             return {"decision": "PASS", "stage": "PROTOCOL_OBLIGATION", "violation_count": len(obl_violations)}
 
-        # 4. State Invariant Check
         inv_spec = cert.state_invariant_spec
         inv_type = inv_spec.get("type", "CONSERVATION")
         target_reg = inv_spec.get("target_register")
@@ -175,7 +167,6 @@ class TransactionSemanticValidator:
         if ablation_mode == "TRIGGER_STATE":
             return {"decision": "PASS", "stage": "STATE_INVARIANT", "anomaly_count": len(anomaly_cycles)}
 
-        # 5. Downstream Propagation
         prop_spec = cert.causal_propagation_spec
         first_anom = min(anomaly_cycles)
         prop_type = prop_spec.get("type", "OCCUPANCY_DIVERGENCE")
@@ -206,7 +197,6 @@ class TransactionSemanticValidator:
         if ablation_mode in ["TRIGGER_PROPAGATION", "OBLIGATION_PROPAGATION"]:
             return {"decision": "PASS", "stage": "PROPAGATION", "desync_count": len(desync_cycles)}
 
-        # 6. Temporal Sequencing Constraint (L2 Full)
         min_tx = min(tx_cycles)
         min_obl = min(obl_violations)
         min_prop = min(desync_cycles)

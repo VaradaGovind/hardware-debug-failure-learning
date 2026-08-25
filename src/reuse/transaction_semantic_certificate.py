@@ -5,17 +5,17 @@ from typing import List, Dict, Any, Optional
 
 @dataclass
 class TransactionContext:
-    transaction_type: str        # e.g. "CONTROL_STIMULUS", "PIPELINE_FLOW", "HANDSHAKE_TRANSFER", "FIFO_STREAM"
-    initiating_event: Dict[str, Any]  # Triggering transition event
-    boundary_signals: List[str]  # Signals defining transaction scope
+    transaction_type: str
+    initiating_event: Dict[str, Any]
+    boundary_signals: List[str]
     active_window_cycles: int = 4
 
 @dataclass
 class ProtocolObligation:
-    obligation_type: str         # e.g. "STATE_TRANSITION_OBLIGATION", "FORWARDING_HAZARD_RESOLUTION", "STALL_DRAINAGE_PRESERVATION", "HANDSHAKE_HOLD"
+    obligation_type: str
     initiating_condition: Dict[str, Any]
-    required_contract: Dict[str, Any]  # What legitimate protocol semantics require
-    violation_signature: Dict[str, Any] # What the specific causal defect produces
+    required_contract: Dict[str, Any]
+    violation_signature: Dict[str, Any]
     temporal_latency: int = 1
 
 @dataclass

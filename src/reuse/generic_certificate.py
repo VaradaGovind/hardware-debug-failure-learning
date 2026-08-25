@@ -121,7 +121,6 @@ class GenericCertificateValidator:
         if len(cycle_states) < 2:
             return {"decision": "UNKNOWN", "reason": "Insufficient clock cycles"}
 
-        # 1. Trigger evaluation
         trig_conds = cert.trigger_spec.get("conditions", {})
         trigger_cycles = []
 
@@ -139,7 +138,6 @@ class GenericCertificateValidator:
         if ablation_level == "L1_TRIGGER_ONLY":
             return {"decision": "PASS", "stage": "TRIGGER", "trigger_count": len(trigger_cycles), "reason": f"Trigger activated ({len(trigger_cycles)}x)."}
 
-        # 2. State invariant evaluation
         inv_spec = cert.state_invariant_spec
         inv_type = inv_spec.get("type", "CONSERVATION")
         target_reg = inv_spec.get("target_register")
@@ -159,7 +157,6 @@ class GenericCertificateValidator:
                     anomaly_cycles.append(i)
 
             elif inv_type == "STABILITY":
-                # Stability anomaly: signal dropped or changed unexpectedly
                 if val_after == 0 and val_before == 1:
                     anomaly_cycles.append(i)
                 elif val_after != val_before:
@@ -190,7 +187,6 @@ class GenericCertificateValidator:
         if ablation_level == "NO_TEMPORAL_ORDER":
             return {"decision": "PASS", "stage": "NO_TEMPORAL", "reason": "Trigger and anomaly observed."}
 
-        # 3. Downstream propagation evaluation
         prop_spec = cert.propagation_spec
         first_anom = min(anomaly_cycles)
         prop_type = prop_spec.get("type", "POINTER_OCCUPANCY_DIVERGENCE")
@@ -208,7 +204,6 @@ class GenericCertificateValidator:
                 if state.get("valid_out", 0) == 0:
                     desync_cycles.append(k)
             elif prop_type == "STATE_CORRUPTION_PERSISTENCE":
-                # Premature done or state jump
                 if state.get("done", 0) == 1 or state.get("state", 0) == 2:
                     desync_cycles.append(k)
             elif prop_type == "BAUD_SAMPLE_DESYNC":

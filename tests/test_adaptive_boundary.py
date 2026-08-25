@@ -49,9 +49,6 @@ class TestAdaptiveTransactionBoundary(unittest.TestCase):
         self.assertEqual(events[2].details, {"from": 2, "to": 0})
 
     def test_variable_length_segmentation(self):
-        # Transaction 1: length 5 (cycles 2-6)
-        # Quiescence: cycles 7-9
-        # Transaction 2: length 4 (cycles 10-13)
         states = []
         for i in range(20):
             rst = 0 if i < 2 else 1
@@ -67,10 +64,6 @@ class TestAdaptiveTransactionBoundary(unittest.TestCase):
         self.assertGreaterEqual(segments[0].length, 5)
         self.assertGreaterEqual(segments[1].length, 4)
 
-    # -------------------------------------------------------------------------
-    # 8 ADVERSARIAL SAFETY TESTS
-    # -------------------------------------------------------------------------
-    
     def test_adv_1_same_symptom_diff_defect(self):
         """Adversarial 1: Symptom matches but protocol obligation differs."""
         # Certificate expects count to drop when write_en && read_en

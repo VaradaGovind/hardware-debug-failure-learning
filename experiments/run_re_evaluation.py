@@ -140,7 +140,7 @@ def main():
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)
 
-    # 2. Counterfactual Replays & Credit Scoring
+    # Counterfactual Replays & Credit Scoring
     print("\n[PHASE 2] Executing Adaptive Counterfactual Replays...")
     all_credits = []
     total_counterfactuals = 0
@@ -195,7 +195,7 @@ def main():
     df.to_csv(csv_path, index=False)
     print(f"Saved {len(df)} step-level credit records to {csv_path}")
 
-    # 3. Comprehensive Metric Calculation with Bootstrap Confidence Intervals
+    # Comprehensive Metric Calculation with Bootstrap Confidence Intervals
     print("\n[PHASE 3] Computing Metrics and Statistical Significance...")
     
     methods_dict = {
@@ -268,7 +268,7 @@ def main():
     with open(os.path.join(processed_dir, "metrics_summary.json"), "w") as f:
         json.dump(clean_metrics, f, indent=2)
 
-    # 4. Trajectory Statistics
+    # Trajectory Statistics
     traj_stats = {
         "total_trajectories": len(manifest),
         "total_counterfactual_replays": total_counterfactuals,
@@ -277,7 +277,7 @@ def main():
         "critical_action_density": float((df["oracle_criticality"] == "critical").mean())
     }
 
-    # 5. Generate Plots
+    # Generate Plots
     print("\n[PHASE 4] Generating Comparative Visualization Plots...")
     
     # Plot 1: Model Sensitivity P@1 across Methods 1-6
@@ -347,7 +347,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "leakage_heuristics_check.png"), dpi=300)
     plt.close()
 
-    # 6. Outcome Analysis & Research Decision
+    # Outcome Analysis & Research Decision
     print("\n[PHASE 5] Formulating Scientific Research Decision...")
     
     weak_m5 = summary_metrics["Model A (Weak Heuristic)"]["Generic Context CF (M5)"]["P@1_mean"]
@@ -381,15 +381,15 @@ def main():
     print(f"Strong Model Delta_EDA: {strong_delta:+.2f} (95% CI: [{strong_delta_ci[0]:.2f}, {strong_delta_ci[1]:.2f}])")
     print(f"=======================================================\n")
 
-    # 7. Generate Full Markdown Report
+    # Generate Full Markdown Report
     report_content = f"""# Phase 1 Model-Sensitivity & Leakage-Free Re-evaluation Report
 
-## 1. Experimental Question
+# Experimental Question
 Does EDA-grounded counterfactual reasoning (Method 6) provide incremental value over generic contextual counterfactual reasoning (Method 5) ($\Delta_{{EDA}} = P@1(M6) - P@1(M5)$) when evaluated using a substantially stronger reasoning model and a non-leaky debugging environment?
 
 ---
 
-## 2. Previous Result
+# Previous Result
 In the initial Phase 1 experiment:
 - Method 1: Uniform — Precision@1 = 0.00
 - Method 2: Final-Step — Precision@1 = 1.00
@@ -401,12 +401,12 @@ In the initial Phase 1 experiment:
 
 ---
 
-## 3. Environment Leakage Found
+# Environment Leakage Found
 In the previous environment implementation (`BaselineAgent.run()`), the trajectory was terminated immediately upon querying the ground-truth root cause signal (`if action.get("is_root_cause"): self.state["root_cause_found"] = True`). This created **structural termination leakage**, causing the final action in every successful trajectory to trivially be the root-cause query, granting Method 2 (Final-Step) an artificial 1.00 Precision@1.
 
 ---
 
-## 4. Leakage Correction
+# Leakage Correction
 We redesigned the debugging lifecycle to enforce a full, non-leaky post-discovery verification phase:
 ```text
 Initial Failure Reproduction (Simulation)
@@ -429,7 +429,7 @@ As verified by the pilot gate, root-cause queries now occur mid-trajectory (aver
 
 ---
 
-## 5. Models Tested
+# Models Tested
 1. **Model A (Weak Stochastic Heuristic Policy)**:
    - Exploration via stochastic signal sampling without deep structural dependency chaining.
    - Executes non-leaky post-discovery validation before emitting RCA certificate.
@@ -438,7 +438,7 @@ As verified by the pilot gate, root-cause queries now occur mid-trajectory (aver
 
 ---
 
-## 6. Exact Methodology
+# Exact Methodology
 - **Benchmark**: 10 diverse bugs across 5 hardware families (`fifo`, `axi`, `fsm`, `pipeline`, `uart`) with 6 seeds per bug per model (total {len(manifest)} trajectories).
 - **Counterfactual Semantics**: Adaptive counterfactual replay under **Information Necessity** semantics ({total_counterfactuals} total replays). When action $a_t$ is ablated, the agent re-plans with that information banned.
 - **Oracle Independence**: Ground truth is derived directly from injected defect metadata (`ground_truth_signals`) and is strictly independent of step position, method outputs, or runtime heuristics.
@@ -447,9 +447,9 @@ As verified by the pilot gate, root-cause queries now occur mid-trajectory (aver
 
 ---
 
-## 7. Main Results
+# Main Results
 
-### Model Sensitivity Comparison Table (Precision@1)
+# Model Sensitivity Comparison Table (Precision@1)
 
 | Method | Weak Model (Model A) P@1 (95% CI) | Strong Model (Model B) P@1 (95% CI) | $\Delta$ (Model B - Model A) |
 |---|:---:|:---:|:---:|
@@ -462,14 +462,14 @@ As verified by the pilot gate, root-cause queries now occur mid-trajectory (aver
 
 ---
 
-## 8. M5 vs M6 Comparison and Incremental Contribution ($\Delta_{{EDA}}$)
+# M5 vs M6 Comparison and Incremental Contribution ($\Delta_{{EDA}}$)
 
 | Model Configuration | Method 5 (Generic Context CF) P@1 | Method 6 (EDA Grounded CF) P@1 | $\Delta_{{EDA}} = M6 - M5$ (95% CI) |
 |---|:---:|:---:|:---:|
 | **Model A (Weak Heuristic)** | {weak_m5:.2f} | {weak_m6:.2f} | **{weak_delta:+.2f}** [{summary_metrics['Model A (Weak Heuristic)']['Delta_EDA']['ci'][0]:.2f}, {summary_metrics['Model A (Weak Heuristic)']['Delta_EDA']['ci'][1]:.2f}] |
 | **Model B (Strong Causal)** | {strong_m5:.2f} | {strong_m6:.2f} | **{strong_delta:+.2f}** [{strong_delta_ci[0]:.2f}, {strong_delta_ci[1]:.2f}] |
 
-### Extended Metrics (Precision@3 and MRR)
+# Extended Metrics (Precision@3 and MRR)
 
 | Model | Method | Precision@1 | Precision@3 | MRR |
 |---|---|:---:|:---:|:---:|
@@ -482,7 +482,7 @@ As verified by the pilot gate, root-cause queries now occur mid-trajectory (aver
 
 ---
 
-## 9. Information-Ablation and Shuffled-EDA Control
+# Information-Ablation and Shuffled-EDA Control
 To verify whether the credit assignment accurately attributes gains to EDA domain semantics rather than arbitrary weighting:
 - **Method 6 (True EDA Semantics)**: Achieves **{strong_m6:.2f}** P@1 / **{summary_metrics['Model B (Strong Causal)']['EDA Grounded CF (M6)']['P@3_mean']:.2f}** P@3 on Model B.
 - **Method 6-Shuffled (Permuted Semantics Control)**: Performance drops sharply to **{strong_m6_shuff:.2f}** P@1 / **{summary_metrics['Model B (Strong Causal)']['EDA Shuffled Control (M6-Shuffled)']['P@3_mean']:.2f}** P@3 on Model B.
@@ -490,7 +490,7 @@ This confirms that the scoring function is causally sensitive to correct structu
 
 ---
 
-## 10. Leakage-Control Baseline Audit
+# Leakage-Control Baseline Audit
 
 | Heuristic Baseline | Model A P@1 | Model B P@1 | Status |
 |---|:---:|:---:|:---:|
@@ -502,7 +502,7 @@ This confirms that the scoring function is causally sensitive to correct structu
 
 ---
 
-## 11. Trajectory Statistics & Complexity
+# Trajectory Statistics & Complexity
 - **Total Evaluated Trajectories**: {traj_stats['total_trajectories']}
 - **Total Counterfactual Replays Executed**: {traj_stats['total_counterfactual_replays']}
 - **Average Trajectory Length**: {traj_stats['avg_trajectory_length']:.2f} steps
@@ -511,7 +511,7 @@ This confirms that the scoring function is causally sensitive to correct structu
 
 ---
 
-## 12. Interpretation & Scientific Analysis
+# Interpretation & Scientific Analysis
 1. **Resolution of Termination Leakage**: The previous 1.00 Precision@1 for Final-Step was an artifact of premature episode termination. In the leakage-free environment, Final-Step achieves **0.00** Precision@1, correctly reflecting that the causal discovery occurs mid-investigation.
 2. **Generic Context CF vs EDA-Grounded CF**:
    - Both Method 5 (Generic Context CF) and Method 6 (EDA Grounded CF) achieve **1.00** Precision@1 under both Model A and Model B in isolating the primary root-cause query at Rank 1.
@@ -521,9 +521,9 @@ This confirms that the scoring function is causally sensitive to correct structu
 
 ---
 
-## 13. Research Decision
+# Research Decision
 
-### Recommendation: {decision}
+# Recommendation: {decision}
 
 **Evidence:**
 - Model B (Strong Causal) $\Delta_{{EDA}}^{{P@1}} = {strong_delta:+.2f}$ (95% CI: [{strong_delta_ci[0]:.2f}, {strong_delta_ci[1]:.2f}])

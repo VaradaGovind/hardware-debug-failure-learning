@@ -5,15 +5,7 @@ from typing import Dict, Any, List, Optional
 from .generic_certificate import GenericCausalCertificate, parse_vcd_signals, build_cycle_state_table
 
 class RemediatedCertificateValidator:
-    """
-    Phase 3.1 Remediated Causal Certificate Validator.
-    
-    Features:
-    1. Dynamic Event-Aware Trigger Scoping (distinguishes active control transitions from static idle levels).
-    2. Pre-Validation Stimulus Sufficiency Auditing (distinguishes contradiction FAIL from INSUFFICIENT_EVIDENCE).
-    3. Reset-Aware Invariant Windowing (isolates post-reset initialization from active evaluation).
-    4. Explicit 3-Way Outcomes: PASS, FAIL, INSUFFICIENT_EVIDENCE.
-    """
+    """Validates causal certificates with stimulus sufficiency pre-checks and reset awareness."""
     def __init__(self, enable_dynamic_trigger: bool = True,
                  enable_sufficiency: bool = True,
                  enable_reset_awareness: bool = True):
@@ -50,7 +42,6 @@ class RemediatedCertificateValidator:
                     if isinstance(val, (int, float)):
                         max_reg_values[reg] = max(max_reg_values.get(reg, 0), val)
 
-        # Check boundary requirements (e.g. pointer wrap requiring depth >= 8)
         inv_spec = cert.state_invariant_spec
         target_reg = inv_spec.get("target_register")
         if target_reg in ["write_ptr", "read_ptr"] and inv_spec.get("type") == "STEP_INCREMENT":
@@ -81,9 +72,6 @@ class RemediatedCertificateValidator:
         if len(cycle_states) < 2:
             return {"decision": "INSUFFICIENT_EVIDENCE", "stage": "PRECHECK", "reason": "Insufficient clock cycles in waveform"}
 
-        # ---------------------------------------------------------------------
-        # 1. STIMULUS SUFFICIENCY AUDIT
-        # ---------------------------------------------------------------------
         if self.enable_sufficiency:
             suff_audit = self.audit_stimulus_sufficiency(cert, cycle_states)
             if not suff_audit["is_sufficient"]:
@@ -94,9 +82,6 @@ class RemediatedCertificateValidator:
                     "audit_details": suff_audit
                 }
 
-        # ---------------------------------------------------------------------
-        # 2. RESET-AWARE WINDOWING
-        # ---------------------------------------------------------------------
         eval_window = []
         is_reset_cert = (cert.trigger_spec.get("conditions", {}).get("rst_n") == 0)
 
@@ -105,13 +90,10 @@ class RemediatedCertificateValidator:
             prev_s = cycle_states[i - 1]
 
             if is_reset_cert:
-                # Evaluating reset-specific causal defect
                 if curr_s.get("rst_n", 1) == 0:
                     eval_window.append((i, prev_s, curr_s))
             else:
-                # Evaluating normal operational defect
                 if self.enable_reset_awareness:
-                    # Skip active reset cycles and the immediate 1-cycle post-reset init
                     if curr_s.get("rst_n", 1) == 1 and prev_s.get("rst_n", 1) == 1:
                         eval_window.append((i, prev_s, curr_s))
                 else:

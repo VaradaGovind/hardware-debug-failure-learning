@@ -72,7 +72,7 @@ def run_pilot():
     print("PILOT VALIDATION GATE — PHASE 1 RE-EVALUATION")
     print("=" * 70)
     
-    # 1. Generate Pilot Trajectories
+    # Generate Pilot Trajectories
     print("\n[PILOT STEP 1] Generating Pilot Trajectories (5 bugs x 5 seeds)...")
     for bug_id in pilot_bugs:
         bug = bugs_dict[bug_id]
@@ -103,7 +103,7 @@ def run_pilot():
                     
     print(f"Generated {len(pilot_manifest)} successful pilot trajectories.")
     
-    # 2. Non-Leaky Verification Check
+    # Non-Leaky Verification Check
     print("\n[PILOT STEP 2] Auditing Non-Leaky Environment...")
     root_cause_positions = []
     trajectory_lengths = []
@@ -140,7 +140,7 @@ def run_pilot():
     else:
         print("PASS: Termination leakage eliminated! Root cause query is executed mid-trajectory.")
 
-    # 3. Counterfactual Replays and Credit Assignment
+    # Counterfactual Replays and Credit Assignment
     print("\n[PILOT STEP 3] Running Adaptive Counterfactual Replays & Credit Scoring...")
     all_credits = []
     
@@ -184,7 +184,7 @@ def run_pilot():
         
     df = pd.DataFrame(all_credits)
     
-    # 4. Leakage Audit & Method Comparison on Pilot Data
+    # Leakage Audit & Method Comparison on Pilot Data
     print("\n[PILOT STEP 4] Evaluating Methods & Leakage Baselines...")
     
     methods = [

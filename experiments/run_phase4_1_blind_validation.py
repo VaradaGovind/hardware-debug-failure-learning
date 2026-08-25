@@ -57,18 +57,14 @@ def main():
     print("ARGUS PHASE 4.1: BLIND HELD-OUT VALIDATION OF TRANSACTION-SEMANTIC CAUSAL RCA REUSE")
     print("=" * 85)
 
-    # -------------------------------------------------------------------------
-    # 1. VERIFY FROZEN MANIFEST & CRYPTOGRAPHIC INTEGRITY
-    # -------------------------------------------------------------------------
+    # Verify frozen manifest & cryptographic integrity
     print("\n[STEP 1] Verifying Cryptographic Integrity of Frozen Phase 4 Implementation...")
     if not verify_manifest_integrity(manifest_path, base_dir):
         print("STOP: Manifest integrity check failed. Aborting blind validation.")
         return
     print("  Integrity Verified: All Phase 4 validator source hashes match frozen manifest.")
 
-    # -------------------------------------------------------------------------
-    # 2. SIMULATE ALL 55 BENCHMARK INSTANCES (5 Sources + 50 Blind Targets)
-    # -------------------------------------------------------------------------
+    # SIMULATE ALL 55 BENCHMARK INSTANCES (5 Sources + 50 Blind Targets)
     print("\n[STEP 2] Simulating 55 Held-Out Benchmark Instances...")
     simulator = VerilogSimulator(rtl_dir)
     sim_outputs = {}
@@ -90,9 +86,7 @@ def main():
         with open(os.path.join(rtl_dir, "designs", f"{s_id}.v"), "r", encoding="utf-8") as f:
             rtl_contents[s_id] = f.read()
             
-    # -------------------------------------------------------------------------
-    # 3. EXTRACT AND FREEZE SOURCE CERTIFICATES
-    # -------------------------------------------------------------------------
+# Extract and freeze source certificates
     print("\n[STEP 3] Extracting and Freezing Source Causal Certificates...")
     extractor = TransactionCertificateExtractor()
     source_tx_certs = {}
@@ -122,9 +116,7 @@ def main():
             
     print(f"  Extracted and frozen {len(source_tx_certs)} source certificates across 5 design families.")
 
-    # -------------------------------------------------------------------------
-    # 4. BLIND INFERENCE EXECUTION (NO LABELS / GROUND TRUTH ACCESSED)
-    # -------------------------------------------------------------------------
+# Blind inference execution (no labels / ground truth accessed)
     print("\n[STEP 4] Executing Blind Inference on 50 Unseen Target Waveforms...")
     v_l0 = GenericCertificateValidator()
     v_l1 = RemediatedCertificateValidator(enable_dynamic_trigger=True, enable_sufficiency=True, enable_reset_awareness=True)
@@ -142,24 +134,24 @@ def main():
         cert_tx = source_tx_certs[src_id]
         cert_ll = source_ll_certs[src_id]
         
-        # 1. L0: Original Low-Level Validator
+        # L0: Original Low-Level Validator
         t0 = time.time()
         res_l0 = v_l0.validate(cert_ll, vcd_p, ablation_level="L3_FULL")["decision"]
         
-        # 2. L1: Remediated Low-Level Validator
+        # L1: Remediated Low-Level Validator
         res_l1 = v_l1.validate(cert_ll, vcd_p, ablation_level="L3_FULL")["decision"]
         
-        # 3. L2: Frozen Phase 4 Transaction-Semantic Validator
+        # L2: Frozen Phase 4 Transaction-Semantic Validator
         res_l2_dict = v_l2.validate(cert_tx, vcd_p, ablation_mode="FULL_SEMANTIC")
         t_val_ms = (time.time() - t0) * 1000
         res_l2 = res_l2_dict["decision"]
         
-        # 4. Information Value Ablations
+        # Information Value Ablations
         abl_no_obl = v_l2.validate(cert_tx, vcd_p, ablation_mode="TRIGGER_STATE")["decision"]
         abl_no_prop = v_l2.validate(cert_tx, vcd_p, ablation_mode="OBLIGATION_ONLY")["decision"]
         abl_no_temp = v_l2.validate(cert_tx, vcd_p, ablation_mode="OBLIGATION_PROPAGATION")["decision"]
         
-        # 5. Baseline Similarities
+        # Baseline Similarities
         log_sim = baselines.compute_log_similarity(sim_outputs[src_id], sim_outputs[t_id])
         sem_sim = baselines.compute_semantic_similarity(sim_outputs[src_id], sim_outputs[t_id])
         struct_sim = baselines.compute_structural_similarity(rtl_contents[src_id], rtl_contents[t_id])
@@ -191,9 +183,7 @@ def main():
     df_preds.to_csv(os.path.join(valid_dir, "blind_inference_predictions.csv"), index=False)
     print(f"  Blind predictions computed and saved to {os.path.join(valid_dir, 'blind_inference_predictions.csv')}")
 
-    # -------------------------------------------------------------------------
-    # 5. POST-INFERENCE SCORING AGAINST ISOLATED GROUND TRUTH
-    # -------------------------------------------------------------------------
+# Post-inference scoring against isolated ground truth
     print("\n[STEP 5] Scoring Blind Predictions against Isolated Ground Truth...")
     with open(os.path.join(bench_dir, "heldout_ground_truth.json"), "r", encoding="utf-8") as f:
         ground_truth = json.load(f)
@@ -224,9 +214,7 @@ def main():
     df_scored = pd.DataFrame(scored_records)
     df_scored.to_csv(os.path.join(processed_dir, "scored_heldout_evaluation.csv"), index=False)
 
-    # -------------------------------------------------------------------------
-    # 6. METRIC COMPUTATION & CATEGORY-BY-CATEGORY BREAKDOWN
-    # -------------------------------------------------------------------------
+    # Metric computation & category-by-category breakdown
     print("\n" + "=" * 85)
     print("PHASE 4.1 HELD-OUT CATEGORY BREAKDOWN (50 Target Failures across 5 Designs):")
     print("=" * 85)
@@ -252,9 +240,7 @@ def main():
     df_cat_summary = pd.DataFrame(cat_breakdown)
     print(df_cat_summary.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 7. DECISIVE CATEGORY D ADVERSARIAL AUDIT
-    # -------------------------------------------------------------------------
+# Decisive category d adversarial audit
     print("\n" + "=" * 85)
     print("DECISIVE CATEGORY D ADVERSARIAL AUDIT (Same Low-Level Invariant / Different Transaction Obligation):")
     print("=" * 85)
@@ -273,9 +259,7 @@ def main():
     df_cat_d_summary = pd.DataFrame(cat_d_table)
     print(df_cat_d_summary.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 8. PRIMARY BENCHMARK METRICS & FAMILY-AWARE BOOTSTRAP CIs (1000 resamples)
-    # -------------------------------------------------------------------------
+    # PRIMARY BENCHMARK METRICS & FAMILY-AWARE BOOTSTRAP CIs (1000 resamples)
     print("\n" + "=" * 85)
     print("PRIMARY PERFORMANCE MATRIX WITH FAMILY-AWARE 95% BOOTSTRAP CIs:")
     print("=" * 85)
@@ -380,9 +364,7 @@ def main():
     df_comp_summary = pd.DataFrame(comparison_summary)
     print(df_comp_summary.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 9. INFORMATION VALUE / SEMANTIC ABLATION STUDY
-    # -------------------------------------------------------------------------
+# Information value / semantic ablation study
     print("\n" + "=" * 85)
     print("INFORMATION VALUE / SEMANTIC ABLATION STUDY:")
     print("=" * 85)
@@ -408,12 +390,10 @@ def main():
     df_abl_res = pd.DataFrame(abl_rows)
     print(df_abl_res.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 10. GENERATE 8 REQUIRED VISUALIZATIONS
-    # -------------------------------------------------------------------------
+    # Generate 8 required visualizations
     print("\n[STEP 6] Generating 8 Publication-Quality Visualizations...")
     
-    # 1. heldout_precision_recall.png
+    # heldout_precision_recall.png
     fig, ax = plt.subplots(figsize=(7, 5))
     framework_names = ["L0: Low-Level", "L1: Remediated", "L2: Transaction-Semantic"]
     precs = [m_l0["precision"], m_l1["precision"], m_l2["precision"]]
@@ -431,7 +411,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "heldout_precision_recall.png"), dpi=300)
     plt.close()
 
-    # 2. frr_comparison_l0_l1_l2.png
+    # frr_comparison_l0_l1_l2.png
     fig, ax = plt.subplots(figsize=(7, 5))
     frr_vals = [m_l0["frr"], m_l1["frr"], m_l2["frr"]]
     ax.bar(framework_names, frr_vals, color=['#E53935', '#FB8C00', '#2E7D32'], width=0.55)
@@ -443,7 +423,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "frr_comparison_l0_l1_l2.png"), dpi=300)
     plt.close()
 
-    # 3. positive_negative_matrix.png
+    # positive_negative_matrix.png
     fig, ax = plt.subplots(figsize=(8, 5))
     cats_plot = ["Category A (Positives)", "Category B (Symptom Neg)", "Category C (Trigger Neg)", "Category D (Decisive Semantics Neg)", "Category E (Insufficient)", "Category F (Unrelated)"]
     l2_acc_by_cat = [df_scored[df_scored["category"] == c]["l2_correct"].mean() * 100 for c in ["A_SAME_DEFECT", "B_SAME_DEFECT", "C_SAME_TRIGGER", "D_SAME_INVARIANT_DIFF_SEMANTICS", "E_INSUFFICIENT_EVIDENCE", "F_UNRELATED"]]
@@ -456,7 +436,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "positive_negative_matrix.png"), dpi=300)
     plt.close()
 
-    # 4. transaction_semantic_ablation.png
+    # transaction_semantic_ablation.png
     fig, ax = plt.subplots(figsize=(9, 5))
     abl_labels_p = df_abl_res["Configuration"].values
     abl_frrs_p = df_abl_res["False_Reuse_Rate"].values
@@ -469,7 +449,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "transaction_semantic_ablation.png"), dpi=300)
     plt.close()
 
-    # 5. cross_design_generalization.png
+    # cross_design_generalization.png
     fig, ax = plt.subplots(figsize=(8, 5))
     d_names = ["FIFO", "AXI", "FSM", "UART", "PIPELINE"]
     d_accs = [df_scored[df_scored["design"] == d.lower()]["l2_correct"].mean() * 100 for d in d_names]
@@ -482,7 +462,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "cross_design_generalization.png"), dpi=300)
     plt.close()
 
-    # 6. evidence_decision_distribution.png
+    # evidence_decision_distribution.png
     fig, ax = plt.subplots(figsize=(8, 5))
     outcomes = ["PASS", "FAIL", "INSUFFICIENT_EVIDENCE"]
     l0_counts = [(df_scored["pred_l0"] == o).sum() for o in outcomes]
@@ -503,7 +483,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "evidence_decision_distribution.png"), dpi=300)
     plt.close()
 
-    # 7. search_compression_break_even.png
+    # search_compression_break_even.png
     fig, ax = plt.subplots(figsize=(8, 5))
     N_eval = np.arange(1, 20)
     cost_ind_c = N_eval * 8.9
@@ -520,7 +500,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "search_compression_break_even.png"), dpi=300)
     plt.close()
 
-    # 8. cost_decomposition.png
+    # cost_decomposition.png
     fig, ax = plt.subplots(figsize=(8, 5))
     cost_stages = ["Source RCA", "Cert Extraction", "Target Waveform", "Validation Check", "Fallback RCA"]
     cost_shares = [8.9, 0.6, 1.2, 0.8, 6.2]
@@ -532,9 +512,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "cost_decomposition.png"), dpi=300)
     plt.close()
 
-    # -------------------------------------------------------------------------
-    # 11. FINAL SCIENTIFIC DECISION RULE
-    # -------------------------------------------------------------------------
+# Final scientific decision rule
     cat_d_rejected = (df_cat_d["l2_correct"].mean() == 1.0)
     pos_preserved = (m_l2["positive_coverage"] >= 0.90)
     frr_low = (m_l2["frr"] <= 0.05)
@@ -556,9 +534,7 @@ def main():
     print(f"  Search Compression Ratio (SCR):          {m_l2['scr']:.2f}x (Break-Even N* = 3)")
     print("=" * 85 + "\n")
 
-    # -------------------------------------------------------------------------
-    # 12. WRITE FINAL BLIND VALIDATION REPORT
-    # -------------------------------------------------------------------------
+# Write final blind validation report
     report_lines = [
         "# Argus Phase 4.1: Blind Held-Out Validation of Transaction-Semantic Causal RCA Reuse Report",
         "",

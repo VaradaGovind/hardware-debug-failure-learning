@@ -29,7 +29,7 @@ module tb;
         #10 read_en = 1;
         #10 read_en = 0;
         #10;
-        // Verify count and pointer alignment: count should be 0, but due to Defect X count is 4!
+        // Verify count and pointer alignment: count should be 0
         if (dut.count !== 0 || dut.read_ptr !== dut.write_ptr) begin
             $display("FAIL: Read Stalled / Data Underflow");
         end

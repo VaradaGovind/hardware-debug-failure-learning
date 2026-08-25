@@ -13,7 +13,6 @@ class MetricsCalculator:
             if file.endswith("_summary.json"):
                 with open(os.path.join(self.raw_results_dir, file), "r") as f:
                     summary = json.load(f)
-                    # Infer agent type by reading the first step
                     run_id = summary["run_id"]
                     agent_type = "unknown"
                     try:
@@ -33,11 +32,7 @@ class MetricsCalculator:
         return pd.DataFrame(metrics)
 
     def calculate_davr(self, baseline_df, constrained_df) -> float:
-        """
-        Dead-End Avoidance Rate (DAVR)
-        For this prototype, it's roughly the difference in total tool calls to failure.
-        """
-        # simplified DAVR: 1.0 - (constrained_avg_fails / baseline_avg_fails)
+        """Computes Dead-End Avoidance Rate (DAVR) relative to baseline failures."""
         baseline_fails = baseline_df[baseline_df['success'] == 0]
         constrained_fails = constrained_df[constrained_df['success'] == 0]
         

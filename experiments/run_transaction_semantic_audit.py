@@ -47,9 +47,7 @@ def main():
     print("ARGUS PHASE 4: TRANSACTION-SEMANTIC CAUSAL CERTIFICATES RESEARCH EXPERIMENT")
     print("=" * 85)
 
-    # -------------------------------------------------------------------------
-    # 1. SIMULATE ALL GATE 1 CASES
-    # -------------------------------------------------------------------------
+    # Simulate all gate 1 cases
     print("\n[STEP 1] Simulating Gate 1 Benchmark Instances...")
     sim_outputs = {}
     vcd_paths = {}
@@ -64,9 +62,7 @@ def main():
         with open(os.path.join(rtl_dir, "designs", f"{c_id}.v"), "r", encoding="utf-8") as f:
             rtl_contents[c_id] = f.read()
             
-    # -------------------------------------------------------------------------
-    # 2. EXTRACT CERTIFICATES FOR AFFECTED FAMILIES (FSM, PIPELINE)
-    # -------------------------------------------------------------------------
+    # Extract certificates for affected families (fsm, pipeline)
     print("\n[STEP 2] Extracting Transaction-Semantic Certificates from Source Failures...")
     tx_certificates = {}
     low_level_certs = {}
@@ -93,9 +89,7 @@ def main():
         with open(os.path.join(scale_cert_dir, f"cert_{fam_id}.json"), "r", encoding="utf-8") as f:
             low_level_certs[fam_id] = GenericCausalCertificate.from_dict(json.load(f))
             
-    # -------------------------------------------------------------------------
-    # 3. EXECUTE GATE 1 EVALUATION: L0 vs L1 vs L2
-    # -------------------------------------------------------------------------
+    # EXECUTE GATE 1 EVALUATION: L0 vs L1 vs L2
     print("\n[STEP 3] Executing Gate 1 Evaluation (6 Failures + Positive + Negative C Controls)...")
     
     eval_records = []
@@ -114,24 +108,24 @@ def main():
         cert_ll = low_level_certs[fam_id]
         cert_tx = tx_certificates[fam_id]
         
-        # 1. L0: Original Phase 3 Low-Level Validator
+        # L0: Original Phase 3 Low-Level Validator
         res_l0 = v_l0.validate(cert_ll, vcd_p, ablation_level="L3_FULL")["decision"]
         
-        # 2. L1: Phase 3.1 Remediated Low-Level Validator
+        # L1: Phase 3.1 Remediated Low-Level Validator
         res_l1 = v_l1.validate(cert_ll, vcd_p, ablation_level="L3_FULL")["decision"]
         
-        # 3. L2: Phase 4 Transaction-Semantic Validator
+        # L2: Phase 4 Transaction-Semantic Validator
         res_l2_dict = v_l2.validate(cert_tx, vcd_p, ablation_mode="FULL_SEMANTIC")
         res_l2 = res_l2_dict["decision"]
         
-        # 4. Ablations
+        # Ablations
         abl_a = v_l2.validate(cert_tx, vcd_p, ablation_mode="TRIGGER_ONLY")["decision"]
         abl_b = v_l2.validate(cert_tx, vcd_p, ablation_mode="TRIGGER_STATE")["decision"]
         abl_c = v_l2.validate(cert_tx, vcd_p, ablation_mode="TRIGGER_PROPAGATION")["decision"]
         abl_d = v_l2.validate(cert_tx, vcd_p, ablation_mode="OBLIGATION_ONLY")["decision"]
         abl_e = v_l2.validate(cert_tx, vcd_p, ablation_mode="OBLIGATION_PROPAGATION")["decision"]
         
-        # 5. Baseline Similarities
+        # Baseline Similarities
         log_sim = baselines.compute_log_similarity(sim_outputs[src_id], sim_outputs[c_id])
         sem_sim = baselines.compute_semantic_similarity(sim_outputs[src_id], sim_outputs[c_id])
         struct_sim = baselines.compute_structural_similarity(rtl_contents[src_id], rtl_contents[c_id])
@@ -166,9 +160,7 @@ def main():
     df_eval = pd.DataFrame(eval_records)
     df_eval.to_csv(os.path.join(processed_dir, "gate1_evaluation_records.csv"), index=False)
 
-    # -------------------------------------------------------------------------
-    # 4. PRIMARY 6-CASE COMPARISON TABLE (L0 vs L1 vs L2)
-    # -------------------------------------------------------------------------
+    # PRIMARY 6-CASE COMPARISON TABLE (L0 vs L1 vs L2)
     print("\n" + "=" * 85)
     print("GATE 1 PRIMARY 6-CASE TRANSITION TABLE (L0 -> L1 -> L2):")
     print("=" * 85)
@@ -189,9 +181,7 @@ def main():
     df_six_summary = pd.DataFrame(six_table)
     print(df_six_summary.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 5. POSITIVE & NEGATIVE C CONTROL AUDIT
-    # -------------------------------------------------------------------------
+    # Positive & negative c control audit
     print("\n" + "=" * 85)
     print("GATE 1 CONTROLS: POSITIVE CONTROLS & NEGATIVE C (DECISIVE CONTROL):")
     print("=" * 85)
@@ -212,13 +202,11 @@ def main():
     df_control_summary = pd.DataFrame(control_table)
     print(df_control_summary.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 6. GATE 1 SCIENTIFIC VERIFICATION CHECK
-    # -------------------------------------------------------------------------
+    # Gate 1 scientific verification check
     # Gate 1 Criteria:
-    # 1. False reuses eliminated on the 6 cases (L2 != PASS for all 6 cases)
-    # 2. Positive controls preserved (L2 == PASS for all 6 positive controls)
-    # 3. Negative C correctly rejected (L0/L1 == PASS while L2 == FAIL/INSUFFICIENT for all 3 Negative C controls)
+    # False reuses eliminated on the 6 cases (L2 != PASS for all 6 cases)
+    # Positive controls preserved (L2 == PASS for all 6 positive controls)
+    # Negative C correctly rejected (L0/L1 == PASS while L2 == FAIL/INSUFFICIENT for all 3 Negative C controls)
     
     six_cases_eliminated = all(r["decision_l2"] != "PASS" for _, r in df_six.iterrows())
     pos_preserved = all(r["decision_l2"] == "PASS" for _, r in df_eval[df_eval["category"] == "POSITIVE_CONTROL"].iterrows())
@@ -235,9 +223,7 @@ def main():
     print(f"  4. Negative C Fooled Low-Level L0:   {'YES (L0 was fooled as predicted)' if neg_c_fooled_l0 else 'NO'}")
     print("=" * 85)
 
-    # -------------------------------------------------------------------------
-    # 7. GATE 2: CROSS-DESIGN GENERALIZATION PILOT (5 DESIGNS)
-    # -------------------------------------------------------------------------
+    # Gate 2: cross-design generalization pilot (5 designs)
     gate2_results = []
     
     if gate1_passed:
@@ -273,9 +259,7 @@ def main():
         print("\nGATE 2 CROSS-DESIGN GENERALIZATION PILOT TABLE:")
         print(df_gate2.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 8. COMPLETE ABLATION HIERARCHY EVALUATION (A through F)
-    # -------------------------------------------------------------------------
+    # COMPLETE ABLATION HIERARCHY EVALUATION (A through F)
     print("\n[STEP 5] Computing Ablation Hierarchy (A through F)...")
     
     abl_records = []
@@ -308,9 +292,7 @@ def main():
     print("\nABLATION STUDY SUMMARY (A through F):")
     print(df_abl.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 9. BASELINE COMPARISON MATRIX
-    # -------------------------------------------------------------------------
+# Baseline comparison matrix
     print("\n[STEP 6] Comparing against All Baselines...")
     
     baseline_comp = [
@@ -326,9 +308,7 @@ def main():
     print("\nBENCHMARK COMPARISON MATRIX:")
     print(df_base_comp.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 10. GENERATE 6 PUBLICATION-QUALITY PLOTS
-    # -------------------------------------------------------------------------
+    # Generate 6 publication-quality plots
     print("\n[STEP 7] Generating 6 Publication-Quality Plots...")
     
     # Plot 1: False Reuse Before and After
@@ -422,9 +402,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "cross_design_generalization.png"), dpi=300)
     plt.close()
 
-    # -------------------------------------------------------------------------
-    # 11. FINAL DECISION FORMULATION & REPORT
-    # -------------------------------------------------------------------------
+    # Final decision formulation & report
     final_decision = "KEEP" if gate1_passed and all(r["Generalization_Status"] == "PASS" for r in gate2_results) else "MODIFY"
     
     print("\n" + "=" * 85)

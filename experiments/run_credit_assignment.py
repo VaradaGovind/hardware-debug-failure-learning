@@ -50,7 +50,7 @@ def main():
         
     all_credits = []
     
-    # 1. Process all trajectories
+    # Process all trajectories
     print("Running counterfactual replays...")
     for idx, run in enumerate(manifest):
         run_id = run["run_id"]
@@ -87,12 +87,12 @@ def main():
         all_credits.extend(run_credits)
         print(f"Processed {idx+1}/{len(manifest)}: {run_id} ({len(trajectory)} steps)")
         
-    # 2. Save CSV
+    # Save CSV
     df = pd.DataFrame([c.to_dict() for c in all_credits])
     csv_path = os.path.join(base_dir, "results", "processed", "credit_scores.csv")
     df.to_csv(csv_path, index=False)
     
-    # 3. Calculate Metrics
+    # Calculate Metrics
     # Group by run_id
     metrics = {
         "uniform": [], "final_step": [], "evidence": [], 
@@ -135,17 +135,17 @@ def main():
         p3_avg = np.mean([v[1] for v in vals])
         summary[m] = {"P@1": p1_avg, "P@3": p3_avg}
         
-    # 4. Generate Report
+    # Generate Report
     report_md = f"""# Action Credit Assignment - Phase 1 Report
 
-## Objective
+# Objective
 Evaluate whether deterministic EDA-grounded action credit assignment outperforms generic heuristic methods in identifying critical hardware debugging actions.
 
-## Dataset
+# Dataset
 - 50 Successful trajectories selected from 10 diverse bugs across 5 families.
 - Counterfactual replays executed: ~200 (Total actions across trajectories)
 
-## Results
+# Results
 
 | Method | Precision@1 | Precision@3 |
 |---|---|---|
@@ -187,7 +187,7 @@ Evaluate whether deterministic EDA-grounded action credit assignment outperforms
     plt.grid(True)
     plt.savefig(os.path.join(plots_dir, "generic_vs_eda_credit.png"))
     
-    # 5. Generate Decision
+    # Generate Decision
     eda_p1 = summary['eda_grounded_cf']['P@1']
     gen_p1 = summary['generic_context_cf']['P@1']
     
@@ -199,7 +199,7 @@ Evaluate whether deterministic EDA-grounded action credit assignment outperforms
         
     decision_md = f"""# Research Decision
 
-### Recommendation: {decision}
+# Recommendation: {decision}
 
 **Evidence:**
 - EDA-Grounded P@1: {eda_p1:.2f}

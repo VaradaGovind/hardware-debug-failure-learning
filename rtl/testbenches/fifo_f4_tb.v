@@ -18,7 +18,7 @@ module tb;
         #10 write_en = 0;
 
         // Attempt to read that 1 item back.
-        // Due to Defect Y (empty = count <= 1), empty is TRUE even though 1 item is present!
+        // empty is TRUE even though 1 item is present!
         #10 read_en = 1;
         #10 read_en = 0;
         #10;

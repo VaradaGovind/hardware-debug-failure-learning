@@ -11,12 +11,10 @@ class VerilogSimulator:
 
     def run_simulation(self, task_id: str, family: str) -> Dict[str, Any]:
         """Compiles and runs the Verilog simulation for a given task."""
-        
         design_file = os.path.join(self.rtl_dir, "designs", f"{task_id}.v")
         tb_file = os.path.join(self.rtl_dir, "testbenches", f"{task_id}_tb.v")
         output_file = os.path.join(self.rtl_dir, f"{task_id}.vvp")
         
-        # Compile
         compile_cmd = ["iverilog", "-o", output_file, design_file, tb_file]
         try:
             compile_res = subprocess.run(compile_cmd, capture_output=True, text=True, check=False)
@@ -37,9 +35,7 @@ class VerilogSimulator:
                     "vcd_path": ""
                 }
 
-        # Run
         vcd_path = os.path.join(self.rtl_dir, f"{task_id}.vcd")
-        # Ensure any previous VCD is removed
         if os.path.exists(vcd_path):
             try:
                 os.remove(vcd_path)
@@ -49,7 +45,6 @@ class VerilogSimulator:
         run_cmd = ["vvp", output_file]
         run_res = subprocess.run(run_cmd, capture_output=True, text=True, check=False)
         
-        # Check if an assertion fired or simulation failed
         success = True
         if "ERROR" in run_res.stdout or "FAIL" in run_res.stdout or "FATAL" in run_res.stdout or run_res.returncode != 0:
             success = False

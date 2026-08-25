@@ -10,16 +10,7 @@ from .adaptive_transaction_boundary import AdaptiveTransactionBoundaryDetector, 
 from .adaptive_evidence import AdaptiveEvidenceClassifier, EvidenceSufficiencyResult
 
 class AdaptiveL2Adapter:
-    """
-    Integrates Adaptive Transaction Boundary Recovery with the FROZEN Phase 4 L2 Validator.
-    
-    SCIENTIFIC INTEGRITY CONTRACT:
-    1. The Phase 4 L2 Validator (TransactionSemanticValidator) is treated as 100% frozen.
-    2. The adapter recovers the transaction boundary independently without oracle knowledge.
-    3. The adapter maps the recovered segment to the minimal sufficient evidence window.
-    4. The frozen L2 validator evaluates protocol obligations, state invariants, and causal propagation.
-    5. The final decision is returned unchanged.
-    """
+    """Integrates adaptive transaction boundary recovery with the transaction-semantic validator."""
     def __init__(self, quiescence_threshold: int = 2):
         self.detector = AdaptiveTransactionBoundaryDetector(quiescence_threshold=quiescence_threshold)
         self.classifier = AdaptiveEvidenceClassifier()
@@ -48,7 +39,6 @@ class AdaptiveL2Adapter:
                 "adaptive_metrics": {"elapsed_ms": (time.time() - t0) * 1000}
             }
 
-        # 1. Parse waveform cycle states
         req_signals = list(set(cert.target_signals + ["clk", "rst_n"]))
         signal_map = parse_vcd_signals(vcd_path, req_signals)
         cycle_states = build_cycle_state_table(signal_map)
@@ -61,12 +51,10 @@ class AdaptiveL2Adapter:
                 "adaptive_metrics": {"elapsed_ms": (time.time() - t0) * 1000}
             }
 
-        # 2. Autonomous Boundary Recovery (NO ORACLE KNOWLEDGE)
         observed_sigs = [s for s in cert.target_signals if s not in ["clk", "rst_n"]]
         segments = self.detector.detect_segments(cycle_states, observed_sigs)
         primary_seg = segments[0] if segments else None
 
-        # 3. Evidence Sufficiency Check
         suff_res = self.classifier.classify_sufficiency(cycle_states, segments, observed_sigs)
         
         if not suff_res.is_sufficient_for_validation and control_mode == "ADAPTIVE_PRIMARY":
@@ -81,32 +69,25 @@ class AdaptiveL2Adapter:
                 }
             }
 
-        # 4. Determine Window Length based on Mode
         if control_mode == "STATIC_FIXED":
             effective_window_cycles = cert.transaction_context.active_window_cycles  # fixed (usually 4)
         elif control_mode == "BROAD_WINDOW_CONTROL":
             effective_window_cycles = len(cycle_states)  # entire trace
         elif control_mode == "RANDOM_WINDOW_CONTROL":
-            # Random window length between 2 and max(5, trace_length // 2)
             max_r = max(5, len(cycle_states) // 2)
             effective_window_cycles = random.randint(2, max_r)
         elif control_mode == "MATCHED_LENGTH_CONTROL":
-            # Same length as adaptive segment, but fixed offset without semantic boundary tracking
             effective_window_cycles = primary_seg.length if primary_seg else 4
         else: # ADAPTIVE_PRIMARY
-            # Adaptive segment length (with floor of 4 to preserve base contract)
             effective_window_cycles = max(4, primary_seg.length) if primary_seg else 4
 
-        # 5. Adapt Certificate Window for Frozen Validator
         adapted_cert = copy.deepcopy(cert)
         adapted_cert.transaction_context.active_window_cycles = effective_window_cycles
 
         t_val_start = time.time()
-        # 6. Execute FROZEN L2 Validator
         l2_res = self.frozen_validator.validate(adapted_cert, vcd_path, ablation_mode=ablation_mode)
         t_val_end = time.time()
 
-        # 7. Merge Diagnostic Metrics
         result = dict(l2_res)
         result["adaptive_metrics"] = {
             "control_mode": control_mode,

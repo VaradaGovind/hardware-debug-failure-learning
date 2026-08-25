@@ -42,10 +42,8 @@ def audit_benchmark_integrity(base_dir: str, benchmark_json_path: str) -> Dict[s
             except Exception:
                 pass
 
-        # 1. Syntax Compilation and Simulation Check
         res = sim.run_simulation(t_id, case["design"])
         compiled = res.get("compiled", False)
-        # For our benchmark, failing symptom in stdout is expected, but compiled and execution must succeed
         vcd_path = os.path.join(rtl_dir, f"{t_id}.vcd")
         vcd_exists = os.path.exists(vcd_path)
         
@@ -64,8 +62,6 @@ def audit_benchmark_integrity(base_dir: str, benchmark_json_path: str) -> Dict[s
                     empty_vcds += 1
                     status = "EMPTY_VCD"
                 else:
-                    # Check variable latency stress condition:
-                    # For Classes B, C, D, transaction length must exceed 4 cycles
                     if tx_class in ["CLASS_B_DELAYED", "CLASS_C_MULTI_BEAT", "CLASS_D_STALL_BACKPRESSURE"] and exp_len <= 4:
                         variable_latency_violations += 1
                         status = "LATENCY_THRESHOLD_VIOLATION"
@@ -108,7 +104,6 @@ def audit_benchmark_integrity(base_dir: str, benchmark_json_path: str) -> Dict[s
         "manifest_records": records
     }
 
-    # Save manifest
     manifest_out = os.path.join(base_dir, "results", "transaction_semantic_certs", "variable_latency_stress", "benchmark", "benchmark_integrity_manifest.json")
     with open(manifest_out, "w", encoding="utf-8") as f:
         json.dump(audit_summary, f, indent=2)

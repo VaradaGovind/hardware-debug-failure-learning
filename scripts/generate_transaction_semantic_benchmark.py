@@ -12,9 +12,7 @@ def generate_transaction_semantic_benchmark(base_dir: str):
     
     norm_base = base_dir.replace("\\", "/")
     
-    # -------------------------------------------------------------------------
-    # 1. GATE 1 TEST SUITE: 6 Phase 3.1 Cases + Positive Controls + Negative C Controls
-    # -------------------------------------------------------------------------
+    # GATE 1 TEST SUITE: 6 Phase 3.1 Cases + Positive Controls + Negative C Controls
     
     gate1_cases = [
         # FSM Stuck State Family
@@ -272,7 +270,7 @@ module tb;
         clk = 0; rst_n = 0; start = 0;
         #20 rst_n = 1;
         {case['tb_stim']}
-        #20;
+        # 20;
         $display("{case['symptom']}");
         #10 $finish;
     end
@@ -306,7 +304,7 @@ module tb;
         clk = 0; rst_n = 0; valid_in = 0; d_in = 8'h00;
         #20 rst_n = 1;
         {case['tb_stim']}
-        #20;
+        # 20;
         $display("{case['symptom']}");
         #10 $finish;
     end

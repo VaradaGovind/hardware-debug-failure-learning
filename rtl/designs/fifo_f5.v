@@ -29,10 +29,10 @@ module fifo(
             end
             if (read_en && !empty) begin
                 read_data <= mem[read_ptr];
-                // DEFECT Z: Read pointer skips by 2 instead of 1 on read
+                // Read pointer skips by 2 instead of 1 on read
                 read_ptr <= (read_ptr + 2) % 16;
             end
-            // Simultaneous RW is handled correctly in Defect Z (count is preserved!)
+            // Simultaneous read/write handling
             if (write_en && !full && read_en && !empty)
                 count <= count;
             else if (write_en && !full)

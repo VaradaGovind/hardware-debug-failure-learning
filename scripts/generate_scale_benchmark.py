@@ -393,7 +393,7 @@ module tb;
         {f"#10 start = 1; #40 start = 0;" if design == 'uart' else ''}
         {f"#10 valid_in = 1; d_in = 8'hAA; #10 valid_in = 1; d_in = 8'hBB; #10 valid_in = 0;" if design == 'pipeline' else ''}
         
-        #20;
+        # 20;
         $display("{inst['symptom']}");
         #10 $finish;
     end

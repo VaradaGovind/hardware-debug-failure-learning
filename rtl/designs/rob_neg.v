@@ -15,7 +15,7 @@ module fifo(
     reg [5:0] count;
 
     assign full = (count == 16);
-    // DEFECT Y: Off-by-one early empty threshold (count <= 1)
+    // Off-by-one early empty threshold (count <= 1)
     assign empty = (count <= 1);
 
     always @(posedge clk or negedge rst_n) begin
@@ -32,7 +32,7 @@ module fifo(
                 read_data <= mem[read_ptr];
                 read_ptr <= (read_ptr + 1) % 16;
             end
-            // Simultaneous RW is handled correctly in Defect Y
+            // Simultaneous read/write handling
             if (write_en && !full && read_en && !empty)
                 count <= count;
             else if (write_en && !full)

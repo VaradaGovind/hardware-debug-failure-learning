@@ -126,26 +126,20 @@ def main():
     print("ARGUS PHASE 4.3: VARIABLE-LATENCY ADAPTIVE BOUNDARY STRESS TEST")
     print("=" * 88)
 
-    # -------------------------------------------------------------------------
-    # 1. VERIFY FROZEN VALIDATOR INTEGRITY
-    # -------------------------------------------------------------------------
+# Verify frozen validator integrity
     manifest_p = os.path.join(stress_dir, "frozen_manifest.json")
     print("\n[STEP 1] Verifying Cryptographic Integrity of Frozen Phase 4 Implementation...")
     if not verify_manifest_integrity(manifest_p, base_dir):
         raise RuntimeError("FATAL: Cryptographic verification of frozen Phase 4 validator failed!")
     print("  Integrity Verified: All Phase 4 frozen validator source hashes match manifest.")
 
-    # -------------------------------------------------------------------------
-    # 2. GENERALITY & LEAKAGE AUDIT
-    # -------------------------------------------------------------------------
+    # Generality & leakage audit
     print("\n[STEP 1b] Executing Implementation-Level Generality & Leakage Audit...")
     if not audit_code_generality(os.path.join(base_dir, "src", "reuse")):
         raise RuntimeError("FATAL: Generality audit failed! Adaptive recovery contains illegal hardcoding.")
     print("  Generality Audit Passed: Zero design-specific rules or ground-truth leakages found.")
 
-    # -------------------------------------------------------------------------
-    # 3. BENCHMARK PRE-SIMULATION & INTEGRITY AUDIT GATE
-    # -------------------------------------------------------------------------
+    # Benchmark pre-simulation & integrity audit gate
     print("\n[STEP 2] Running Benchmark Pre-Simulation & Integrity Audit Gate...")
     gt_path = os.path.join(bench_dir, "heldout_ground_truth.json")
     integrity_audit = audit_benchmark_integrity(base_dir, gt_path)
@@ -157,9 +151,7 @@ def main():
     with open(os.path.join(bench_dir, "blinded_target_manifest.json"), "r", encoding="utf-8") as f:
         blinded_targets = json.load(f)
 
-    # -------------------------------------------------------------------------
-    # 4. EXTRACT SOURCE CERTIFICATES (Frozen Extractor)
-    # -------------------------------------------------------------------------
+    # EXTRACT SOURCE CERTIFICATES (Frozen Extractor)
     print("\n[STEP 3] Extracting and Freezing Source Causal Certificates...")
     extractor = TransactionCertificateExtractor()
     source_configs = [
@@ -188,9 +180,7 @@ def main():
             
     print(f"  Extracted 5 source certificates across 5 design families.")
 
-    # -------------------------------------------------------------------------
-    # 5. INITIALIZE ALL VALIDATORS & CONTROLS
-    # -------------------------------------------------------------------------
+    # Initialize all validators & controls
     v_l0 = GenericCertificateValidator()
     v_l1 = RemediatedCertificateValidator(enable_dynamic_trigger=True, enable_sufficiency=True, enable_reset_awareness=True)
     v_frozen_l2 = TransactionSemanticValidator()
@@ -198,9 +188,7 @@ def main():
     adapter = AdaptiveL2Adapter()
     policy = AdaptiveReusePolicy()
 
-    # -------------------------------------------------------------------------
-    # 6. EXECUTE BLIND INFERENCE ON 75 HELD-OUT TARGET WAVEFORMS
-    # -------------------------------------------------------------------------
+    # Execute blind inference on 75 held-out target waveforms
     print(f"\n[STEP 4] Executing Blind Inference on {len(blinded_targets)} Unseen Variable-Latency Waveforms...")
     
     blind_predictions = []
@@ -326,9 +314,7 @@ def main():
     df_bounds.to_csv(os.path.join(boundary_dir, "recovered_variable_boundaries.csv"), index=False)
     print(f"  Blind predictions & recovered boundaries saved to {processed_dir}")
 
-    # -------------------------------------------------------------------------
-    # 7. POST-INFERENCE SCORING AGAINST ISOLATED GROUND TRUTH
-    # -------------------------------------------------------------------------
+# Post-inference scoring against isolated ground truth
     print("\n[STEP 5] Scoring Blind Predictions against Isolated Ground Truth...")
     gt_map = {item["target_id"]: item for item in ground_truth}
     
@@ -366,9 +352,7 @@ def main():
     df_scored = pd.DataFrame(scored_records)
     df_scored.to_csv(os.path.join(processed_dir, "scored_variable_latency_evaluation.csv"), index=False)
 
-    # -------------------------------------------------------------------------
-    # 8. METRIC COMPUTATION ACROSS TRANSACTION CLASSES
-    # -------------------------------------------------------------------------
+# Metric computation across transaction classes
     print("\n" + "=" * 88)
     print("PHASE 4.3 TRANSACTION CLASS BREAKDOWN (75 Cases across 5 Designs & 9 Classes):")
     print("=" * 88)
@@ -411,9 +395,7 @@ def main():
     df_cls_summary = pd.DataFrame(class_breakdown)
     print(df_cls_summary.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 9. PRIMARY BENCHMARK METRICS & 1000 BOOTSTRAP RESAMPLES
-    # -------------------------------------------------------------------------
+    # Primary benchmark metrics & 1000 bootstrap resamples
     print("\n" + "=" * 88)
     print("PRIMARY PERFORMANCE COMPARISON MATRIX (WITH 95% BOOTSTRAP CIs):")
     print("=" * 88)
@@ -504,9 +486,7 @@ def main():
     print(f"KEY TRANSITION METRICS: Delta_PositiveTransfer = {delta_pos*100:+.1f}%, Delta_FRR = {delta_frr:+.3f}, Avg Window Length = {avg_window_len:.1f} cycles")
     print("=" * 88)
 
-    # -------------------------------------------------------------------------
-    # 10. 3-WAY PAIRED CASE-LEVEL TRANSITION TABLE (Static-4 vs Static-16 vs Adaptive)
-    # -------------------------------------------------------------------------
+    # 3-WAY PAIRED CASE-LEVEL TRANSITION TABLE (Static-4 vs Static-16 vs Adaptive)
     print("\n[STEP 6] Generating 3-Way Paired Transition Table (Static-4 vs Static-16 vs Adaptive)...")
     paired_transitions = []
     
@@ -550,9 +530,7 @@ def main():
     print("\nSummary of 3-Way Paired Transition Categories:")
     print(df_paired["Interpretation"].value_counts().to_string())
 
-    # -------------------------------------------------------------------------
-    # 11. ABLATION & FIXED-WINDOW STUDY
-    # -------------------------------------------------------------------------
+    # Ablation & fixed-window study
     print("\n" + "=" * 88)
     print("ABLATION & FIXED WINDOW SIZES STUDY:")
     print("=" * 88)
@@ -580,12 +558,10 @@ def main():
     df_abl_table = pd.DataFrame(abl_rows)
     print(df_abl_table.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 12. GENERATE 10 PUBLICATION-QUALITY PLOTS
-    # -------------------------------------------------------------------------
+    # Generate 10 publication-quality plots
     print("\n[STEP 7] Generating 10 Publication-Quality Visualizations...")
 
-    # 1. adaptive_vs_static_positive_transfer.png
+    # adaptive_vs_static_positive_transfer.png
     fig, ax = plt.subplots(figsize=(8, 5))
     names = ["L0 Low-Level", "L1 Remediated", "Static 4-Cycle", "Fixed 8-Cycle", "Fixed 16-Cycle", "Adaptive L2"]
     pos_vals = [m_l0["positive_transfer"]*100, m_l1["positive_transfer"]*100, m_l2_static4["positive_transfer"]*100, m_l2_fix8["positive_transfer"]*100, m_l2_fix16["positive_transfer"]*100, m_l2_adapt["positive_transfer"]*100]
@@ -599,7 +575,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "adaptive_vs_static_positive_transfer.png"), dpi=300)
     plt.close()
 
-    # 2. adaptive_vs_static_precision.png
+    # adaptive_vs_static_precision.png
     fig, ax = plt.subplots(figsize=(8, 5))
     precs = [m_l0["precision"], m_l1["precision"], m_l2_static4["precision"], m_l2_fix8["precision"], m_l2_fix16["precision"], m_l2_adapt["precision"]]
     ax.bar(names, precs, color=['#B0BEC5', '#90A4AE', '#E53935', '#FB8C00', '#1E88E5', '#2E7D32'], width=0.55)
@@ -612,7 +588,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "adaptive_vs_static_precision.png"), dpi=300)
     plt.close()
 
-    # 3. frr_safety_comparison.png
+    # frr_safety_comparison.png
     fig, ax = plt.subplots(figsize=(8, 5))
     frr_vals = [m_l0["frr"], m_l1["frr"], m_l2_static4["frr"], m_l2_fix8["frr"], m_l2_fix16["frr"], m_l2_adapt["frr"], m_ctrl_broad["frr"]]
     frr_names = ["L0", "L1", "Static-4", "Fixed-8", "Fixed-16", "Adaptive", "Broad Ctrl"]
@@ -626,7 +602,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "frr_safety_comparison.png"), dpi=300)
     plt.close()
 
-    # 4. performance_vs_transaction_length.png
+    # performance_vs_transaction_length.png
     fig, ax = plt.subplots(figsize=(9, 5))
     df_pos = df_scored[df_scored["ground_truth_match"] == "MATCH"]
     lengths_sorted = sorted(df_pos["expected_tx_length"].unique())
@@ -649,7 +625,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "performance_vs_transaction_length.png"), dpi=300)
     plt.close()
 
-    # 5. adaptive_vs_fixed_window_sizes.png
+    # adaptive_vs_fixed_window_sizes.png
     fig, ax = plt.subplots(figsize=(8, 5))
     win_labels = ["3-Cycle", "4-Cycle", "6-Cycle", "8-Cycle", "16-Cycle", "Adaptive"]
     win_pos = [m_l2_fix3["positive_transfer"]*100, m_l2_static4["positive_transfer"]*100, m_l2_fix6["positive_transfer"]*100, m_l2_fix8["positive_transfer"]*100, m_l2_fix16["positive_transfer"]*100, m_l2_adapt["positive_transfer"]*100]
@@ -668,7 +644,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "adaptive_vs_fixed_window_sizes.png"), dpi=300)
     plt.close()
 
-    # 6. boundary_recovery_accuracy.png
+    # boundary_recovery_accuracy.png
     fig, ax = plt.subplots(figsize=(8, 5))
     errs = df_scored["length_error"].values
     ax.hist(errs, bins=11, color='#3F51B5', edgecolor='black', alpha=0.7)
@@ -683,7 +659,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "boundary_recovery_accuracy.png"), dpi=300)
     plt.close()
 
-    # 7. adversarial_negative_rejection.png
+    # adversarial_negative_rejection.png
     fig, ax = plt.subplots(figsize=(8, 5))
     neg_classes = ["F: Same Symptom", "G: Same Trigger", "H: Same Invariant", "I: Incomplete"]
     neg_acc_stat4 = [df_scored[df_scored["transaction_class"] == c]["l2_static_4_correct"].mean()*100 for c in ["CLASS_F_SAME_SYMPTOM_NEG", "CLASS_G_SAME_TRIGGER_NEG", "CLASS_H_SAME_INVARIANT_NEG", "CLASS_I_INCOMPLETE_EVIDENCE"]]
@@ -702,7 +678,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "adversarial_negative_rejection.png"), dpi=300)
     plt.close()
 
-    # 8. compute_and_scr_comparison.png
+    # compute_and_scr_comparison.png
     fig, ax = plt.subplots(figsize=(8, 5))
     scrs = [m_l0["scr"], m_l1["scr"], m_l2_static4["scr"], m_l2_fix8["scr"], m_l2_fix16["scr"], m_l2_adapt["scr"]]
     ax.bar(names, scrs, color=['#B0BEC5', '#90A4AE', '#E53935', '#FB8C00', '#1E88E5', '#2E7D32'], width=0.55)
@@ -717,7 +693,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "compute_and_scr_comparison.png"), dpi=300)
     plt.close()
 
-    # 9. paired_case_transition_matrix.png
+    # paired_case_transition_matrix.png
     fig, ax = plt.subplots(figsize=(8, 5))
     t_counts = df_paired["Interpretation"].value_counts()
     ax.barh(t_counts.index, t_counts.values, color=['#2E7D32', '#1565C0', '#FB8C00', '#78909C', '#E53935'][:len(t_counts)], height=0.55)
@@ -729,7 +705,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "paired_case_transition_matrix.png"), dpi=300)
     plt.close()
 
-    # 10. benchmark_integrity_audit.png
+    # benchmark_integrity_audit.png
     fig, ax = plt.subplots(figsize=(8, 5))
     audit_categories = ["Compiled Verilog", "Executable VCD", "Non-Empty Trace", "Stress Threshold"]
     audit_passed = [75, 75, 75, 75]
@@ -745,9 +721,7 @@ def main():
 
     print("  All 10 publication-quality visualizations successfully generated.")
 
-    # -------------------------------------------------------------------------
-    # 13. SCIENTIFIC GATES & DECISION
-    # -------------------------------------------------------------------------
+    # Scientific gates & decision
     gate_a_safety = (m_l2_adapt["frr"] <= m_l2_static4["frr"] + 0.01)
     gate_b_pos_transfer = (m_l2_adapt["positive_transfer"] > m_l2_static4["positive_transfer"])
     gate_c_boundary_necessity = (m_l2_adapt["positive_transfer"] > m_l2_static4["positive_transfer"])
@@ -778,9 +752,7 @@ def main():
     print(f"\nFINAL SCIENTIFIC RECOMMENDATION: {final_rec}")
     print("=" * 88)
 
-    # -------------------------------------------------------------------------
-    # 14. GENERATE COMPREHENSIVE MARKDOWN REPORT
-    # -------------------------------------------------------------------------
+# Generate comprehensive markdown report
     report_lines = [
         "# Argus Phase 4.3: Variable-Latency Adaptive Boundary Stress Test Report",
         "",

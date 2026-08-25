@@ -26,20 +26,16 @@ class BaselineAgent:
         
     def generate_actions(self, task_id: str, ground_truth: Dict[str, Any]) -> List[Dict[str, Any]]:
         actions = []
-        # Base actions
         if not self.state["failure_info"]:
             actions.append({"type": "run_simulation", "target": task_id, "base_weight": 10.0})
         
-        # RTL Inspection
         if self.state["failure_info"]:
             actions.append({"type": "inspect_rtl", "target": task_id, "base_weight": 2.0})
             
-        # Waveform querying
         for sig in self.state["known_signals"]:
             if sig not in self.state["waveform_queried"]:
-                # The agent should sometimes pick the right signal and sometimes pick the wrong signal
                 is_root_cause = sig in ground_truth["ground_truth_signals"]
-                weight = 1.0 # Removed the artificial 1.5 weight skew to prevent leakage
+                weight = 1.0
                 
                 actions.append({
                     "type": "query_waveform", 
@@ -48,7 +44,6 @@ class BaselineAgent:
                     "base_weight": weight
                 })
                 
-        # If no actions available or we exhausted useful things
         if not actions:
             actions.append({"type": "give_up", "target": "none", "base_weight": 1.0})
             
@@ -73,7 +68,6 @@ class BaselineAgent:
             res_success = False
             res_informative = False
             
-            # Execute action
             if action["type"] == "run_simulation":
                 sim_res = self.simulator.run_simulation(task_id, design_family)
                 res_success = True
@@ -82,11 +76,10 @@ class BaselineAgent:
                 simulations += 1
                 
             elif action["type"] == "inspect_rtl":
-                rtl_res = self.search.inspect_rtl(task_id, task_id) # module name is task_id for simplicity here
+                rtl_res = self.search.inspect_rtl(task_id, task_id)
                 if rtl_res["success"]:
                     res_success = True
                     res_informative = True
-                    # Add discovered signals to state
                     for sig in rtl_res.get("signals", []):
                         if sig not in self.state["known_signals"]:
                             self.state["known_signals"].append(sig)
@@ -105,7 +98,6 @@ class BaselineAgent:
             elif action["type"] == "give_up":
                 break
                 
-            # Log
             step = TrajectoryStep(
                 run_id=run_id,
                 step=step_num,

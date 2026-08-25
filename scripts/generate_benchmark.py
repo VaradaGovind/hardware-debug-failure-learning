@@ -12,9 +12,7 @@ def generate_benchmark(base_dir):
 
     bugs_metadata = []
 
-    # ---------------------------------------------------------
-    # 1. FIFO
-    # ---------------------------------------------------------
+# Fifo
     fifo_base = """
 module fifo(input clk, input rst_n, input write_en, input [7:0] write_data, input read_en, output reg [7:0] read_data, output full, output empty);
     reg [7:0] mem [0:15]; reg [4:0] write_ptr; reg [4:0] read_ptr; reg [5:0] count;
@@ -54,9 +52,7 @@ endmodule
     # Adversarial (Bug 6): The bug is actually the clock/reset (clk inverted or reset held), but the symptom is the same. Usually clk is a dead-end to query. We simulate this by breaking the write enable via a phantom reset block
     write_fifo("fifo_b6", "rst_bug", "assign full=(count==16); assign empty=(count==0);", "write_ptr<=(write_ptr+1)%16;", "read_ptr<=(read_ptr+1)%16;", "if(!rst_n) count<=0; else if(write_en&&!full&&read_en&&!empty) count<=count; else if(write_en&&!full) count<=count+1; else if(read_en&&!empty) count<=count-1;", "Data Mismatch", ["rst_n"])
 
-    # ---------------------------------------------------------
-    # 2. AXI-like
-    # ---------------------------------------------------------
+    # AXI-like
     axi_base = """
 module axi_like(input clk, input rst_n, input valid_in, output ready_out, output reg valid_out, input ready_in);
     {logic}
@@ -85,9 +81,7 @@ endmodule
     write_axi("axi_b5", "stuck_ready", "assign ready_out=1; always @(posedge clk) valid_out <= 0;", "Timeout", ["valid_out"])
     write_axi("axi_b6", "adv_valid_in_drop", "assign ready_out=1; always @(posedge clk) valid_out <= valid_in & 0;", "Timeout", ["valid_in"]) # Adversarial: usually valid_in is given, but we drop it internally simulating a downstream drop
 
-    # ---------------------------------------------------------
-    # 3. FSM
-    # ---------------------------------------------------------
+# FSM
     fsm_base = """
 module fsm(input clk, input rst_n, input start, output reg done);
     reg [1:0] state;
@@ -119,9 +113,7 @@ endmodule
     write_fsm("fsm_b5", "done_glitch", "state<=0;done<=0;", "case(state) 0: if(start) state<=1; 1: state<=2; 2: begin state<=0; done<=0; end endcase", "Stuck State", ["done"])
     write_fsm("fsm_b6", "start_ignored", "state<=0;done<=0;", "case(state) 0: if(!start) state<=1; 1: state<=2; 2: begin state<=0; done<=1; end endcase", "Stuck State", ["start"]) # Adv
 
-    # ---------------------------------------------------------
-    # 4. Pipeline
-    # ---------------------------------------------------------
+    # Pipeline
     pipe_base = """
 module pipeline(input clk, input rst_n, input valid_in, input [7:0] d_in, output reg valid_out, output reg [7:0] d_out);
     reg v1; reg [7:0] d1;
@@ -153,9 +145,7 @@ endmodule
     write_pipe("pipe_b5", "data_corrupt", "v1<=0; valid_out<=0;", "v1<=valid_in; d1<=d_in; valid_out<=v1; d_out<=0;", "Data Loss", ["d_out"])
     write_pipe("pipe_b6", "d_in_corrupt", "v1<=0; valid_out<=0;", "v1<=valid_in; d1<=0; valid_out<=v1; d_out<=d1;", "Data Loss", ["d_in"])
 
-    # ---------------------------------------------------------
-    # 5. UART
-    # ---------------------------------------------------------
+# Uart
     uart_base = """
 module uart(input clk, input rst_n, input start, output reg tx);
     reg [2:0] cnt;

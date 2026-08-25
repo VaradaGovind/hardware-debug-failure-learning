@@ -18,29 +18,28 @@ def generate_report(df: pd.DataFrame, davr: float, out_dir: str):
     
     report_content = f"""# Failure Learning for Hardware Debug Agents
 
-## Problem
+# Problem
 Hardware-debugging agents often get stuck in repetitive dead-end investigation paths. 
 
-## Hypothesis
+# Hypothesis
 Failed debugging experience can be converted into reusable negative search constraints that reduce future search cost without harming correctness.
 
-## Results
+# Results
 I investigated whether hardware-debugging agents can learn from failed RCA trajectories rather than only successful ones. I built a lightweight failure-learning layer that logs tool-use trajectories over seeded RTL bugs, mines recurring context-dependent dead-end patterns, and turns them into soft negative search constraints. On held-out bugs, I compared a baseline agent against the constraint-aware version under matched tool budgets, measuring RCA success, waveform queries, simulation runs, and repeated dead-end behavior. The goal is not to replace an RCA system, but to test whether failed debugging experience can become reusable knowledge that reduces future search cost without harming correctness.
 
-### Metrics
+# Metrics
 - **Baseline Success Rate:** {b_success:.1f}%
 - **Constrained Success Rate:** {c_success:.1f}%
 - **Baseline Tool Calls/Bug:** {b_tools:.1f}
 - **Constrained Tool Calls/Bug:** {c_tools:.1f}
 - **Dead-End Avoidance Rate (DAVR):** {davr*100:.1f}%
 
-### Conclusion
+# Conclusion
 The constrained agent successfully used negative constraints to avoid the dead-end `downstream_ready` check, resulting in a higher success rate and fewer wasted tool calls on average!
 """
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, 'results.md'), 'w') as f:
         f.write(report_content)
-
 
 def main():
     raw_results_dir = os.path.join("results", "raw")

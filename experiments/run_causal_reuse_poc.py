@@ -51,9 +51,7 @@ def main():
     print("ARGUS PHASE 2: VERIFIED CAUSAL RCA REUSE — 4-FAILURE PROOF-OF-CONCEPT")
     print("=" * 80)
 
-    # -------------------------------------------------------------------------
-    # STEP 1: Simulate all 4 failures to ensure clean waveforms
-    # -------------------------------------------------------------------------
+    # Simulate all 4 failures to ensure clean waveforms
     print("\n[STEP 1] Simulating 4 Controlled FIFO Failures...")
     failure_sim_outputs = {}
     failure_vcds = {}
@@ -67,9 +65,7 @@ def main():
             failure_rtls[f_id] = f.read()
         print(f"  {f_id}: {sim_res.get('output', '').strip().splitlines()[-2] if len(sim_res.get('output', '').strip().splitlines()) >= 2 else sim_res.get('output', '').strip()}")
 
-    # -------------------------------------------------------------------------
-    # STEP 2: Run Full RCA on F1 (Source Failure)
-    # -------------------------------------------------------------------------
+    # Run Full RCA on F1 (Source Failure)
     print("\n[STEP 2] Running Independent Full RCA on Source Failure (F1)...")
     t0_rca_f1 = time.time()
     agent_f1 = ModelB_StrongCausalAgent(simulator, waveform, search, logger, seed=42, budget=12)
@@ -97,9 +93,7 @@ def main():
             
     print(f"  F1 RCA Completed: {outcome_f1} in {summ_f1['steps']} steps ({summ_f1['waveform_queries']} waveform queries, {t_elapsed_rca_f1:.1f} ms)")
 
-    # -------------------------------------------------------------------------
-    # STEP 3: Extract Machine-Checkable Causal Certificate C1
-    # -------------------------------------------------------------------------
+    # Extract Machine-Checkable Causal Certificate C1
     print("\n[STEP 3] Extracting Causal Certificate C1 from F1 RCA...")
     t0_cert = time.time()
     cert_f1 = CausalCertificate(
@@ -147,9 +141,7 @@ def main():
         json.dump(cert_f1.to_dict(), f, indent=2)
     print(f"  Causal Certificate C1 saved to {cert_file}")
 
-    # -------------------------------------------------------------------------
-    # STEP 4: Machine-Checkable Validation Across F1, F2, F3, F4
-    # -------------------------------------------------------------------------
+    # Machine-Checkable Validation Across F1, F2, F3, F4
     print("\n[STEP 4] Executing Machine-Checkable Certificate Validation on All 4 Cases...")
     validation_results = {}
     validation_costs = {}
@@ -173,9 +165,7 @@ def main():
     with open(os.path.join(valid_dir, "validation_results.json"), "w", encoding="utf-8") as f:
         json.dump(validation_results, f, indent=2)
 
-    # -------------------------------------------------------------------------
-    # STEP 5: Evaluate Independent Full RCA on F2, F3, F4 for Cost Comparison
-    # -------------------------------------------------------------------------
+    # Evaluate Independent Full RCA on F2, F3, F4 for Cost Comparison
     print("\n[STEP 5] Measuring Independent Full RCA Cost on Target Failures...")
     rca_target_costs = {}
     
@@ -210,9 +200,7 @@ def main():
         }
         print(f"  Full RCA({f_id}): {out_t} in {summ_t['steps']} steps ({summ_t['waveform_queries']} WF queries, {t_el_t:.1f} ms)")
 
-    # -------------------------------------------------------------------------
-    # STEP 6: Evaluate Baseline Similarity Comparisons
-    # -------------------------------------------------------------------------
+    # Evaluate Baseline Similarity Comparisons
     print("\n[STEP 6] Evaluating Similarity Baselines (Log, Structural, Semantic)...")
     baseline_matrix = []
     
@@ -249,9 +237,7 @@ def main():
     print("\nSIMILARITY BASELINE COMPARISON TABLE:")
     print(df_baselines.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # STEP 7: Robustness & Temporal Invariance Testing
-    # -------------------------------------------------------------------------
+    # Robustness & Temporal Invariance Testing
     print("\n[STEP 7] Testing Certificate Robustness across Stimulus & Timing Variations...")
     # Test invariance by generating altered stimulus testbenches with shifted cycle offsets
     # and verifying whether validate_certificate still succeeds for Defect X and fails for Defect Y
@@ -327,9 +313,7 @@ endmodule
     print(f"  Robustness Test (Shifted Defect X Stimulus) -> {rob_pos_dec['decision']} (Expected: PASS)")
     print(f"  Robustness Test (Shifted Defect Y Stimulus) -> {rob_neg_dec['decision']} (Expected: FAIL)")
 
-    # -------------------------------------------------------------------------
-    # STEP 8: Reuse Decision Policy & Performance Accounting
-    # -------------------------------------------------------------------------
+    # Reuse Decision Policy & Performance Accounting
     print("\n[STEP 8] Simulating Verified Causal RCA Reuse Policy...")
     policy_runs = []
     
@@ -394,9 +378,7 @@ endmodule
     print(f"Total Tool Calls (Baseline): {total_cost_without_reuse}")
     print(f"Total Tool Calls (Reuse):    {total_cost_with_reuse} ({tool_call_reduction * 100:.1f}% reduction)")
 
-    # -------------------------------------------------------------------------
-    # STEP 9: Generate Comparative Plots
-    # -------------------------------------------------------------------------
+    # Generate Comparative Plots
     print("\n[STEP 9] Generating Publication-Quality Plots...")
     
     # Plot 1: Causal Certificate vs Similarity Baselines
@@ -447,9 +429,7 @@ endmodule
     plt.savefig(os.path.join(plots_dir, "rca_vs_validation_cost.png"), dpi=300)
     plt.close()
 
-    # -------------------------------------------------------------------------
-    # STEP 10: Formulate Scientific Research Decision
-    # -------------------------------------------------------------------------
+    # Formulate Scientific Research Decision
     print("\n[STEP 10] Formulating Scientific Decision...")
     
     # Decision Criteria per Phase 2 instructions:
@@ -486,28 +466,26 @@ endmodule
     print(f"  Tool Call Reduction:  {tool_call_reduction * 100:.1f}%")
     print(f"=======================================================\n")
 
-    # -------------------------------------------------------------------------
-    # STEP 11: Write Comprehensive Proof-of-Concept Report
-    # -------------------------------------------------------------------------
+    # Write Comprehensive Proof-of-Concept Report
     report_md = f"""# Argus Phase 2: Verified Causal RCA Reuse — Proof-of-Concept Report
 
-## 1. Research Question
+# Research Question
 Can an autonomous hardware debugging agent transform an expensive Root Cause Analysis (RCA) trajectory into a machine-checkable causal artifact that correctly explains different failure manifestations of the same underlying RTL defect (Hard Positives) while safely rejecting a different defect that produces an identical symptom (Hard Negative)?
 
 ---
 
-## 2. Core Hypothesis
+# Core Hypothesis
 An autonomous hardware debugging agent can transform an expensive RCA trajectory into a machine-checkable causal artifact ($C = \\langle \\text{{Location}}, \\text{{Mechanism}}, \\text{{Trigger}}, \\text{{Propagation}} \\rangle$) that can be validated against another failure directly from observable waveform invariants, allowing the system to reuse the previous RCA and avoid redundant expensive debugging without suffering from false reuse.
 
 ---
 
-## 3. Selected RTL Design
+# Selected RTL Design
 - **Design**: Synthesizable Synchronous FIFO (`fifo.v`)
 - **Properties**: 16-entry depth, 8-bit width, dual read/write pointers (`write_ptr`, `read_ptr`), occupancy counter (`count`), synchronous active-low reset (`rst_n`), status flags (`full`, `empty`), with fully accessible internal signals and deterministic `iverilog` simulation with VCD waveform extraction.
 
 ---
 
-## 4. Four Controlled Failure Definitions
+# Four Controlled Failure Definitions
 
 | Failure ID | Design | Underlying Defect | Injected Mechanism | Stimulus Pattern | Observed Surface Symptom | Ground-Truth Causal Family |
 |---|---|---|---|---|---|---|
@@ -516,13 +494,13 @@ An autonomous hardware debugging agent can transform an expensive RCA trajectory
 | **F3** | FIFO | Defect X | Missing simultaneous R/W hold logic | Continuous push-pop stream $\\to$ verify checksum | `FAIL: Memory Overwrite / Checksum Mismatch` (Symptom C) | Defect_X_Simultaneous_RW |
 | **F4** | FIFO | Defect Y | Off-by-one early empty threshold (`count <= 1`) | Single item write $\\to$ read back | `FAIL: Read Stalled / Data Underflow` (Symptom B) | Defect_Y_Early_Empty_Threshold |
 
-### Key Properties of the Setup:
+# Key Properties of the Setup:
 1. **Hard Positives (F1 $\\leftrightarrow$ F2, F1 $\\leftrightarrow$ F3)**: F1, F2, and F3 share the exact same underlying RTL code defect (Defect X), yet produce completely different surface symptoms (Capacity Mismatch vs. Read Stalled Underflow vs. Memory Overwrite).
 2. **Hard Negative (F2 $\\leftrightarrow$ F4)**: F4 shares the identical surface symptom (`FAIL: Read Stalled / Data Underflow`) and operates on the same internal signals (`count`, `empty`, `read_en`), but possesses a completely different underlying causal mechanism (Defect Y: threshold bug, with no simultaneous R/W counter corruption).
 
 ---
 
-## 5. Ground-Truth Mechanisms & Causal Chains
+# Ground-Truth Mechanisms & Causal Chains
 
 ```text
 Defect X (F1, F2, F3):
@@ -548,7 +526,7 @@ read_en ignored because empty is asserted
 
 ---
 
-## 6. F1 Full RCA Trajectory & Cost
+# F1 Full RCA Trajectory & Cost
 The debugging agent executed a complete, non-leaky causal debugging investigation on F1:
 - **Steps Executed**: {summ_f1['steps']} steps
 - **Tool Calls**: {summ_f1['tool_calls']} tool calls ({summ_f1['waveform_queries']} waveform queries, {summ_f1['simulations']} simulations)
@@ -557,7 +535,7 @@ The debugging agent executed a complete, non-leaky causal debugging investigatio
 
 ---
 
-## 7. Extracted Causal Certificate ($C_1$)
+# Extracted Causal Certificate ($C_1$)
 From the verified F1 RCA trajectory, the system extracted the machine-checkable certificate:
 - **Certificate ID**: `{cert_f1.certificate_id}`
 - **Target Location**: `fifo.count` (Signals: `{', '.join(cert_f1.target_signals)}`)
@@ -567,7 +545,7 @@ From the verified F1 RCA trajectory, the system extracted the machine-checkable 
 
 ---
 
-## 8. Machine-Checkable Validation Algorithm
+# Machine-Checkable Validation Algorithm
 `validate_certificate(certificate, waveform_path, rtl_context)` operates directly on target VCD transitions:
 1. **Trigger Evaluation**: Scans all posedge clock cycles. If `write_en == 1 && read_en == 1 && full == 0 && empty == 0` never occurs $\\to$ returns `FAIL`.
 2. **Causal Anomaly Evaluation**: For all trigger cycles $t$, checks whether `count(t+1) == count(t) + 1`. If count is properly conserved $\\to$ returns `FAIL`.
@@ -576,7 +554,7 @@ From the verified F1 RCA trajectory, the system extracted the machine-checkable 
 
 ---
 
-## 9. Four-Case Validation Results
+# Four-Case Validation Results
 
 | Test Case | Target Failure | Relationship to F1 | Expected Outcome | Actual Validator Decision | Time (ms) | Detailed Reason |
 |---|---|---|:---:|:---:|:---:|---|
@@ -587,7 +565,7 @@ From the verified F1 RCA trajectory, the system extracted the machine-checkable 
 
 ---
 
-## 10. Similarity Baseline Comparison
+# Similarity Baseline Comparison
 
 | Failure Pair | Relationship | Log/Symptom Similarity | RTL Structural Similarity | Semantic Keyword Similarity | Causal Certificate ($C_1$) | Ground-Truth Match |
 |---|---|:---:|:---:|:---:|:---:|:---:|
@@ -596,7 +574,7 @@ From the verified F1 RCA trajectory, the system extracted the machine-checkable 
 | **F1 $\\to$ F4** | Negative (Different Defect Y) | {df_baselines.loc[2, 'Log_Similarity']:.2f} | {df_baselines.loc[2, 'Structural_Similarity']:.2f} | {df_baselines.loc[2, 'Semantic_Similarity']:.2f} | **{df_baselines.loc[2, 'Causal_Certificate']}** | MISMATCH |
 | **F2 $\\to$ F4** | Hard Negative (Same Symptom B) | **{df_baselines.loc[3, 'Log_Similarity']:.2f}** | **{df_baselines.loc[3, 'Structural_Similarity']:.2f}** | **{df_baselines.loc[3, 'Semantic_Similarity']:.2f}** | **{df_baselines.loc[3, 'Causal_Certificate']}** | MISMATCH |
 
-### Baseline Failure Analysis:
+# Baseline Failure Analysis:
 - **Log / Symptom Similarity**: Fails on F1 $\\to$ F2 ({df_baselines.loc[0, 'Log_Similarity']:.2f}) and F1 $\\to$ F3 ({df_baselines.loc[1, 'Log_Similarity']:.2f}) due to different symptom strings, while falsely predicting a match on F2 $\\to$ F4 ({df_baselines.loc[3, 'Log_Similarity']:.2f}).
 - **Structural Similarity**: Fails completely ({df_baselines.loc[0, 'Structural_Similarity']:.2f} across all pairs) because all four designs share the identical FIFO port/register structure.
 - **Semantic Keyword Similarity**: Falsely groups F2 and F4 ({df_baselines.loc[3, 'Semantic_Similarity']:.2f}) based on the shared "underflow/read stalled" keyword domain.
@@ -604,20 +582,20 @@ From the verified F1 RCA trajectory, the system extracted the machine-checkable 
 
 ---
 
-## 11. Robustness & Temporal Invariance
+# Robustness & Temporal Invariance
 - **Shifted Timing & Varied Delays**: Evaluated against testbenches with 50ns initial startup delays, delayed clock enables, and modified burst lengths (2 cycles vs. 8 cycles vs. 12 cycles).
 - **Result**: `validate_certificate` succeeded on all Defect X variations and correctly rejected Defect Y. Because the certificate models invariant state transitions at clock edges rather than hardcoded absolute timestamps (`cycle == N`), it exhibits complete temporal invariance.
 
 ---
 
-## 12. False-Reuse Analysis
+# False-Reuse Analysis
 - **Target Hard Negative**: `fifo_f4` (Defect Y with identical Symptom B).
 - **Validation Outcome on F4**: `FAIL` (Trigger condition never activated; early empty threshold bug operates independently of simultaneous R/W).
 - **False Reuse Rate ($FRR$)**: **{frr:.2f}** (0 incorrect reuses / {reused_count} total reuses).
 
 ---
 
-## 13. Computational Cost Accounting
+# Computational Cost Accounting
 
 | Investigation Mode | Failure Target | Tool Calls | Waveform Queries | Execution Time (ms) |
 |---|---|:---:|:---:|:---:|
@@ -636,16 +614,16 @@ From the verified F1 RCA trajectory, the system extracted the machine-checkable 
 
 ---
 
-## 14. Limitations & Scope
+# Limitations & Scope
 1. **Single Design Scope**: Demonstrated on a FIFO design. Scaling to larger SoC interconnects, complex bus protocols (AXI, AHB), and multi-cycle pipeline controllers requires hierarchical certificate composition.
 2. **Deterministic Simulation**: Demonstrated on deterministic Verilog simulation. Asynchronous clock domain crossing (CDC) glitches may require statistical interval predicates rather than single-edge invariants.
 3. **Pilot Scale**: Evaluated on 4 controlled failure cases. A full benchmark is required to test large-scale reuse coverage and certificate catalog indexing.
 
 ---
 
-## 15. Final Research Decision
+# Final Research Decision
 
-### Recommendation: KEEP
+# Recommendation: KEEP
 
 **Evidence:**
 1. **Hard Positives Accepted**: The causal certificate extracted from F1 successfully validated both F2 (Read Stalled Underflow) and F3 (Memory Overwrite Checksum Mismatch).

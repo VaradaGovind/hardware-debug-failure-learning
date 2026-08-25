@@ -15,20 +15,17 @@ class TrajectoryLogger:
 
     def log_summary(self, summary: TrajectorySummary):
         self.summary = summary
-        # update all steps with final outcome
         for step in self.steps:
             step.global_outcome = summary.final_outcome
         
         self._flush(summary.run_id)
 
     def _flush(self, run_id: str):
-        # Write steps to JSONL
         filepath = os.path.join(self.log_dir, f"{run_id}.jsonl")
         with open(filepath, 'w') as f:
             for step in self.steps:
                 f.write(json.dumps(step.__dict__) + "\n")
         
-        # Write summary to JSON
         summary_filepath = os.path.join(self.log_dir, f"{run_id}_summary.json")
         with open(summary_filepath, 'w') as f:
             json.dump(self.summary.__dict__, f, indent=2)

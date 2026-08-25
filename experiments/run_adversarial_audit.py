@@ -64,7 +64,7 @@ def main():
     print("ARGUS PHASE 2: ADVERSARIAL SCIENTIFIC AUDIT OF CAUSAL RCA REUSE")
     print("=" * 85)
 
-    # 1. Simulate all 7 failures to ensure fresh waveforms
+    # Simulate all 7 failures to ensure fresh waveforms
     print("\n[STEP 1] Simulating all 7 Adversarial Test Cases...")
     sim_outputs = {}
     vcd_paths = {}
@@ -78,7 +78,7 @@ def main():
             rtl_contents[f_id] = f.read()
         print(f"  {f_id}: {res.get('output', '').strip().splitlines()[-2] if len(res.get('output', '').strip().splitlines()) >= 2 else res.get('output', '').strip()}")
 
-    # 2. Run 4-Tier Validator Ablation Suite on all 7 cases
+    # Run 4-Tier Validator Ablation Suite on all 7 cases
     print("\n[STEP 2] Running 4-Tier Validator Ablation Matrix (L1..L4 + NoTemporalOrder)...")
     ablation_records = []
     
@@ -111,7 +111,7 @@ def main():
 
     df_ablation.to_csv(os.path.join(processed_dir, "validator_ablation_matrix.csv"), index=False)
 
-    # 3. Evaluate Advanced Waveform / Structural Similarity Baseline
+    # Evaluate Advanced Waveform / Structural Similarity Baseline
     print("\n[STEP 3] Evaluating Advanced Multi-Modal Similarity Baseline...")
     comparison_pairs = [
         ("fifo_f1", "fifo_f2", "Hard Positive 1 (Same Defect X, Diff Symptom B)"),
@@ -156,7 +156,7 @@ def main():
     print(df_sim[["Pair", "Relationship", "Waveform_Sig_Sim", "Composite_Similarity", "Causal_Validator", "Ground_Truth"]].to_string(index=False))
     df_sim.to_csv(os.path.join(processed_dir, "advanced_similarity_comparison.csv"), index=False)
 
-    # 4. Certificate Stability & Canonicalization Audit
+    # Certificate Stability & Canonicalization Audit
     print("\n[STEP 4] Auditing Certificate Stability Across Multiple Agent Runs...")
     agent_seeds = [42, 101, 2024]
     extracted_certs = []
@@ -190,7 +190,7 @@ def main():
     )
     print(f"  Certificate Semantic Equivalence across 3 Seeds: {'STABLE (100% Consistent)' if cert_consistency_match else 'UNSTABLE'}")
 
-    # 5. Robustness & Invariance Tests Across Controlled Variations
+    # Robustness & Invariance Tests Across Controlled Variations
     print("\n[STEP 5] Testing Transfer Robustness Across Parameterized Variations...")
     rob_variations = [
         {"name": "Startup Delay 100ns", "delay": 100, "burst": 4, "expected": "PASS"},
@@ -216,7 +216,7 @@ module tb;
         $dumpfile("{norm_base}/rtl/{tb_name}.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 8'h11;
-        #{var['delay']} rst_n = 1;
+        # {var['delay']} rst_n = 1;
         #20 write_en = 1; write_data = 8'h01;
         #10 write_en = 0;
         repeat({var['burst']}) begin
@@ -243,7 +243,7 @@ endmodule
         })
         print(f"  {var['name']} -> Actual: {val_res['decision']} (Expected: {var['expected']})")
 
-    # 6. Complete Cost Accounting: Total Reuse Path vs Independent RCA
+    # Complete Cost Accounting: Total Reuse Path vs Independent RCA
     print("\n[STEP 6] Complete Cost Accounting & Latency Breakdown...")
     cost_accounting = []
     f1_rca_tool_calls = 8
@@ -306,7 +306,7 @@ endmodule
     print(f"Total Tool Calls (Baseline): {total_ind_calls}")
     print(f"Total Tool Calls (Reuse):    {total_reuse_calls} ({overall_savings_pct:.1f}% reduction)")
 
-    # 7. Generate Plots
+    # Generate Plots
     print("\n[STEP 7] Generating Visualization Plots...")
     
     fig, ax = plt.subplots(figsize=(11, 5))
@@ -347,7 +347,7 @@ endmodule
     plt.savefig(os.path.join(plots_dir, "full_cost_accounting.png"), dpi=300)
     plt.close()
 
-    # 8. Decision Formulation
+    # Decision Formulation
     f5_l1_pass = (df_ablation[df_ablation["Failure_ID"] == "fifo_f5"]["L1_TriggerOnly"].values[0] == "PASS")
     f5_l2_fail = (df_ablation[df_ablation["Failure_ID"] == "fifo_f5"]["L2_TriggerState"].values[0] == "FAIL")
     f7_l2_pass = (df_ablation[df_ablation["Failure_ID"] == "fifo_f7"]["L2_TriggerState"].values[0] == "PASS")
@@ -368,7 +368,7 @@ endmodule
     print(f"Classification: {mechanism_classification}")
     print(f"=======================================================\n")
 
-    # 9. Generate Report Content Cleanly
+    # Generate Report Content Cleanly
     report_lines = [
         "# Argus Phase 2: Adversarial Scientific Audit Report",
         "",

@@ -9,7 +9,6 @@ class PatternMiner:
         self.log_dir = log_dir
 
     def mine_constraints(self, source: str = "both", confidence_threshold: float = 0.8) -> List[NegativeConstraint]:
-        # source can be 'positive', 'negative', 'both'
         failed_runs = []
         successful_runs = []
         
@@ -18,15 +17,14 @@ class PatternMiner:
                 with open(os.path.join(self.log_dir, file), "r") as f:
                     summary = json.load(f)
                     
-                    # Prevent Leakage: Only learn from the training set (fifo_b1 to fifo_b3)
-                    # We also learn from fifo_b4 during Phase 3 if it was included in train_bugs, wait, the manifest said train is b1-b3.
+                    # Only mine constraints from training set instances
                     run_id = summary["run_id"]
                     try:
                         with open(os.path.join(self.log_dir, f"{run_id}.jsonl"), "r") as lfile:
                             line1 = json.loads(lfile.readline())
                             task_id = line1["task_id"]
                             if task_id not in ["fifo_b1", "fifo_b2", "fifo_b3", "fifo_b4"]:
-                                continue # Skip test set tasks
+                                continue
                     except:
                         continue
 
@@ -37,12 +35,10 @@ class PatternMiner:
         
         action_counts = {}
         
-        # Determine which runs to mine from based on source
         mining_runs = []
         if source in ["negative", "both"]:
             mining_runs.extend(failed_runs)
         if source in ["positive", "both"]:
-            # If positive-only, we treat actions in successful runs that were NOT root causes as dead-ends to avoid
             mining_runs.extend(successful_runs)
             
         for run_id in mining_runs:
@@ -62,7 +58,6 @@ class PatternMiner:
         for sig, stats in action_counts.items():
             action_type, module, signals = sig.split(":")
             
-            # Count actual occurrences in successful runs (for filtering)
             success_occurrences = 0
             for run_id in successful_runs:
                 with open(os.path.join(self.log_dir, f"{run_id}.jsonl"), "r") as f:
@@ -73,8 +68,6 @@ class PatternMiner:
             
             fail_count = stats["count"]
             if source == "positive":
-                # For positive-only ablation, we just penalize anything that isn't frequent in success
-                # (This is a naive baseline to show why failure learning is better)
                 if fail_count > success_occurrences:
                     confidence = 0.5
                 else:

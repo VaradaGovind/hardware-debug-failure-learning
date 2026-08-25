@@ -3,19 +3,7 @@ import json
 from typing import Dict, Any, Optional
 
 class AdaptiveReusePolicy:
-    """
-    Conservative Online Reuse Decision Policy for Adaptive Transaction-Semantic RCA.
-    
-    Decision Rules:
-    - PASS: Safely reuse existing RCA (bypasses expensive independent diagnosis).
-    - FAIL: Certificate disproven on target. Fallback to independent RCA.
-    - INSUFFICIENT_EVIDENCE: Preconditions or boundaries incomplete. 
-                            DO NOT REUSE. Fallback to independent RCA.
-    
-    SAFETY PRINCIPLE:
-    INSUFFICIENT_EVIDENCE is never converted to PASS. It strictly guards against false reuse.
-    Zero access to benchmark labels, defect IDs, or ground-truth metadata.
-    """
+    """Conservative reuse decision policy for transaction-semantic RCA."""
     def __init__(self, validation_cost_calls: float = 2.0, 
                  independent_rca_cost_calls: float = 8.9,
                  cert_extraction_cost_calls: float = 0.6):
@@ -45,7 +33,7 @@ class AdaptiveReusePolicy:
             policy_action = "FALLBACK_INDEPENDENT_RCA"
             incurred_cost = self.validation_cost_calls + self.independent_rca_cost_calls
             safe_to_reuse = False
-        else: # INSUFFICIENT_EVIDENCE
+        else:
             policy_action = "FALLBACK_INDEPENDENT_RCA"
             incurred_cost = self.validation_cost_calls + self.independent_rca_cost_calls
             safe_to_reuse = False

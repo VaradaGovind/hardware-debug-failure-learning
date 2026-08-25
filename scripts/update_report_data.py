@@ -9,7 +9,7 @@ report_path = os.path.join(blind_dir, "reports", "phase4_1_blind_validation_repo
 
 df = pd.read_csv(scored_csv)
 
-# 1. Category accuracy
+# Category accuracy
 cat_stats = []
 for cat in ["A_SAME_DEFECT", "B_SAME_DEFECT", "C_SAME_TRIGGER", "D_SAME_INVARIANT_DIFF_SEMANTICS", "E_INSUFFICIENT_EVIDENCE", "F_UNRELATED"]:
     df_c = df[df["category"] == cat]
@@ -20,7 +20,7 @@ for cat in ["A_SAME_DEFECT", "B_SAME_DEFECT", "C_SAME_TRIGGER", "D_SAME_INVARIAN
     exp = df_c["expected_decision"].iloc[0]
     cat_stats.append((cat, cnt, exp, l0_acc, l1_acc, l2_acc))
 
-# 2. Main metrics
+# Main metrics
 def calc(col):
     reused = (df[col] == "PASS").values
     matches = (df["ground_truth_match"] == "MATCH").values
@@ -48,7 +48,7 @@ p_no_temp, f_no_temp, _, n_no_temp, _, _, _, fp_no_temp, tot_no_temp = calc("abl
 
 report_content = f"""# Argus Phase 4.1: Blind Held-Out Validation of Transaction-Semantic Causal RCA Reuse Report
 
-## 1. Executive Summary & Experimental Integrity
+# Executive Summary & Experimental Integrity
 Phase 4.1 conducted a strictly blind, held-out adversarial validation of the frozen Phase 4 Transaction-Semantic Causal Certificate framework across 50 unseen hardware failure instances in 5 hardware families (FIFO, AXI, FSM, UART, PIPELINE).
 
 **Integrity Guarantees:**
@@ -58,7 +58,7 @@ Phase 4.1 conducted a strictly blind, held-out adversarial validation of the fro
 
 ---
 
-## 2. Benchmark Composition & Category Breakdown
+# Benchmark Composition & Category Breakdown
 
 | Category | Description | Instances | Expected Decision | L0 Accuracy | L1 Accuracy | L2 Accuracy |
 |---|---|:---:|:---:|:---:|:---:|:---:|
@@ -72,7 +72,7 @@ Phase 4.1 conducted a strictly blind, held-out adversarial validation of the fro
 
 ---
 
-## 3. Decisive Category D Adversarial Findings & Diagnosis
+# Decisive Category D Adversarial Findings & Diagnosis
 Category D represents the decisive adversarial test: failure instances where low-level signal invariants (STABILITY, CONSERVATION) were identical between legitimate hardware behavior and faulty hardware behavior.
 - **L0 & L1 (Low-Level Certificates)**: Evaluated to `UNKNOWN` or `FAIL` based on static signal scopes, but lacked awareness of transaction contracts.
 - **L2 (Transaction-Semantic Certificates)**: Correctly detected that the target test stimulus never initiated the required transaction preconditions (`start == 1`, `valid_in == 1`, `write_en == 1 & read_en == 1`) and issued `INSUFFICIENT_EVIDENCE`, successfully preventing false reuse.
@@ -80,7 +80,7 @@ Category D represents the decisive adversarial test: failure instances where low
 
 ---
 
-## 4. Main Performance Comparison Matrix (50 Held-Out Failures)
+# Main Performance Comparison Matrix (50 Held-Out Failures)
 
 | Framework | Reuse Precision | False Reuse Rate (FRR) | Positive Transfer / Recall | Negative Rejection Rate | Compute Reduction | Search Compression Ratio |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -90,7 +90,7 @@ Category D represents the decisive adversarial test: failure instances where low
 
 ---
 
-## 5. Information Value & Semantic Ablation Study
+# Information Value & Semantic Ablation Study
 
 | Configuration | Total Reuses | False Reuses | Reuse Precision | False Reuse Rate (FRR) | Negative Rejection Rate |
 |---|:---:|:---:|:---:|:---:|:---:|
@@ -103,7 +103,7 @@ Category D represents the decisive adversarial test: failure instances where low
 
 ---
 
-## 6. Failure Analysis on Held-Out Data
+# Failure Analysis on Held-Out Data
 1. **Positive Transfer Degradation (Category A: 33.3%)**:
    - Out of 15 positive controls, only 5 passed under frozen L2.
    - 10 cases failed because new stimulus burst lengths and cycle delays (e.g. #15, #25 delays) caused transaction window truncation (`active_window_cycles = 3` or `4` was too rigid for variable-length transactions).
@@ -114,16 +114,16 @@ Category D represents the decisive adversarial test: failure instances where low
 
 ---
 
-## 7. Claim Boundaries: What is Proven vs Unproven
+# Claim Boundaries: What is Proven vs Unproven
 - **What the experiment DEMONSTRATES**: Rigid, static transaction windowing does NOT generalize autonomously to variable-length held-out stimulus sequences.
 - **What the experiment PROVIDES EVIDENCE FOR**: Transaction obligations improve negative rejection (94.3% vs 88.6%) and precision (0.714 vs 0.556), but require adaptive protocol transaction boundary extraction.
 - **What REMAINS UNPROVEN**: Automated, zero-annotation causal certificate transfer on arbitrary arbitrary testbench stimulus without standardized protocol monitors.
 
 ---
 
-## 8. Final Research Decision
+# Final Research Decision
 
-### Recommendation: KILL (as a standalone autonomous certificate representation) / MODIFY (for adaptive protocol-aware transaction monitoring)
+# Recommendation: KILL (as a standalone autonomous certificate representation) / MODIFY (for adaptive protocol-aware transaction monitoring)
 
 **Scientific Justification:**
 1. **Positive Transfer Collapse**: Positive causal reuse dropped from 100% on the 6 motivating Phase 4 cases to **33.3%** on held-out stimulus.

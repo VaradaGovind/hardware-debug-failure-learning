@@ -11,7 +11,6 @@ class WaveformTool:
         if not os.path.exists(vcd_path):
              return {"success": False, "error": f"VCD not found: {vcd_path}", "data": {}}
              
-        # We will do a basic parse using pyvcd tokenize
         signal_map = {}
         id_to_name = {}
         

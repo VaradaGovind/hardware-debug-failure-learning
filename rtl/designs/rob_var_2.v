@@ -31,7 +31,7 @@ module fifo(
                 read_data <= mem[read_ptr];
                 read_ptr <= (read_ptr + 1) % 16;
             end
-            // DEFECT X: Missing simultaneous RW handling (increments on simultaneous RW)
+            // Missing simultaneous RW handling (increments on simultaneous RW)
             if (write_en && !full)
                 count <= count + 1;
             else if (read_en && !empty)

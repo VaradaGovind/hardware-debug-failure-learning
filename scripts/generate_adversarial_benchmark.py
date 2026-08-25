@@ -12,9 +12,7 @@ def generate_adversarial_benchmark(base_dir: str):
     
     norm_base = base_dir.replace("\\", "/")
     
-    # -------------------------------------------------------------------------
-    # 1. RTL DESIGNS
-    # -------------------------------------------------------------------------
+# Rtl designs
     
     # Defect X (F1, F2, F3, F6): Missing simultaneous R/W counter hold logic
     rtl_defect_x = """
@@ -228,9 +226,7 @@ endmodule
     with open(os.path.join(designs_dir, "fifo_f6.v"), "w", encoding="utf-8") as f: f.write(rtl_defect_x)
     with open(os.path.join(designs_dir, "fifo_f7.v"), "w", encoding="utf-8") as f: f.write(rtl_defect_w)
 
-    # -------------------------------------------------------------------------
-    # 2. TESTBENCHES
-    # -------------------------------------------------------------------------
+# Testbenches
 
     # F5 Testbench: Exercises Simultaneous R/W Trigger, manifests Symptom B (Read Stalled / Data Underflow)
     tb_f5 = f"""
@@ -264,7 +260,7 @@ module tb;
         #10 read_en = 1;
         #10 read_en = 1;
         #10 read_en = 0;
-        #10;
+        # 10;
         if (dut.read_ptr !== 12 || dut.count !== 2) begin
             $display("FAIL: Read Stalled / Data Underflow");
         end
@@ -303,7 +299,7 @@ module tb;
         #10 write_en = 0; read_en = 0;
 
         // Check occupancy: count should be 1, but in Defect X count is 4!
-        #10;
+        # 10;
         if (dut.count !== 1) begin
             $display("FAIL: Occupancy Desynchronization / Flag Glitch");
         end
@@ -342,7 +338,7 @@ module tb;
         #10 read_en = 1;
         #10 read_en = 1;
         #10 read_en = 0;
-        #10;
+        # 10;
         // The failure symptom is due to read_data corrupted at read_ptr == 2, NOT count propagation
         if (read_data !== 8'h83) begin
             $display("FAIL: Data Corruption / Unrelated Bus Fault");
@@ -357,9 +353,7 @@ endmodule
     with open(os.path.join(tb_dir, "fifo_f6_tb.v"), "w", encoding="utf-8") as f: f.write(tb_f6)
     with open(os.path.join(tb_dir, "fifo_f7_tb.v"), "w", encoding="utf-8") as f: f.write(tb_f7)
 
-    # -------------------------------------------------------------------------
-    # 3. GROUND TRUTH METADATA
-    # -------------------------------------------------------------------------
+# Ground truth metadata
     gt_adversarial = [
         {
             "failure_id": "fifo_f1",

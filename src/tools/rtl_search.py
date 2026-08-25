@@ -15,7 +15,6 @@ class RTLSearchTool:
         with open(design_file, 'r') as f:
             content = f.read()
 
-        # Basic regex parsing to find ports and internal signals
         ports = re.findall(r'(input|output)\s+(?:wire|reg)?\s*(?:\[.*\])?\s*(\w+)', content)
         internals = re.findall(r'(wire|reg)\s*(?:\[.*\])?\s*(\w+)\s*;', content)
         
@@ -41,7 +40,6 @@ class RTLSearchTool:
         used_in = []
         
         for i, line in enumerate(lines):
-            # very naive heuristic
             if re.search(rf'\b{signal}\b\s*<=', line) or re.search(rf'assign\s+\b{signal}\b', line):
                 assigned_in.append(i + 1)
             elif re.search(rf'\b{signal}\b', line):

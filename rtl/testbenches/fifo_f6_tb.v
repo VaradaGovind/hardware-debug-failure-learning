@@ -25,7 +25,7 @@ module tb;
         #20 write_en = 1; read_en = 1; write_data = 8'hC4;
         #10 write_en = 0; read_en = 0;
 
-        // Check occupancy: count should be 1, but in Defect X count is 4!
+        // Check occupancy: count should be 1
         #10;
         if (dut.count !== 1) begin
             $display("FAIL: Occupancy Desynchronization / Flag Glitch");

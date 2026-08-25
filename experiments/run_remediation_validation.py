@@ -43,10 +43,10 @@ def main():
                 family_certificates[fam_id] = GenericCausalCertificate.from_dict(json.load(f))
                 
     # Initialize Validators
-    # 1. Frozen Phase 3 Original Validator
+    # Frozen Phase 3 Original Validator
     v_orig = GenericCertificateValidator()
     
-    # 2. Phase 3.1 Remediated Validator Variants (Ablations)
+    # Phase 3.1 Remediated Validator Variants (Ablations)
     v_dyn_only = RemediatedCertificateValidator(enable_dynamic_trigger=True, enable_sufficiency=False, enable_reset_awareness=False)
     v_suff_only = RemediatedCertificateValidator(enable_dynamic_trigger=False, enable_sufficiency=True, enable_reset_awareness=False)
     v_reset_only = RemediatedCertificateValidator(enable_dynamic_trigger=False, enable_sufficiency=False, enable_reset_awareness=True)
@@ -56,9 +56,7 @@ def main():
     print("ARGUS PHASE 3.1: REMEDIATION & PAIRED INDEPENDENT RE-VALIDATION GATE")
     print("=" * 85)
 
-    # -------------------------------------------------------------------------
-    # 1. ADVERSARIAL REGRESSION CHECK (PHASE 2 HARD NEGATIVES)
-    # -------------------------------------------------------------------------
+    # Adversarial regression check (phase 2 hard negatives)
     print("\n[STEP 1] Running Adversarial Regression Checks on Phase 2 Hard Negatives...")
     adv_results = {}
     cert_fifo = family_certificates["FIFO_SIMULTANEOUS_RW"]
@@ -71,9 +69,7 @@ def main():
             adv_results[adv_f] = {"orig": adv_orig, "remed": adv_remed, "expected": expected}
             print(f"  {adv_f} -> Original: {adv_orig} | Remediated: {adv_remed} (Expected: {expected})")
 
-    # -------------------------------------------------------------------------
-    # 2. PAIRED RE-EVALUATION OF ALL 100 PHASE 3 TARGET FAILURES
-    # -------------------------------------------------------------------------
+    # Paired re-evaluation of all 100 phase 3 target failures
     print("\n[STEP 2] Executing Paired Evaluation on Exact Same 100 Target Failures...")
     
     target_instances = [m for m in benchmark_metadata if m["sub_id"] != "s1"]
@@ -127,9 +123,7 @@ def main():
     df_paired.to_csv(os.path.join(processed_dir, "paired_remediation_records.csv"), index=False)
     print(f"  Paired evaluation complete across {len(df_paired)} target failures.")
 
-    # -------------------------------------------------------------------------
-    # 3. PAIRED CASE-LEVEL TRANSITION MATRIX
-    # -------------------------------------------------------------------------
+# Paired case-level transition matrix
     print("\n[STEP 3] Computing Paired Case-Level Transition Matrix...")
     transition_matrix = pd.crosstab(
         df_paired["original_decision"],
@@ -141,9 +135,7 @@ def main():
     print("\nPAIRED TRANSITION MATRIX (100 Target Failures):")
     print(transition_matrix.to_string())
 
-    # -------------------------------------------------------------------------
-    # 4. DIAGNOSIS OF ALL PREVIOUS ERRORS (6 FALSE REUSES + MISSED POSITIVES)
-    # -------------------------------------------------------------------------
+    # Diagnosis of all previous errors (6 false reuses + missed positives)
     print("\n[STEP 4] Diagnosing Previous Errors...")
     
     # Audit 6 previous false reuses (Original = PASS, GT = MISMATCH)
@@ -174,9 +166,7 @@ def main():
     fn_count = len(new_fn)
     print(f"\nLegitimate Reuses Lost (Original=PASS, Remediated!=PASS on true positive): {fn_count} cases.")
 
-    # -------------------------------------------------------------------------
-    # 5. RECOMPUTE PRIMARY METRICS WITH FAMILY-LEVEL BOOTSTRAP CIs
-    # -------------------------------------------------------------------------
+    # RECOMPUTE PRIMARY METRICS WITH FAMILY-LEVEL BOOTSTRAP CIs
     print("\n[STEP 5] Recomputing Primary Metrics & Family-Level Bootstrap CIs...")
     
     def compute_policy_metrics(dec_col, df):
@@ -270,9 +260,7 @@ def main():
     print("\nPAIRED FRAMEWORK COMPARISON TABLE:")
     print(comparison_df.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 6. INDEPENDENT REMEDIATION MECHANISM ABLATIONS
-    # -------------------------------------------------------------------------
+# Independent remediation mechanism ablations
     print("\n[STEP 6] Evaluating Independent Remediation Mechanism Contributions...")
     abl_evals = [
         ("Original Phase 3 Validator", "original_decision"),
@@ -298,9 +286,7 @@ def main():
     print("\nINDEPENDENT REMEDIATION MECHANISM ABLATIONS:")
     print(df_abl_summary.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 7. GENERATE PUBLICATION-QUALITY COMPARISON PLOTS
-    # -------------------------------------------------------------------------
+# Generate publication-quality comparison plots
     print("\n[STEP 7] Generating Comparison Plots...")
     
     # Plot 1: Coverage vs FRR Before & After
@@ -376,9 +362,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "cost_and_scr_comparison.png"), dpi=300)
     plt.close()
 
-    # -------------------------------------------------------------------------
-    # 8. SCIENTIFIC DECISION FORMULATION
-    # -------------------------------------------------------------------------
+# Scientific decision formulation
     # Criteria:
     # KEEP if:
     # - False reuse is eliminated or substantially reduced (FRR <= 0.05)
@@ -408,9 +392,7 @@ def main():
     print(f"Search Compression:   {m_rem['search_compression_ratio']:.2f}x (was {m_orig['search_compression_ratio']:.2f}x)")
     print("=" * 85 + "\n")
 
-    # -------------------------------------------------------------------------
-    # 9. GENERATE AUDIT REPORT
-    # -------------------------------------------------------------------------
+# Generate audit report
     report_lines = [
         "# Argus Phase 3.1: Remediation & Independent Re-Validation Audit Report",
         "",

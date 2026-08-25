@@ -52,8 +52,6 @@ class TriggerStateOnlyValidator:
             
             if write_en == 1 and read_en == 1 and full_prev == 0 and empty_prev == 0:
                 trigger_cycles.append(i)
-                # Invariant: occupancy count should remain unchanged across simultaneous R/W
-                # Defect anomaly: count increments across the clock edge (count_after == count_before + 1)
                 count_before = prev_state.get("count", 0)
                 count_after = curr_state.get("count", 0)
                 if count_after == count_before + 1:
@@ -103,8 +101,6 @@ class TriggerStatePropagationValidator:
         if not anomaly_cycles:
             return {"decision": "FAIL", "reason": "Trigger occurred but count was properly held constant."}
             
-        # Check propagation: count desynchronizes from true pointer occupancy ((write_ptr - read_ptr) % 16)
-        # and remains corrupted downstream leading up to test completion
         desync_cycles = []
         first_anomaly_idx = min(anomaly_cycles)
         
@@ -117,7 +113,6 @@ class TriggerStatePropagationValidator:
             if cnt != true_occ:
                 desync_cycles.append(i)
                 
-        # Propagation requires persistent desynchronization up to test termination
         has_persistent_desync = (len(desync_cycles) > 0 and desync_cycles[-1] >= len(cycle_states) - 3)
         
         if has_persistent_desync:

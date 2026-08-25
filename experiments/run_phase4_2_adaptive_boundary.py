@@ -135,9 +135,7 @@ def main():
     print("ARGUS PHASE 4.2: ADAPTIVE TRANSACTION BOUNDARY RECOVERY FOR CAUSAL RCA REUSE")
     print("=" * 88)
 
-    # -------------------------------------------------------------------------
-    # 1. VERIFY FROZEN MANIFEST & IMPLEMENTATION-LEVEL LEAKAGE AUDIT
-    # -------------------------------------------------------------------------
+    # Verify frozen manifest & implementation-level leakage audit
     print("\n[STEP 1] Verifying Cryptographic Integrity of Frozen Phase 4 Implementation...")
     if not verify_manifest_integrity(manifest_path, base_dir):
         print("STOP: Frozen manifest integrity verification failed. Aborting.")
@@ -172,9 +170,7 @@ def main():
     with open(os.path.join(bench_dir, "blinded_target_manifest.json"), "w", encoding="utf-8") as f:
         json.dump(blinded_targets, f, indent=2)
         
-    # -------------------------------------------------------------------------
-    # 2. SIMULATE ALL 55 BENCHMARK INSTANCES (5 Sources + 50 Blind Targets)
-    # -------------------------------------------------------------------------
+    # SIMULATE ALL 55 BENCHMARK INSTANCES (5 Sources + 50 Blind Targets)
     print("\n[STEP 2] Simulating 55 Held-Out Benchmark Instances...")
     simulator = VerilogSimulator(rtl_dir)
     sim_outputs = {}
@@ -190,9 +186,7 @@ def main():
         vcd_paths[s_id] = os.path.join(rtl_dir, f"{s_id}.vcd")
     print(f"  Simulations completed for {len(all_sim_ids)} instances.")
 
-    # -------------------------------------------------------------------------
-    # 3. EXTRACT AND FREEZE SOURCE CERTIFICATES
-    # -------------------------------------------------------------------------
+# Extract and freeze source certificates
     print("\n[STEP 3] Extracting and Freezing Source Causal Certificates...")
     extractor = TransactionCertificateExtractor()
     source_tx_certs = {}
@@ -222,9 +216,7 @@ def main():
             
     print(f"  Extracted {len(source_tx_certs)} source certificates across 5 design families.")
 
-    # -------------------------------------------------------------------------
-    # 4. BLIND INFERENCE EXECUTION ACROSS FRAMEWORKS AND CONTROLS
-    # -------------------------------------------------------------------------
+# Blind inference execution across frameworks and controls
     print("\n[STEP 4] Executing Blind Inference on 50 Unseen Target Waveforms...")
     v_l0 = GenericCertificateValidator()
     v_l1 = RemediatedCertificateValidator(enable_dynamic_trigger=True, enable_sufficiency=True, enable_reset_awareness=True)
@@ -246,19 +238,19 @@ def main():
         cert_tx = source_tx_certs[src_id]
         cert_ll = source_ll_certs.get(src_id)
         
-        # 1. L0: Original Low-Level Validator
+        # L0: Original Low-Level Validator
         res_l0 = v_l0.validate(cert_ll, vcd_p, ablation_level="L3_FULL")["decision"] if cert_ll else "UNKNOWN"
         
-        # 2. L1: Remediated Low-Level Validator
+        # L1: Remediated Low-Level Validator
         res_l1 = v_l1.validate(cert_ll, vcd_p, ablation_level="L3_FULL")["decision"] if cert_ll else "INSUFFICIENT_EVIDENCE"
         
-        # 3. L2 Static (Phase 4 Frozen Validator with fixed window)
+        # L2 Static (Phase 4 Frozen Validator with fixed window)
         t_stat0 = time.time()
         res_l2_static_dict = v_l2_static.validate(cert_tx, vcd_p, ablation_mode="FULL_SEMANTIC")
         t_stat_ms = (time.time() - t_stat0) * 1000
         res_l2_static = res_l2_static_dict["decision"]
         
-        # 4. L2 Adaptive Boundary (Proposed Method)
+        # L2 Adaptive Boundary (Proposed Method)
         t_adapt0 = time.time()
         res_l2_adapt_dict = adapter.validate_adaptive(cert_tx, vcd_p, ablation_mode="FULL_SEMANTIC", control_mode="ADAPTIVE_PRIMARY")
         t_adapt_ms = (time.time() - t_adapt0) * 1000
@@ -269,12 +261,12 @@ def main():
         rec_len = adapt_metrics.get("effective_window_cycles", 4)
         suff_state = adapt_metrics.get("sufficiency_state", "UNKNOWN")
         
-        # 5. Experimental Controls
+        # Experimental Controls
         res_ctrl_random = adapter.validate_adaptive(cert_tx, vcd_p, control_mode="RANDOM_WINDOW_CONTROL")["decision"]
         res_ctrl_matched = adapter.validate_adaptive(cert_tx, vcd_p, control_mode="MATCHED_LENGTH_CONTROL")["decision"]
         res_ctrl_broad = adapter.validate_adaptive(cert_tx, vcd_p, control_mode="BROAD_WINDOW_CONTROL")["decision"]
         
-        # 6. Semantic Ablations on Adaptive Boundary
+        # Semantic Ablations on Adaptive Boundary
         abl_adapt_no_obl = adapter.validate_adaptive(cert_tx, vcd_p, ablation_mode="TRIGGER_STATE", control_mode="ADAPTIVE_PRIMARY")["decision"]
         abl_adapt_no_prop = adapter.validate_adaptive(cert_tx, vcd_p, ablation_mode="OBLIGATION_ONLY", control_mode="ADAPTIVE_PRIMARY")["decision"]
         abl_adapt_no_temp = adapter.validate_adaptive(cert_tx, vcd_p, ablation_mode="OBLIGATION_PROPAGATION", control_mode="ADAPTIVE_PRIMARY")["decision"]
@@ -322,9 +314,7 @@ def main():
     df_bounds.to_csv(os.path.join(boundary_dir, "recovered_transaction_boundaries.csv"), index=False)
     print(f"  Blind predictions & recovered boundaries saved to {processed_dir}")
 
-    # -------------------------------------------------------------------------
-    # 5. POST-INFERENCE SCORING AGAINST ISOLATED GROUND TRUTH
-    # -------------------------------------------------------------------------
+# Post-inference scoring against isolated ground truth
     print("\n[STEP 5] Scoring Blind Predictions against Isolated Ground Truth...")
     gt_map = {item["target_id"]: item for item in ground_truth}
     
@@ -354,9 +344,7 @@ def main():
     df_scored = pd.DataFrame(scored_records)
     df_scored.to_csv(os.path.join(processed_dir, "scored_phase4_2_evaluation.csv"), index=False)
 
-    # -------------------------------------------------------------------------
-    # 6. METRIC COMPUTATION & CATEGORY BREAKDOWN
-    # -------------------------------------------------------------------------
+    # Metric computation & category breakdown
     print("\n" + "=" * 88)
     print("PHASE 4.2 HELD-OUT CATEGORY BREAKDOWN (50 Target Failures across 5 Designs):")
     print("=" * 88)
@@ -384,9 +372,7 @@ def main():
     df_cat_summary = pd.DataFrame(cat_breakdown)
     print(df_cat_summary.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 7. PRIMARY BENCHMARK METRICS & 1000 BOOTSTRAP RESAMPLES
-    # -------------------------------------------------------------------------
+    # Primary benchmark metrics & 1000 bootstrap resamples
     print("\n" + "=" * 88)
     print("PRIMARY PERFORMANCE COMPARISON MATRIX (WITH 95% BOOTSTRAP CIs):")
     print("=" * 88)
@@ -481,9 +467,7 @@ def main():
     print(f"KEY TRANSITION METRICS: Delta_PositiveTransfer = {delta_pos*100:+.1f}%, Delta_FRR = {delta_frr:+.3f}, Avg Window Length = {avg_window_len:.1f} cycles")
     print("=" * 88)
 
-    # -------------------------------------------------------------------------
-    # 8. ERROR ANALYSIS ON RECOVERED POSITIVES & FALSE REUSES
-    # -------------------------------------------------------------------------
+    # Error analysis on recovered positives & false reuses
     print("\n[STEP 6] Detailed Error & Recovery Analysis...")
     df_positives = df_scored[df_scored["category"] == "A_SAME_DEFECT"]
     recovery_analysis = []
@@ -520,9 +504,7 @@ def main():
     df_false_reuses = df_scored[(df_scored["pred_l2_adaptive"] == "PASS") & (df_scored["ground_truth_match"] != "MATCH")]
     print(f"\nFalse Reuse Count under Adaptive L2: {len(df_false_reuses)}")
 
-    # -------------------------------------------------------------------------
-    # 9. ABLATION & EXPERIMENTAL CONTROLS STUDY
-    # -------------------------------------------------------------------------
+    # Ablation & experimental controls study
     print("\n" + "=" * 88)
     print("ABLATION & EXPERIMENTAL CONTROLS STUDY:")
     print("=" * 88)
@@ -549,12 +531,10 @@ def main():
     df_abl_table = pd.DataFrame(abl_rows)
     print(df_abl_table.to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 10. GENERATE 8 PUBLICATION-QUALITY PLOTS
-    # -------------------------------------------------------------------------
+    # Generate 8 publication-quality plots
     print("\n[STEP 7] Generating 8 Publication-Quality Visualizations...")
     
-    # 1. adaptive_vs_static_precision.png
+    # adaptive_vs_static_precision.png
     fig, ax = plt.subplots(figsize=(8, 5))
     names = ["L0: Low-Level", "L1: Remediated", "L2: Static (4.1)", "L2: Adaptive (4.2)"]
     precs = [m_l0["precision"], m_l1["precision"], m_l2_static["precision"], m_l2_adapt["precision"]]
@@ -572,7 +552,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "adaptive_vs_static_precision.png"), dpi=300)
     plt.close()
 
-    # 2. positive_transfer_recovery.png
+    # positive_transfer_recovery.png
     fig, ax = plt.subplots(figsize=(8, 5))
     designs = ["FIFO", "AXI", "FSM", "UART", "PIPELINE"]
     stat_pos_by_d = []
@@ -595,7 +575,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "positive_transfer_recovery.png"), dpi=300)
     plt.close()
 
-    # 3. frr_safety_comparison.png
+    # frr_safety_comparison.png
     fig, ax = plt.subplots(figsize=(8, 5))
     frr_names = ["L0 Low-Level", "L1 Remediated", "L2 Static", "L2 Adaptive", "Broad Control"]
     frr_vals = [m_l0["frr"], m_l1["frr"], m_l2_static["frr"], m_l2_adapt["frr"], m_ctrl_broad["frr"]]
@@ -608,7 +588,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "frr_safety_comparison.png"), dpi=300)
     plt.close()
 
-    # 4. evidence_decision_distribution.png
+    # evidence_decision_distribution.png
     fig, ax = plt.subplots(figsize=(8, 5))
     frameworks = ["L2 Static (4.1)", "L2 Adaptive (4.2)", "Random Ctrl", "Broad Ctrl"]
     pass_cnts = [(df_scored[c] == "PASS").sum() for c in ["pred_l2_static", "pred_l2_adaptive", "ctrl_random_window", "ctrl_broad_window"]]
@@ -626,7 +606,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "evidence_decision_distribution.png"), dpi=300)
     plt.close()
 
-    # 5. boundary_length_distribution.png
+    # boundary_length_distribution.png
     fig, ax = plt.subplots(figsize=(8, 5))
     lengths = df_scored["recovered_window_length"].values
     ax.hist(lengths, bins=10, color='#3949AB', edgecolor='black', alpha=0.7)
@@ -641,7 +621,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "boundary_length_distribution.png"), dpi=300)
     plt.close()
 
-    # 6. ablation_boundary_controls.png
+    # ablation_boundary_controls.png
     fig, ax = plt.subplots(figsize=(9, 5))
     abl_labels = ["A: Static L2", "B: Boundary Only", "C: Adaptive L2", "D: Random Ctrl", "E: Matched Ctrl", "F: Broad Ctrl"]
     abl_pos = [calculate_benchmark_metrics(df_scored, col)["positive_transfer"]*100 for _, col in ablations_list]
@@ -659,7 +639,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "ablation_boundary_controls.png"), dpi=300)
     plt.close()
 
-    # 7. cost_scr_comparison.png
+    # cost_scr_comparison.png
     fig, ax = plt.subplots(figsize=(8, 5))
     N_eval = np.arange(1, 20)
     cost_ind_c = N_eval * 8.9
@@ -688,7 +668,7 @@ def main():
     plt.savefig(os.path.join(plots_dir, "cost_scr_comparison.png"), dpi=300)
     plt.close()
 
-    # 8. error_recovery_matrix.png
+    # error_recovery_matrix.png
     fig, ax = plt.subplots(figsize=(8, 5))
     rec_cats = ["Recovered & Passed", "Consistently Passed", "Lacked Evidence", "Protocol Failed"]
     rec_counts = [
@@ -710,9 +690,7 @@ def main():
     
     print("  Visualizations saved to plots directory.")
 
-    # -------------------------------------------------------------------------
-    # 11. SCIENTIFIC GATES & FINAL DECISION
-    # -------------------------------------------------------------------------
+    # Scientific gates & final decision
     gate_a_safety = (m_l2_adapt["frr"] <= m_l2_static["frr"] + 0.01)
     gate_b_pos_transfer = (m_l2_adapt["positive_transfer"] > 0.333)
     gate_c_causal = (m_l2_adapt["positive_transfer"] > m_ctrl_rand["positive_transfer"] and 
@@ -742,9 +720,7 @@ def main():
     print(f"\nFINAL RESEARCH DECISION: {final_decision}")
     print("=" * 88 + "\n")
 
-    # -------------------------------------------------------------------------
-    # 12. GENERATE FINAL REPORT
-    # -------------------------------------------------------------------------
+# Generate final report
     report_lines = [
         "# Argus Phase 4.2: Adaptive Transaction Boundary Recovery Report",
         "",

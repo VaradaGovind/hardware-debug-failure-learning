@@ -49,7 +49,7 @@ def main():
     train_bugs = [b for b in bugs if b["family"] == "fifo" and b["bug_id"] in ["fifo_b1", "fifo_b2", "fifo_b3", "fifo_b4"]]
     test_bugs = [b for b in bugs if b["bug_id"] not in ["fifo_b1", "fifo_b2", "fifo_b3", "fifo_b4"]]
     
-    # CLEAR LOGS ONCE
+    # Clear logs once
     for f in os.listdir(log_dir):
         os.remove(os.path.join(log_dir, f))
         

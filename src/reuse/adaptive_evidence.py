@@ -16,21 +16,7 @@ class EvidenceSufficiencyResult:
         return asdict(self)
 
 class AdaptiveEvidenceClassifier:
-    """
-    Evaluates evidence completeness and sufficiency for transaction-level causal verification.
-    
-    6-Way Taxonomy:
-    1. TRANSACTION_NEVER_INITIATED: No initiating activity in trace.
-    2. TRANSACTION_INITIATED_NOT_ACCEPTED: Initiation asserted but stalled or held in reset.
-    3. TRANSACTION_ACCEPTED_INCOMPLETE: Active transaction truncated before completion/propagation.
-    4. TRANSACTION_COMPLETED_SUFFICIENT: Complete transaction lifecycle observed.
-    5. TRANSACTION_CONTRADICTS_CERTIFICATE: Causal evidence explicitly disproves certificate claim.
-    6. TRANSACTION_BOUNDARIES_AMBIGUOUS: Multi-source activity prevents clear boundary separation.
-    
-    SAFETY-CRITICAL REQUIREMENT:
-    The classifier must NEVER convert missing or incomplete evidence into PASS.
-    Unexercised or truncated preconditions strictly map to INSUFFICIENT_EVIDENCE.
-    """
+    """Evaluates evidence completeness and sufficiency for transaction-level causal verification."""
     def __init__(self, min_cycles_after_end: int = 1):
         self.min_cycles_after_end = min_cycles_after_end
 
@@ -46,7 +32,6 @@ class AdaptiveEvidenceClassifier:
             )
 
         if not segments:
-            # Check if reset was active throughout
             all_reset = all(s.get("rst_n", 1) == 0 for s in cycle_states)
             if all_reset:
                 return EvidenceSufficiencyResult(
@@ -62,13 +47,10 @@ class AdaptiveEvidenceClassifier:
                 diagnostic_reason="No transaction initiation or protocol activity detected in waveform."
             )
 
-        # Evaluate primary segment
         primary = segments[0]
         total_trace_cycles = len(cycle_states)
         
-        # Check boundary ambiguity
         if len(segments) > 1:
-            # Check if segments overlap heavily
             overlaps = False
             for i in range(len(segments) - 1):
                 if segments[i].end_cycle >= segments[i + 1].start_cycle:
@@ -83,8 +65,6 @@ class AdaptiveEvidenceClassifier:
                     metrics={"segment_count": len(segments)}
                 )
 
-        # Check for incomplete / truncated transaction
-        # If raw activity continued up to the very last cycle of the trace
         raw_end = primary.metadata.get("cluster_span", [primary.start_cycle, primary.end_cycle])[1]
         if raw_end >= total_trace_cycles - 1 and primary.confidence < 0.8:
             return EvidenceSufficiencyResult(
@@ -95,7 +75,6 @@ class AdaptiveEvidenceClassifier:
                 metrics={"segment_length": primary.length, "trace_length": total_trace_cycles}
             )
 
-        # Segment has sufficient lifecycle evidence
         return EvidenceSufficiencyResult(
             sufficiency_state="TRANSACTION_COMPLETED_SUFFICIENT",
             is_sufficient_for_validation=True,

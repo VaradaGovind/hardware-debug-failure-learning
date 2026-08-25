@@ -9,20 +9,7 @@ from ..tools.waveform import WaveformTool
 from ..tools.rtl_search import RTLSearchTool
 
 class NonLeakyAgentBase:
-    """
-    Base class for non-leaky hardware debugging agents.
-    
-    Debugging lifecycle:
-    1. INITIAL_SIMULATION: Run simulation to capture failure symptom.
-    2. STRUCTURAL_SEARCH: Inspect RTL structure and signal connectivity.
-    3. SIGNAL_INVESTIGATION: Interrogate waveforms for suspected signals.
-    4. PROPAGATION_ANALYSIS: Trace causal propagation through dependent logic.
-    5. HYPOTHESIS_VALIDATION: Validate defect hypothesis against protocol / symptom.
-    6. CONCLUDE_RCA: Emit formal Root Cause Analysis (RCA) certificate and terminate.
-    
-    CRITICAL: Discovering the root cause signal does NOT terminate the trajectory.
-    The agent must perform propagation analysis and validation before concluding.
-    """
+    """Base class for multi-step hardware root cause analysis agents."""
     def __init__(self, simulator: VerilogSimulator, waveform: WaveformTool, search: RTLSearchTool,
                  logger: TrajectoryLogger, seed: int = 42, budget: int = 12,
                  banned_actions: Optional[List[Dict[str, Any]]] = None):
@@ -80,7 +67,6 @@ class NonLeakyAgentBase:
         wf_res = self.waveform.query_waveform(vcd_path, [signal], 0, 1000)
         self.state["waveform_queried"].append(signal)
         
-        # Check if this signal exhibits an anomaly / matches root cause
         gt_signals = ground_truth.get("ground_truth_signals", [])
         if signal in gt_signals:
             if signal not in self.state["anomalies_detected"]:
@@ -110,11 +96,7 @@ class NonLeakyAgentBase:
 
 
 class ModelA_WeakHeuristicAgent(NonLeakyAgentBase):
-    """
-    Model A: Weak Stochastic Heuristic Policy.
-    - Exploration via stochastic signal sampling without deep structural dependency chaining.
-    - Non-leaky workflow: Upon finding an anomaly, continues into heuristic validation and verification steps before emitting a final RCA conclusion.
-    """
+    """Weak stochastic heuristic policy baseline."""
     def __init__(self, simulator: VerilogSimulator, waveform: WaveformTool, search: RTLSearchTool,
                  logger: TrajectoryLogger, seed: int = 42, budget: int = 12,
                  banned_actions: Optional[List[Dict[str, Any]]] = None):
@@ -127,7 +109,6 @@ class ModelA_WeakHeuristicAgent(NonLeakyAgentBase):
         waveform_queries = 0
         simulations = 0
         
-        # Step 1: Initial Simulation
         if not self.is_action_banned("run_simulation", task_id):
             step_num += 1
             simulations += 1
@@ -137,7 +118,6 @@ class ModelA_WeakHeuristicAgent(NonLeakyAgentBase):
                             res_success=res.get("compiled", True), res_informative=True,
                             hypothesis="Reproduce testbench failure")
             
-        # Step 2: RTL Inspection
         if not self.is_action_banned("inspect_rtl", task_id):
             step_num += 1
             res = self.inspect_rtl_action(task_id)
@@ -146,7 +126,6 @@ class ModelA_WeakHeuristicAgent(NonLeakyAgentBase):
                             res_success=res.get("success", False), res_informative=True,
                             hypothesis="Discover module signals")
 
-        # Step 3: Stochastic Signal Exploration
         available_signals = [s for s in self.state["known_signals"] if not self.is_action_banned("query_waveform", s)]
         self.rng.shuffle(available_signals)
         
@@ -167,7 +146,6 @@ class ModelA_WeakHeuristicAgent(NonLeakyAgentBase):
             if has_anomaly:
                 break
                 
-        # Step 4: Post-Discovery Propagation / Secondary Check
         cand_sig = self.state["candidate_root_cause"] or (self.state["waveform_queried"][-1] if self.state["waveform_queried"] else (self.state["known_signals"][0] if self.state["known_signals"] else "unknown"))
         
         if step_num < self.budget - 2 and not self.is_action_banned("trace_dependency", cand_sig):
@@ -178,7 +156,6 @@ class ModelA_WeakHeuristicAgent(NonLeakyAgentBase):
                             res_success=res.get("success", False), res_informative=True,
                             hypothesis=f"Trace dependency propagation for {cand_sig}")
 
-        # Step 5: Post-Discovery Validation Check
         if step_num < self.budget - 1 and not self.is_action_banned("validate_hypothesis", cand_sig):
             step_num += 1
             res = self.validate_hypothesis_action(task_id, cand_sig, ground_truth)
@@ -187,7 +164,6 @@ class ModelA_WeakHeuristicAgent(NonLeakyAgentBase):
                             res_success=res.get("success", False), res_informative=res.get("valid", False),
                             hypothesis=f"Validate defect hypothesis on {cand_sig}")
 
-        # Step 6: Final RCA Certificate Formulation
         if step_num < self.budget and not self.is_action_banned("conclude_rca", cand_sig):
             step_num += 1
             res = self.conclude_rca_action(task_id, cand_sig, ground_truth)
@@ -235,15 +211,7 @@ class ModelA_WeakHeuristicAgent(NonLeakyAgentBase):
 
 
 class ModelB_StrongCausalAgent(NonLeakyAgentBase):
-    """
-    Model B: Strong Multi-Step Causal Reasoning Policy.
-    - Systematically analyzes symptom & failure patterns.
-    - Performs backward Cone of Influence (COI) tracing using RTL dependency graph.
-    - Prioritizes waveform interrogation along the causal path.
-    - Performs post-discovery causal propagation analysis and alternative hypothesis elimination.
-    - Systematically validates the fault mechanism against protocol invariants before emitting RCA certificate.
-    - CRITICAL: Never terminates immediately upon finding the root-cause signal; executes the full causal verification lifecycle.
-    """
+    """Causal debugging policy using structural fan-in and dependency cone tracing."""
     def __init__(self, simulator: VerilogSimulator, waveform: WaveformTool, search: RTLSearchTool,
                  logger: TrajectoryLogger, seed: int = 42, budget: int = 12,
                  banned_actions: Optional[List[Dict[str, Any]]] = None):
@@ -251,13 +219,9 @@ class ModelB_StrongCausalAgent(NonLeakyAgentBase):
         self.agent_name = "model_b_strong_causal"
 
     def _rank_candidate_signals_by_causal_cone(self, task_id: str, symptom: str, all_signals: List[str]) -> List[str]:
-        """
-        Ranks signals using structural cone-of-influence and protocol relevance.
-        """
         scored = []
         for s in all_signals:
             score = 1.0
-            # Protocol / Symptom matching
             if symptom == "Timeout" and s in ["valid_out", "ready_out", "valid_in", "ready_in"]:
                 score += 3.0
             elif symptom == "Data Mismatch" and s in ["count", "write_ptr", "read_ptr", "full", "empty", "mem"]:
@@ -269,11 +233,10 @@ class ModelB_StrongCausalAgent(NonLeakyAgentBase):
             elif symptom == "Bad Output" and s in ["tx", "cnt", "start"]:
                 score += 3.0
                 
-            # Internal state / registers get higher initial focus than static clocks
+            # Deprioritize free-running clock/reset signals
             if s in ["clk", "rst_n"]:
                 score -= 0.5
             
-            # Small random tie-breaker using RNG
             score += self.rng.uniform(0.0, 0.2)
             scored.append((score, s))
             
@@ -287,7 +250,6 @@ class ModelB_StrongCausalAgent(NonLeakyAgentBase):
         simulations = 0
         symptom = ground_truth.get("symptom", "unknown")
         
-        # Step 1: Initial Simulation (Reproduce Symptom)
         if not self.is_action_banned("run_simulation", task_id):
             step_num += 1
             simulations += 1
@@ -297,7 +259,6 @@ class ModelB_StrongCausalAgent(NonLeakyAgentBase):
                             res_success=res.get("compiled", True), res_informative=True,
                             hypothesis=f"Reproduce failure symptom ({symptom})")
 
-        # Step 2: RTL Structural Extraction & Cone Analysis
         if not self.is_action_banned("inspect_rtl", task_id):
             step_num += 1
             res = self.inspect_rtl_action(task_id)
@@ -306,7 +267,6 @@ class ModelB_StrongCausalAgent(NonLeakyAgentBase):
                             res_success=res.get("success", False), res_informative=True,
                             hypothesis="Extract module ports and internal signal registers")
 
-        # Step 3: Prioritized Causal Waveform Investigation
         ranked_signals = self._rank_candidate_signals_by_causal_cone(task_id, symptom, self.state["known_signals"])
         available_signals = [s for s in ranked_signals if not self.is_action_banned("query_waveform", s)]
         
@@ -324,7 +284,6 @@ class ModelB_StrongCausalAgent(NonLeakyAgentBase):
             if has_anomaly:
                 break
 
-        # Step 4: Causal Dependency Tracing (Cone Propagation)
         cand_sig = self.state["candidate_root_cause"] or (self.state["waveform_queried"][-1] if self.state["waveform_queried"] else (self.state["known_signals"][0] if self.state["known_signals"] else "unknown"))
         
         if step_num < self.budget - 3 and not self.is_action_banned("trace_dependency", cand_sig):
@@ -335,7 +294,6 @@ class ModelB_StrongCausalAgent(NonLeakyAgentBase):
                             res_success=res.get("success", False), res_informative=True,
                             hypothesis=f"Trace causal fanout and assignment lines for {cand_sig}")
 
-        # Step 5: Alternative Hypothesis Check / Propagation Check
         related_signals = [s for s in self.state["known_signals"] if s != cand_sig and s not in self.state["waveform_queried"]]
         if related_signals and step_num < self.budget - 2:
             alt_sig = related_signals[0]
@@ -348,7 +306,6 @@ class ModelB_StrongCausalAgent(NonLeakyAgentBase):
                                 res_success=res.get("success", False), res_informative=False,
                                 hypothesis=f"Alternative hypothesis elimination on {alt_sig}")
 
-        # Step 6: Protocol Invariant & Defect Validation
         if step_num < self.budget - 1 and not self.is_action_banned("validate_hypothesis", cand_sig):
             step_num += 1
             res = self.validate_hypothesis_action(task_id, cand_sig, ground_truth)
@@ -357,7 +314,6 @@ class ModelB_StrongCausalAgent(NonLeakyAgentBase):
                             res_success=res.get("success", False), res_informative=res.get("valid", False),
                             hypothesis=f"Validate causal explanation against {symptom} protocol invariants")
 
-        # Step 7: Final RCA Certificate Formulation
         if step_num < self.budget and not self.is_action_banned("conclude_rca", cand_sig):
             step_num += 1
             res = self.conclude_rca_action(task_id, cand_sig, ground_truth)

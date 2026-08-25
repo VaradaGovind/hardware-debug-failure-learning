@@ -25,9 +25,6 @@ class CausalCertificate:
 
 
 def parse_vcd_signals(vcd_path: str, signal_names: List[str]) -> Dict[str, List[tuple]]:
-    """
-    Parses a VCD file and extracts (time, value) transitions for specified signals.
-    """
     if not os.path.exists(vcd_path):
         return {}
         
@@ -53,13 +50,9 @@ def parse_vcd_signals(vcd_path: str, signal_names: List[str]) -> Dict[str, List[
 
 
 def build_cycle_state_table(signal_map: Dict[str, List[tuple]]) -> List[Dict[str, Any]]:
-    """
-    Reconstructs the synchronous state table at posedge clk edges.
-    """
     if "clk" not in signal_map or not signal_map["clk"]:
         return []
         
-    # Find all posedge clock times (transition from 0 to 1)
     clk_transitions = signal_map["clk"]
     posedge_times = []
     last_val = None
@@ -68,7 +61,6 @@ def build_cycle_state_table(signal_map: Dict[str, List[tuple]]) -> List[Dict[str
             posedge_times.append(t)
         last_val = val
         
-    # Track signal values over time
     all_signals = list(signal_map.keys())
     sig_indices = {s: 0 for s in all_signals}
     sig_current_val = {s: 0 for s in all_signals}
@@ -76,13 +68,11 @@ def build_cycle_state_table(signal_map: Dict[str, List[tuple]]) -> List[Dict[str
     cycle_states = []
     
     for cycle_idx, t_edge in enumerate(posedge_times):
-        # Update each signal to its value right at or immediately before this clock edge
         for s in all_signals:
             transitions = signal_map[s]
             idx = sig_indices[s]
             while idx < len(transitions) and transitions[idx][0] <= t_edge:
                 raw_val = transitions[idx][1]
-                # Convert binary strings or ints
                 try:
                     if isinstance(raw_val, str):
                         if raw_val in ['0', '1', 'x', 'z']:
@@ -105,12 +95,7 @@ def build_cycle_state_table(signal_map: Dict[str, List[tuple]]) -> List[Dict[str
 
 
 class CertificateValidator:
-    """
-    Machine-Checkable Causal Certificate Validator.
-    
-    Evaluates causal predicates on target failure waveforms without accessing
-    hidden bug metadata, bug IDs, or target ground truth labels.
-    """
+    """Evaluates causal certificates against VCD waveforms."""
     def __init__(self):
         pass
 
@@ -163,11 +148,8 @@ class CertificateValidator:
                 "reason": "Insufficient clock cycles in waveform"
             }
             
-        # 1. Evaluate Trigger Predicate
-        # Predicate: write_en == 1 && read_en == 1 && !full && !empty
         trigger_cycles = []
         for i, state in enumerate(cycle_states[:-1]):
-            # Check reset inactive
             if state.get("rst_n", 1) == 0:
                 continue
                 
@@ -176,7 +158,6 @@ class CertificateValidator:
             full = state.get("full", 0)
             empty = state.get("empty", 0)
             
-            # Check certificate trigger conditions
             trig_spec = certificate.trigger_predicate
             matches_trigger = True
             
@@ -197,9 +178,6 @@ class CertificateValidator:
                 "reason": "Trigger condition (simultaneous active write_en and read_en) never occurred in target waveform"
             }
             
-        # 2. Evaluate Causal Anomaly Predicate
-        # Invariant for simultaneous R/W: occupancy should be conserved: count(t+1) == count(t)
-        # Defect anomaly: count(t+1) == count(t) + 1 (overincrement)
         anomaly_occurrences = []
         for t_idx in trigger_cycles:
             curr_state = cycle_states[t_idx]
@@ -208,7 +186,6 @@ class CertificateValidator:
             curr_count = curr_state.get("count", 0)
             next_count = next_state.get("count", 0)
             
-            # Anomaly: count incremented despite simultaneous read & write
             if next_count == curr_count + 1:
                 anomaly_occurrences.append({
                     "cycle": t_idx,
@@ -230,9 +207,6 @@ class CertificateValidator:
                 "reason": "Trigger occurred but occupancy invariant was preserved (count did not overincrement)"
             }
             
-        # 3. Evaluate Causal Propagation Chain
-        # Check if the overincrement caused a downstream state desynchronization
-        # e.g., count > true_occupancy ((write_ptr - read_ptr) % 16) or premature full/empty desynchronization
         propagation_evidence = []
         for i, state in enumerate(cycle_states):
             w_ptr = state.get("write_ptr", 0)
@@ -240,7 +214,6 @@ class CertificateValidator:
             cnt = state.get("count", 0)
             
             true_occupancy = (w_ptr - r_ptr) % 16
-            # If count has desynchronized from true occupancy after the anomaly
             if cnt != true_occupancy and any(a["cycle"] < i for a in anomaly_occurrences):
                 propagation_evidence.append({
                     "cycle": i,

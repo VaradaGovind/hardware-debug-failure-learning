@@ -46,9 +46,7 @@ def main():
     print("ARGUS PHASE 4.3A: CLASS-I SAFETY AUDIT & END-TO-END COST VERIFICATION")
     print("=" * 90)
 
-    # -------------------------------------------------------------------------
-    # 1. VERIFY FROZEN CODE INTEGRITY
-    # -------------------------------------------------------------------------
+# Verify frozen code integrity
     frozen_files = [
         os.path.join(base_dir, "src", "reuse", "transaction_semantic_certificate.py"),
         os.path.join(base_dir, "src", "reuse", "transaction_semantic_validator.py"),
@@ -67,9 +65,7 @@ def main():
             raise RuntimeError(f"INTEGRITY VIOLATION: {fn} hash mismatch!")
     print("  Integrity Confirmed: All frozen validator source hashes match manifest byte-for-byte.")
 
-    # -------------------------------------------------------------------------
-    # 2. AUTOMATED IMPLEMENTATION LEAKAGE & GENERALITY SCAN
-    # -------------------------------------------------------------------------
+    # Automated implementation leakage & generality scan
     print("\n[STEP 2] Running Automated Leakage & Generality Scan...")
     forbidden_terms = ["fifo_", "axi_", "fsm_", "uart_", "pipeline_", "is_match", "ground_truth_match", "CLASS_I", "CLASS_A", "short_tb"]
     src_reuse_dir = os.path.join(base_dir, "src", "reuse")
@@ -105,9 +101,7 @@ def main():
 
     print(f"  Leakage Scan: {len(leakage_findings)} issues found. Report saved to {leakage_out}")
 
-    # -------------------------------------------------------------------------
-    # 3. AUDIT A: CLASS-I INCOMPLETE/TRUNCATED TRANSACTION FORENSICS
-    # -------------------------------------------------------------------------
+    # Audit a: class-i incomplete/truncated transaction forensics
     print("\n[STEP 3] Executing Forensic Inspection of All 10 Class-I Truncated Cases...")
     gt_path = os.path.join(bench_dir, "heldout_ground_truth.json")
     with open(gt_path, "r", encoding="utf-8") as f:
@@ -228,9 +222,7 @@ def main():
     print("\nCLASS-I FORENSIC SUMMARY TABLE:")
     print(df_forensic[["case_id", "design_family", "total_cycles", "static_4_decision", "static_16_decision", "adaptive_final_decision", "evidence_classification"]].to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 4. COUNTERFACTUAL COMPLETION TESTS
-    # -------------------------------------------------------------------------
+# Counterfactual completion tests
     print("\n[STEP 4] Executing Counterfactual Extension Tests on Truncated Traces...")
     # For cases where simulation truncated mid-flight (e.g. fsm_vl_i2, pipe_vl_i2, fifo_vl_i2, axi_vl_i2),
     # extend testbench stimulus by 5-10 cycles to test whether the classifier changes from INSUFFICIENT_EVIDENCE to PASS/FAIL
@@ -297,9 +289,7 @@ def main():
     df_cf = pd.DataFrame(counterfactual_results)
     print(df_cf[["case_id", "design", "original_decision", "extended_adaptive_decision", "evidence_transition"]].to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 5. AUDIT B: COMPLETE END-TO-END COST ACCOUNTING & SCR RECALCULATION
-    # -------------------------------------------------------------------------
+    # Audit b: complete end-to-end cost accounting & scr recalculation
     print("\n[STEP 5] Measuring Complete Component-Level Timing & End-to-End Search Cost...")
     # Load all 75 scored cases
     scored_csv_p = os.path.join(processed_dir, "scored_variable_latency_evaluation.csv")
@@ -311,26 +301,26 @@ def main():
     sig_map = parse_vcd_signals(test_vcd, cert_tx.target_signals + ["clk", "rst_n"])
     cycle_states = build_cycle_state_table(sig_map)
 
-    # 1. Static 4 Window Extraction & Validation
+    # Static 4 Window Extraction & Validation
     t0 = time.time()
     for _ in range(100):
         _ = v_frozen_l2.validate(cert_tx, test_vcd, ablation_mode="FULL_SEMANTIC")
     t_stat4_ms = ((time.time() - t0) / 100) * 1000.0
 
-    # 2. Boundary Detection only
+    # Boundary Detection only
     t0 = time.time()
     for _ in range(100):
         _ = detector.detect_segments(cycle_states, cert_tx.target_signals)
     t_bound_ms = ((time.time() - t0) / 100) * 1000.0
 
-    # 3. Evidence Sufficiency Classification
+    # Evidence Sufficiency Classification
     segs = detector.detect_segments(cycle_states, cert_tx.target_signals)
     t0 = time.time()
     for _ in range(100):
         _ = classifier.classify_sufficiency(cycle_states, segs)
     t_evid_ms = ((time.time() - t0) / 100) * 1000.0
 
-    # 4. Full Adaptive L2
+    # Full Adaptive L2
     t0 = time.time()
     for _ in range(100):
         _ = adapter.validate_adaptive(cert_tx, test_vcd, ablation_mode="FULL_SEMANTIC", control_mode="ADAPTIVE_PRIMARY")
@@ -445,9 +435,7 @@ def main():
 
     df_be = pd.DataFrame(break_even_data)
 
-    # -------------------------------------------------------------------------
-    # 6. GENERATE 3 AUDIT PLOTS
-    # -------------------------------------------------------------------------
+    # Generate 3 audit plots
     print("\n[STEP 6] Generating 3 High-Impact Audit Visualizations...")
 
     # Plot 1: class1_safety_audit.png
@@ -506,9 +494,7 @@ def main():
 
     print("  All 3 audit visualizations successfully generated.")
 
-    # -------------------------------------------------------------------------
-    # 7. GENERATE COMPREHENSIVE PHASE 4.3A AUDIT REPORT
-    # -------------------------------------------------------------------------
+    # Generate comprehensive phase 4.3a audit report
     m_stat4 = df_cost[df_cost["Method"] == "Static 4-Cycle"].iloc[0]
     m_stat8 = df_cost[df_cost["Method"] == "Fixed 8-Cycle"].iloc[0]
     m_stat16 = df_cost[df_cost["Method"] == "Fixed 16-Cycle"].iloc[0]

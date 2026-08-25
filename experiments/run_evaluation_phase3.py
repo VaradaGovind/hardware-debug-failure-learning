@@ -41,7 +41,7 @@ def main():
         
     df = pd.DataFrame(summaries)
     
-    # 1. Main Baselines & Ablations
+    # Main Baselines & Ablations
     baseline_df = df[df['agent'].isin(['baseline', 'random', 'global_constrained', 'context_aware', 'pos_only', 'neg_only'])]
     if not baseline_df.empty:
         agg = baseline_df.groupby('agent').agg({
@@ -56,21 +56,21 @@ def main():
         
         report_md = f"""# Phase 3: Scientific Audit Report
 
-## Hypothesis
+# Hypothesis
 Failed trajectories can produce useful negative search knowledge that generalizes across bug contexts without significantly harming root-cause accuracy.
 
-## Experimental Design
+# Experimental Design
 - **Dataset**: 30 diverse bugs across 5 hardware families (FIFO, AXI, FSM, Pipeline, UART).
 - **Adversarial Setup**: Each family contains 1 bug whose root cause directly overlaps with a historically unproductive pattern from the other bugs.
 - **Evaluation Split**: Trained on 4 FIFO bugs. Tested on unseen FIFO bugs and unseen families.
 
-## Results: Main Baselines & Ablations
+# Results: Main Baselines & Ablations
 
 ```text
 {agg.to_string(index=False)}
 ```
 
-### Analysis
+# Analysis
 - **Baseline**: Static heuristic agent (no repeated queries).
 - **Random**: Randomly generated negative constraints.
 - **Global**: Learned negative constraints applied unconditionally.
@@ -78,10 +78,10 @@ Failed trajectories can produce useful negative search knowledge that generalize
 - **pos_only**: Ablation using only successful runs.
 - **neg_only**: Ablation using only failed runs.
 
-### Adversarial Safety
+# Adversarial Safety
 The `false_pruning` metric tracks how many times the agent suppressed an action that was actually the ground-truth root cause. The `exploration_overrides` tracks how often the agent recovered from a trap by exhausting its budget and forcibly exploring a penalized action.
 
-## Conclusion
+# Conclusion
 (Automatically computed based on results)
 """
         with open(os.path.join(reports_dir, "phase3_experiment_report.md"), "w") as f:
@@ -100,7 +100,7 @@ The `false_pruning` metric tracks how many times the agent suppressed an action 
 
         decision_md = f"""# Research Decision
 
-### Recommendation: {decision}
+# Recommendation: {decision}
 
 **Evidence:**
 - Context-Aware Success Rate: {context_success:.2f} (Baseline: {base_success:.2f})

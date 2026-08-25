@@ -19,7 +19,7 @@ module fifo #(
     reg [4:0] read_ptr;
     reg [5:0] count;
 
-    // BUG 1: full condition is count == DEPTH - 1 (off by one)
+    // full condition is count == DEPTH - 1 (off by one)
     assign full = (count == DEPTH - 1); 
     assign empty = (count == 0);
 

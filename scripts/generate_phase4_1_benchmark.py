@@ -23,9 +23,7 @@ def generate_phase4_1_benchmark(base_dir: str):
         
     norm_base = base_dir.replace("\\", "/")
     
-    # -------------------------------------------------------------------------
-    # 1. HASH AND RECORD IMMUTABLE PHASE 4 VALIDATOR MANIFEST
-    # -------------------------------------------------------------------------
+    # Hash and record immutable phase 4 validator manifest
     frozen_files = [
         os.path.join(base_dir, "src", "reuse", "transaction_semantic_certificate.py"),
         os.path.join(base_dir, "src", "reuse", "transaction_semantic_validator.py"),
@@ -50,9 +48,7 @@ def generate_phase4_1_benchmark(base_dir: str):
         
     print(f"Recorded Frozen Manifest with SHA256 hashes in {os.path.join(blind_dir, 'frozen_manifest.json')}")
 
-    # -------------------------------------------------------------------------
-    # 2. GENERATE 50+ UNSEEN HELD-OUT INSTANCES (10 per design family)
-    # -------------------------------------------------------------------------
+    # GENERATE 50+ UNSEEN HELD-OUT INSTANCES (10 per design family)
     
     held_out_instances = []
     

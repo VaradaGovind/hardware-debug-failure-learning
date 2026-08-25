@@ -30,7 +30,7 @@ module fifo(
                 write_ptr <= (write_ptr + 1) % 16;
             end
             if (read_en && !empty) begin
-                // DEFECT W: Static output corruption on specific read address (unrelated to RW count)
+                // Static output corruption on specific read address (unrelated to RW count)
                 if (read_ptr == 2)
                     read_data <= 8'h00;
                 else

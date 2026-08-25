@@ -45,9 +45,7 @@ def main():
     print("ARGUS PHASE 4.3B: STATIC WINDOW EQUIVALENCE & COMPLETE COST ACCOUNTING AUDIT")
     print("=" * 90)
 
-    # -------------------------------------------------------------------------
-    # 1. PRESERVE AND HASH ALL EXPERIMENT FILES
-    # -------------------------------------------------------------------------
+# Preserve and hash all experiment files
     files_to_hash = [
         os.path.join(base_dir, "src", "reuse", "transaction_semantic_certificate.py"),
         os.path.join(base_dir, "src", "reuse", "transaction_semantic_validator.py"),
@@ -76,9 +74,7 @@ def main():
     with open(os.path.join(raw_dir, "experiment_integrity_hashes.json"), "w", encoding="utf-8") as f:
         json.dump(hashes, f, indent=2)
 
-    # -------------------------------------------------------------------------
-    # 2. AUDIT A: WHY ARE STATIC-4 / STATIC-8 / STATIC-16 IDENTICAL?
-    # -------------------------------------------------------------------------
+    # Audit a: why are static-4 / static-8 / static-16 identical?
     print("\n[STEP 2] Executing Deep Forensic Slicing on All 75 Benchmark Cases...")
     with open(gt_manifest_p, "r", encoding="utf-8") as f:
         ground_truth = json.load(f)
@@ -119,11 +115,11 @@ def main():
         cycle_states = build_cycle_state_table(sig_map)
         n_avail = len(cycle_states)
 
-        # 1. Transaction Context Activation
+        # Transaction Context Activation
         tx_cycles = v_frozen_l2.detect_transaction_events(cert_tx.transaction_context, cycle_states)
         t_init = tx_cycles[0] if tx_cycles else None
 
-        # 2. Forensic Tracking for Static-4, Static-8, Static-16
+        # Forensic Tracking for Static-4, Static-8, Static-16
         # Static-4
         cert_4 = copy.deepcopy(cert_tx)
         cert_4.transaction_context.active_window_cycles = 4
@@ -182,7 +178,7 @@ def main():
             "input_hash_s16": h_s16[:12]
         })
 
-        # 3. Causal Evidence Location Test
+        # Causal Evidence Location Test
         trig_conds = cert_tx.trigger_spec.get("conditions", {})
         trig_cycles = []
         for i in range(1, n_avail):
@@ -248,9 +244,7 @@ def main():
     print(f"  - Mean actual window length (Static-8):             {df_forensics['actual_length_static8'].mean():.2f} cycles")
     print(f"  - Mean actual window length (Static-16):            {df_forensics['actual_length_static16'].mean():.2f} cycles")
 
-    # -------------------------------------------------------------------------
-    # 3. AUDIT B & C: COMPLETE COST ACCOUNTING & BREAK-EVEN N* RECONSTRUCTION
-    # -------------------------------------------------------------------------
+    # Audit b & c: complete cost accounting & break-even n* reconstruction
     print("\n[STEP 3] Reconstructing Complete Cost Taxonomy & Multi-Model SCR...")
     
     # Cost Parameters
@@ -356,9 +350,7 @@ def main():
     print("\nBREAK-EVEN TRAJECTORY RECONSTRUCTION:")
     print(df_be[["N_Manifestations", "N_Target_Reuses", "Independent_RCA_Cost", "Static_4_Expected", "Adaptive_L2_Expected", "Adaptive_Net_Savings", "Adaptive_Cheaper_Than_Indep"]].to_string(index=False))
 
-    # -------------------------------------------------------------------------
-    # 4. GENERATE 5 HIGH-IMPACT AUDIT VISUALIZATIONS
-    # -------------------------------------------------------------------------
+    # Generate 5 high-impact audit visualizations
     print("\n[STEP 4] Generating 5 Audit Visualizations...")
 
     # Plot 1: static_window_lengths.png
@@ -457,9 +449,7 @@ def main():
 
     print("  All 5 visualizations generated successfully.")
 
-    # -------------------------------------------------------------------------
-    # 5. GENERATE COMPREHENSIVE PHASE 4.3B AUDIT REPORT
-    # -------------------------------------------------------------------------
+    # Generate comprehensive phase 4.3b audit report
     rep_lines = [
         "# Argus Phase 4.3B: Static Window Equivalence & Complete Cost Accounting Audit Report",
         "",
