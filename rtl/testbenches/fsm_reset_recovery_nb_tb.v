@@ -8,7 +8,7 @@ module tb;
     
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/fsm_reset_recovery_nb.vcd");
+        $dumpfile("fsm_reset_recovery_nb.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         

@@ -251,8 +251,8 @@ def main():
         with open(orig_tb_p, "r", encoding="utf-8") as f:
             orig_code = f.read()
 
-        norm_base = base_dir.replace("\\", "/")
-        cf_code = orig_code.replace(f'"{norm_base}/rtl/{t_id}.vcd"', f'"{norm_base}/rtl/{cf_id}.vcd"')
+        import re
+        cf_code = re.sub(rf'\$dumpfile\(".*?"\)', f'$dumpfile("{cf_id}.vcd")', orig_code)
         cf_code = cf_code.replace('$finish;', f'{ext_stim} $finish;')
 
         # Write extended design & TB

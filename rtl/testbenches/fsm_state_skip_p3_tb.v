@@ -8,7 +8,7 @@ module tb;
     
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/fsm_state_skip_p3.vcd");
+        $dumpfile("fsm_state_skip_p3.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         

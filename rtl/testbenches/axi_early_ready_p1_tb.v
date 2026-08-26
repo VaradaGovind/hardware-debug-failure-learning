@@ -8,7 +8,7 @@ module tb;
     
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/axi_early_ready_p1.vcd");
+        $dumpfile("axi_early_ready_p1.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         

@@ -42,8 +42,8 @@ class VerilogSimulator:
             except Exception:
                 pass
             
-        run_cmd = ["vvp", output_file]
-        run_res = subprocess.run(run_cmd, capture_output=True, text=True, check=False)
+        run_cmd = ["vvp", f"{task_id}.vvp"]
+        run_res = subprocess.run(run_cmd, cwd=self.rtl_dir, capture_output=True, text=True, check=False)
         
         success = True
         if "ERROR" in run_res.stdout or "FAIL" in run_res.stdout or "FATAL" in run_res.stdout or run_res.returncode != 0:

@@ -4,7 +4,7 @@ module tb;
     wire done;
     fsm dut(.*);
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/fsm_stuck_state_nb.vcd");
+        $dumpfile("fsm_stuck_state_nb.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; start = 0;
         #20 rst_n = 1;

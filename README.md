@@ -140,23 +140,43 @@ python scripts/run_rtl_smoke.py
 Expected output:
 ```json
 {
+  "adaptive_decision": "PASS",
+  "causal_decision": "PASS",
+  "expected_failure_detected": true,
+  "explanation": "The fixture intentionally contains a failing FIFO scenario. The simulator executed cleanly and produced the expected failure trace for RCA-Reuse analysis.",
+  "fallback_policy_for_insufficient_evidence": {
+    "incurred_cost_calls": 10.9,
+    "policy_action": "FALLBACK_INDEPENDENT_RCA",
+    "raw_decision": "INSUFFICIENT_EVIDENCE",
+    "reason": "",
+    "safe_to_reuse": false,
+    "stage": "UNKNOWN"
+  },
   "fixture": "fifo_f2",
-  "simulator_compiled": true,
+  "reuse_policy": {
+    "incurred_cost_calls": 2.0,
+    "policy_action": "REUSE_RCA",
+    "raw_decision": "PASS",
+    "reason": "Full transaction obligation violation and causal propagation verified.",
+    "safe_to_reuse": true,
+    "stage": "FULL_TRANSACTION_SEMANTIC"
+  },
   "simulation_execution": "PASS",
   "simulation_status": "EXPECTED_FAILURE",
-  "expected_failure_detected": true,
-  "vcd_extracted": true,
-  "causal_decision": "PASS",
+  "simulator_compiled": true,
   "transaction_semantic_decision": "PASS",
-  "adaptive_decision": "PASS",
-  "reuse_policy": {
-    "policy_action": "REUSE_RCA",
-    "safe_to_reuse": true
-  },
-  "fallback_policy_for_insufficient_evidence": {
-    "policy_action": "FALLBACK_INDEPENDENT_RCA",
-    "safe_to_reuse": false
-  }
+  "vcd_extracted": true,
+  "waveform_signals": [
+    "clk",
+    "count",
+    "empty",
+    "full",
+    "read_en",
+    "read_ptr",
+    "rst_n",
+    "write_en",
+    "write_ptr"
+  ]
 }
 ```
 

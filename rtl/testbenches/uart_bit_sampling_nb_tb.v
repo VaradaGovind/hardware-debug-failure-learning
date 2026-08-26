@@ -8,7 +8,7 @@ module tb;
     
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/uart_bit_sampling_nb.vcd");
+        $dumpfile("uart_bit_sampling_nb.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         

@@ -8,7 +8,7 @@ module tb;
     
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/axi_burst_count_p2.vcd");
+        $dumpfile("axi_burst_count_p2.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         

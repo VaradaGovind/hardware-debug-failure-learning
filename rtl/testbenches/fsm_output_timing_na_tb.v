@@ -8,7 +8,7 @@ module tb;
     
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/fsm_output_timing_na.vcd");
+        $dumpfile("fsm_output_timing_na.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         

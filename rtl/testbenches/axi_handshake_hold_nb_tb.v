@@ -8,7 +8,7 @@ module tb;
     
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/axi_handshake_hold_nb.vcd");
+        $dumpfile("axi_handshake_hold_nb.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         

@@ -8,7 +8,7 @@ module tb;
     fifo dut(.*);
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/fifo_f4.vcd");
+        $dumpfile("fifo_f4.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 8'h20;
         #10 rst_n = 1;

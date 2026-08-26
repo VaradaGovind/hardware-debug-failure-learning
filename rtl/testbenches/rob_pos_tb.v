@@ -4,7 +4,7 @@ module tb;
     reg [7:0] write_data; wire [7:0] read_data; wire full, empty;
     fifo dut(.*);
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/rob_pos.vcd");
+        $dumpfile("rob_pos.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 8'h33;
         #50 rst_n = 1; // Long delayed start

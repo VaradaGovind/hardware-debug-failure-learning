@@ -8,7 +8,7 @@ module tb;
     
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/fifo_ptr_wrap_p2.vcd");
+        $dumpfile("fifo_ptr_wrap_p2.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         write_en = 0; read_en = 0; write_data = 8'h11;

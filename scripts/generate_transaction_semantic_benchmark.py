@@ -265,7 +265,7 @@ module tb;
     wire done;
     fsm dut(.*);
     initial begin
-        $dumpfile("{norm_base}/rtl/{c_id}.vcd");
+        $dumpfile("{c_id}.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; start = 0;
         #20 rst_n = 1;
@@ -299,7 +299,7 @@ module tb;
     wire [7:0] d_out;
     pipeline dut(.*);
     initial begin
-        $dumpfile("{norm_base}/rtl/{c_id}.vcd");
+        $dumpfile("{c_id}.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; valid_in = 0; d_in = 8'h00;
         #20 rst_n = 1;

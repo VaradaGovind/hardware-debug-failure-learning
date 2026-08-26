@@ -378,7 +378,7 @@ module tb;
     {f"reg valid_in; reg [7:0] d_in; wire valid_out; wire [7:0] d_out; pipeline dut(.*);" if design == 'pipeline' else ''}
 
     initial begin
-        $dumpfile("{norm_base}/rtl/{full_inst_id}.vcd");
+        $dumpfile("{full_inst_id}.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         {f"write_en = 0; read_en = 0; write_data = 8'h11;" if design == 'fifo' else ''}

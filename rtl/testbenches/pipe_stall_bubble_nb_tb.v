@@ -6,7 +6,7 @@ module tb;
     wire [7:0] d_out;
     pipeline dut(.*);
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/pipe_stall_bubble_nb.vcd");
+        $dumpfile("pipe_stall_bubble_nb.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; valid_in = 0; d_in = 8'h00;
         #20 rst_n = 1;

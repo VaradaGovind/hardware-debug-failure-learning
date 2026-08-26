@@ -128,7 +128,7 @@ module tb;
     fifo dut(.*);
 
     initial begin
-        $dumpfile("{norm_base}/rtl/fifo_f1.vcd");
+        $dumpfile("fifo_f1.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 0;
         #10 rst_n = 1;
@@ -168,7 +168,7 @@ module tb;
     fifo dut(.*);
 
     initial begin
-        $dumpfile("{norm_base}/rtl/fifo_f2.vcd");
+        $dumpfile("fifo_f2.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 8'h10;
         #10 rst_n = 1;
@@ -210,7 +210,7 @@ module tb;
     fifo dut(.*);
 
     initial begin
-        $dumpfile("{norm_base}/rtl/fifo_f3.vcd");
+        $dumpfile("fifo_f3.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 8'h50;
         #10 rst_n = 1;
@@ -251,7 +251,7 @@ module tb;
     fifo dut(.*);
 
     initial begin
-        $dumpfile("{norm_base}/rtl/fifo_f4.vcd");
+        $dumpfile("fifo_f4.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 8'h20;
         #10 rst_n = 1;

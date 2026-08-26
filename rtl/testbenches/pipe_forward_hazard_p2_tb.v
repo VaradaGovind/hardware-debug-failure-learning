@@ -8,7 +8,7 @@ module tb;
     reg valid_in; reg [7:0] d_in; wire valid_out; wire [7:0] d_out; pipeline dut(.*);
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/pipe_forward_hazard_p2.vcd");
+        $dumpfile("pipe_forward_hazard_p2.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         

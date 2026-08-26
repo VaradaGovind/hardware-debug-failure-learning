@@ -228,7 +228,7 @@ endmodule
 
 # Testbenches
 
-    # F5 Testbench: Exercises Simultaneous R/W Trigger, manifests Symptom B (Read Stalled / Data Underflow)
+    # F5 Testbench: Defect Z (Read Ptr Skip) -> Symptom B: "FAIL: Read Stalled / Data Underflow"
     tb_f5 = f"""
 module tb;
     reg clk, rst_n, write_en, read_en;
@@ -239,7 +239,7 @@ module tb;
     fifo dut(.*);
 
     initial begin
-        $dumpfile("{norm_base}/rtl/fifo_f5.vcd");
+        $dumpfile("fifo_f5.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 8'h10;
         #10 rst_n = 1;
@@ -281,7 +281,7 @@ module tb;
     fifo dut(.*);
 
     initial begin
-        $dumpfile("{norm_base}/rtl/fifo_f6.vcd");
+        $dumpfile("fifo_f6.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 8'h40;
         #50 rst_n = 1; // 50ns startup delay
@@ -320,7 +320,7 @@ module tb;
     fifo dut(.*);
 
     initial begin
-        $dumpfile("{norm_base}/rtl/fifo_f7.vcd");
+        $dumpfile("fifo_f7.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0; write_en = 0; read_en = 0; write_data = 8'h70;
         #10 rst_n = 1;

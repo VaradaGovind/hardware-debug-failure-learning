@@ -8,7 +8,7 @@ module tb;
     
 
     initial begin
-        $dumpfile("C:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/rtl/uart_stop_bit_gen_s1.vcd");
+        $dumpfile("uart_stop_bit_gen_s1.vcd");
         $dumpvars(0, tb);
         clk = 0; rst_n = 0;
         
