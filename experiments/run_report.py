@@ -92,8 +92,8 @@ python experiments/run_report.py
     with open(os.path.join(reports_dir, "real_rtl_experiment.md"), "w") as f:
         f.write(research_report)
         
-    # ChipAgents Summary
-    chip_summary = f"""# Failure-Learning Negative Search Constraints
+    # Executive Summary
+    exec_summary = f"""# Failure-Learning Negative Search Constraints
 
 # Problem
 Hardware debugging agents repeatedly fall into identical unproductive investigation traps (e.g., repeatedly querying irrelevant signals like `clk` or `ready` on unrelated interfaces) when presented with similar symptoms.
@@ -117,10 +117,10 @@ I built a small, determinist RTL benchmark containing 20 bugs across 5 design fa
 This is a research prototype. It operates on small isolated RTL modules without a full dependency graph (using simple regex parsing). 
 
 # Next Step
-To evaluate this for production use, the pattern miner must be integrated into a real ChipAgents workflow with a full LLM reflection cycle and tested against a large-scale SoC benchmark.
+To evaluate this for production use, the pattern miner must be integrated into an autonomous agent workflow with a full LLM reflection cycle and tested against a large-scale SoC benchmark.
 """
-    with open(os.path.join(reports_dir, "chipagents_summary.md"), "w") as f:
-        f.write(chip_summary)
+    with open(os.path.join(reports_dir, "executive_summary.md"), "w") as f:
+        f.write(exec_summary)
         
     print(f"Generated reports in {reports_dir}")
 

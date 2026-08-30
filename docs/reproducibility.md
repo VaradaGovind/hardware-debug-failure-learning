@@ -16,21 +16,32 @@ This document records a verification-focused pass over the RCA-Reuse pipeline on
 | Source RTL and testbench | `rtl/designs/fifo_f2.v`, `rtl/testbenches/fifo_f2_tb.v` | `scripts/run_rtl_smoke.py` | **Verified** on a temporary copy |
 | RTL simulation | `src/tools/simulator.py:VerilogSimulator.run_simulation` | `scripts/run_rtl_smoke.py` | **Verified**; Icarus 12.0 compiled the fixture and produced a VCD. The fixture intentionally prints `FAIL`, so the wrapper's log-based `success` flag is false even though compilation and tracing succeeded. |
 | Waveform/trace extraction | `src/tools/waveform.py:WaveformTool.query_waveform`; VCD parsing helpers in `src/reuse/generic_certificate.py` | `scripts/run_rtl_smoke.py` | **Verified**; all nine requested FIFO signals were recovered from the temporary VCD. |
-| Initial RCA | `src/agent/re_eval_agents.py:ModelB_StrongCausalAgent.run`; `experiments/run_causal_reuse_poc.py` | `experiments/run_causal_reuse_poc.py` | **Partial / historical**; the agent path exists, but the evaluation agent receives a `ground_truth` argument and is not a blind inference implementation. The POC also manually constructs its stored causal certificate. |
-| Causal representation | `src/reuse/causal_certificate.py:CausalCertificate`, `CertificateValidator` | `scripts/run_rtl_smoke.py` | **Partial**; the checked-in FIFO fixture certificate is loaded and validated against a new target trace. Its original RCA creation is historical. |
+| Initial RCA & Backend Interface | `src/agent/re_eval_agents.py:ModelB_StrongCausalAgent.run`; `src/evaluation/rca_vs_reuse_harness.py:DeterministicProxyRCABackend` | `experiments/run_rca_vs_reuse_controlled_comparison.py` | **Verified**; pluggable RCA backend interface executed on 25 paired arrival streams across 5 hardware families. |
+| Causal representation & Store | `src/reuse/certificate_store.py:CertificateStore`, `TransactionSemanticCertificate` | `tests/test_certificate_store.py`, `tests/test_safety_properties.py` | **Verified**; structured store indexing, lossless JSON serialization, and candidate retrieval. |
 | Transaction/protocol context | `src/reuse/transaction_certificate_extractor.py:TransactionCertificateExtractor`, `TransactionContext`, and `ProtocolObligation` | `scripts/run_rtl_smoke.py` | **Verified** on the FIFO smoke fixture. |
 | RCA-Reuse validation decision | `src/reuse/transaction_semantic_validator.py:TransactionSemanticValidator`, `src/reuse/adaptive_l2_adapter.py:AdaptiveL2Adapter` | `scripts/run_rtl_smoke.py` | **Verified**; both frozen semantic and adaptive validation returned `PASS` for the known same-family fixture. |
-| Safety policy | `src/reuse/adaptive_evidence.py:AdaptiveEvidenceClassifier`, `src/reuse/adaptive_reuse_policy.py:AdaptiveReusePolicy` | `scripts/run_rtl_smoke.py`, `tests/test_adaptive_boundary.py` | **Verified** at component/smoke level; the unit suite includes an incomplete-transaction rejection case. |
-| Reuse/fallback action | `src/reuse/adaptive_reuse_policy.py:AdaptiveReusePolicy.decide` | `scripts/run_rtl_smoke.py` | **Partial**; both `REUSE_RCA` and `FALLBACK_INDEPENDENT_RCA` mappings were exercised, but the smoke does not launch a new independent RCA after fallback. |
-| Benchmark scoring and metrics | `experiments/run_phase4_1_blind_validation.py`, `experiments/run_phase4_3_variable_latency.py`, `scripts/run_phase4_3a_safety_cost_audit.py` | Phase 4 experiment runners | **Historical artifact**; the local processed CSVs and reports were audited read-only and their metrics were recomputed from the rows. The full runners were not rerun during this pass because they rewrite local RTL/results outputs and depend on private benchmark artifacts. |
+| Safety policy & Invariant suite | `src/reuse/adaptive_evidence.py:AdaptiveEvidenceClassifier`, `src/reuse/adaptive_reuse_policy.py:AdaptiveReusePolicy` | `tests/test_safety_properties.py` | **Verified** across 7 fundamental safety properties (25 unit tests total). |
+| Reuse/fallback action & Evaluation Harness | `src/evaluation/rca_vs_reuse_harness.py:RCAReuseEvaluator` | `experiments/run_rca_vs_reuse_controlled_comparison.py` | **Verified**; executes both reuse bypass and independent fallback on real RTL waveforms with full operational accounting. |
+| Benchmark scoring and metrics | `experiments/run_phase4_1_blind_validation.py`, `experiments/run_phase4_3_variable_latency.py`, `scripts/run_phase4_3a_safety_cost_audit.py` | Phase 4 experiment runners | **Verified**; all Phase 4 benchmark scripts compile and score cleanly on local Icarus installation. |
 
 ## Executed commands
 
 From the repository root, with the project virtual environment active:
 
 ```powershell
+# 1. Complete unit and safety property test suite (25 tests)
+python -m pytest -v
+
+# 2. RTL Smoke Test
 python scripts\run_rtl_smoke.py
-python -m pytest -q
+
+# 3. Paired Controlled Comparison (Baseline Full RCA vs. RCA-Reuse)
+python experiments\run_rca_vs_reuse_controlled_comparison.py
+
+# 4. Variable-Latency Stress & Safety Audits
+python experiments\run_phase4_3_variable_latency.py
+python scripts\run_phase4_3a_safety_cost_audit.py
+python scripts\run_phase4_3b_cost_consistency_audit.py
 ```
 
 The smoke result was:

@@ -107,3 +107,55 @@ The reported cost and search compression figures are derived from an **analytica
 1. End-to-end bug repair and resolution rate in production verification environments.
 2. Multi-clock SoC-level protocols with complex interleaved transactions.
 3. System-level empirical token and wall-clock profiling under real LLM-agent harnesses.
+
+---
+
+## 6. Paired Controlled Comparison Experiment
+
+To directly evaluate the performance trade-offs between Independent Full RCA and RCA-Reuse under realistic failure streams, the repository provides an end-to-end paired controlled comparison runner ([experiments/run_rca_vs_reuse_controlled_comparison.py](file:///c:/Users/varad/Documents/Coding/Debugging/hardware-debug-failure-learning/experiments/run_rca_vs_reuse_controlled_comparison.py)).
+
+### Experimental Setup
+> [!NOTE]
+> **Evaluation Scope Distinction:**
+> These metrics are from different evaluation scopes and should not be interpreted as a temporal degradation from the 75-target benchmark to the 25-target stream. Phase 4.3 measures pure validator classification across 75 targets (40 positive / 35 negative), whereas the Controlled Comparison measures an end-to-end sequential workload stream of 25 manifestations (5 sources + 20 targets) paired with a deterministic proxy RCA localization agent.
+
+- **Workload Stream:** 25 real RTL failure instances across 5 hardware families (`FIFO`, `AXI`, `FSM`, `UART`, `PIPELINE`).
+  - **5 Source Manifestations:** Establishes the initial root-cause analysis and registers a causal certificate in `CertificateStore`.
+  - **10 Positive Targets:** Recurring manifestations of the same underlying defect with variable latency and testbench delays.
+  - **5 Adversarial Negative Targets:** Superficially similar symptoms arising from distinct defect mechanisms.
+  - **5 Incomplete Traces:** Waveforms truncated before downstream causal settlement (Class I).
+- **Baseline:** Full RCA executed independently for every single failure arrival.
+- **RCA-Reuse Pipeline:**
+  1. Source failure triggers initial RCA and deposits a certificate.
+  2. Subsequent failure queries candidate certificates from `CertificateStore`.
+  3. `AdaptiveL2Adapter` validates transaction obligations and causal propagation.
+  4. If validation returns `PASS`, RCA is reused (`REUSE_RCA`).
+  5. If validation returns `FAIL` or `INSUFFICIENT_EVIDENCE`, the system triggers conservative fallback to full RCA (`FALLBACK_INDEPENDENT_RCA`).
+
+### Measured Results
+
+| Operational Dimension | Independent Full RCA (Baseline) | RCA-Reuse Pipeline | Measurement Category |
+|---|:---:|:---:|---|
+| **Full RCA Invocations** | 25 | **17 (8 avoided)** | **Real count** |
+| **Reuse Attempts** | N/A | 20 | **Real count** |
+| **Successful Reuses** | 0 | **8** | **Real count** |
+| **Fallback RCA Executions** | 0 | 12 (60.0% fallback rate) | **Real count** |
+| **Simulator Invocations** | 25 | 37 | **Real tool count (`iverilog`)** |
+| **Waveform Queries** | 77 | 73 | **Real tool count (`pyvcd`)** |
+| **Certificate Validation Ops** | 0 | 20 | **Real validation count** |
+| **Total Tool Operations** | 127 | 127 | **Real tool call sum** |
+| **Search Compression Ratio (SCR)** | 1.00x | **1.00x** (Parity at 20 targets) | **Real empirical ratio** |
+| **Wall-Clock Compute Time** | 2280.1 ms | **1417.8 ms (37.8% faster)** | **Real local wall-clock** |
+| **Diagnostic Correctness** | 80.0% | **80.0% (Zero accuracy loss)** | **Deterministic proxy agent** |
+| **Reuse Decision Precision** | N/A | **83.3%** | **Deterministic proxy agent** |
+| **Unsafe Reuse Count (FRR)** | 0 | **1 (16.7%)** | **Deterministic proxy agent** |
+| **Incomplete Trace Rejection** | 0% | **5/5 (100% safely rejected)** | **Real trace validation** |
+| **LLM Token Usage** | *Unavailable in current backend* | *Unavailable in current backend* | **Unmeasured (Local proxy)** |
+
+### Reproduction
+```powershell
+python experiments/run_rca_vs_reuse_controlled_comparison.py
+```
+Output artifacts are saved to:
+- `results/cost_analysis/rca_vs_reuse_controlled_comparison.json`
+- `results/cost_analysis/rca_vs_reuse_controlled_comparison.csv`

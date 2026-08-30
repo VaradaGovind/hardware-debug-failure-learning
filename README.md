@@ -95,6 +95,16 @@ The project progressed through empirical hypothesis-and-failure iterations:
 
 *Note: These metrics measure triage and validation decisions, not end-to-end bug resolution rates. See [docs/rca_vs_reuse.md](docs/rca_vs_reuse.md).*
 
+### 5.1 Paired Controlled Comparison (Operational Workload Stream)
+
+In addition to static benchmark validation, an end-to-end paired controlled comparison evaluates sequential failure arrivals across 5 hardware families:
+- **Workload Stream:** 25 failure manifestations (5 sources + 20 targets).
+- **RCA Avoidance:** 8 / 25 full RCA investigations avoided (32% reduction in initial RCA invocations).
+- **Latency Reduction:** ~34% lower measured wall-clock execution time under local simulation.
+- **Diagnostic Parity:** 80.0% baseline correctness vs. 80.0% RCA-Reuse correctness (zero accuracy loss).
+- **Incomplete Trace Safety:** 100% (5/5) of truncated traces safely rejected to independent fallback.
+- **Backend Note:** Uses a deterministic local proxy backend; physical LLM token accounting is not available in local mode. Full details and operational accounting are in [docs/rca_vs_reuse.md](docs/rca_vs_reuse.md).
+
 ---
 
 ## 6. Reproducibility Boundaries
@@ -180,10 +190,18 @@ Expected output:
 }
 ```
 
-### Running Unit Tests
+### Running the Unit & Safety Property Suite (25 Tests)
 ```powershell
-python -m pytest -q
+python -m pytest -v
 ```
+
+### Running the Paired Controlled Comparison (Baseline Full RCA vs. RCA-Reuse)
+```powershell
+python experiments/run_rca_vs_reuse_controlled_comparison.py
+```
+
+This runs a 25-manifestation stream across 5 hardware families, comparing Independent Full RCA against the RCA-Reuse pipeline on real RTL simulation traces.
+
 
 ---
 

@@ -71,3 +71,22 @@ The validator’s outcomes are not all equivalent:
 ### Reuse or new RCA
 
 If a certificate passes safety validation, the experiment can count the case as a reuse decision. If evidence is insufficient or the certificate fails, the safe path is to avoid reuse and run a new RCA. The current code and experiments do not themselves provide a universal end-to-end bug-resolution oracle, so a validation outcome must not be reported as a resolved bug without a separate resolution measurement.
+
+---
+
+## The 5 Distinct Validation and Triage Layers
+
+RCA-Reuse strictly distinguishes 5 separate layers of evidence:
+
+1. **Symptom / Invariant Similarity (L0/L1):** Detects whether target failure shares raw register deltas or high-level symptoms. (Insufficient on its own due to symptom aliasing).
+2. **Transaction Semantic Equivalence (L2 Context & Obligations):** Verifies that the target waveform actively exercised the initiating transaction context and violated the specific protocol obligation.
+3. **Causal Equivalence (L2 Propagation):** Confirms that the defect mechanism caused downstream state divergence in valid temporal order.
+4. **Evidence Sufficiency & Confidence Gate (L2 Adaptive):** Ensures the transaction reached natural quiescence and was not truncated mid-execution (`INSUFFICIENT_EVIDENCE`).
+5. **Final Triage Decision Policy:** Maps validated cases to `REUSE_RCA` and all failed/insufficient cases to `FALLBACK_INDEPENDENT_RCA`.
+
+---
+
+## Certificate Store and Evaluation Harness
+
+- `src/reuse/certificate_store.py:CertificateStore` provides multi-criteria indexing (by design family, module, interface, symptom), candidate retrieval, and structured `ValidationDecisionReport` emission.
+- `src/evaluation/rca_vs_reuse_harness.py:RCABackend` and `RCAReuseEvaluator` provide pluggable autonomous agent evaluation comparing independent full RCA against the reuse pipeline across physical tool operations, wall-clock time, diagnostic accuracy, and safe fallback.
