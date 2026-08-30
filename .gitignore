@@ -47,6 +47,8 @@ Desktop.ini
 *.bak
 *.orig
 *.rej
+*.jsonl
+logs/
 tmp/
 temp/
 
