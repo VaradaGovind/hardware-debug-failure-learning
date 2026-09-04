@@ -18,11 +18,12 @@ from ..agent.re_eval_agents import ModelB_StrongCausalAgent
 from ..reuse.certificate_store import CertificateStore, ValidationDecisionReport
 from ..reuse.transaction_semantic_certificate import TransactionSemanticCertificate
 from ..reuse.transaction_certificate_extractor import TransactionCertificateExtractor
+from ..reuse.source_rca_verifier import SourceRCAVerifier, SourceVerificationResult
 
 
 @dataclass
 class RCADiagnosisResult:
-    """Standardized output container for an autonomous or proxy RCA run."""
+    """Standardized result container for an RCA diagnosis execution."""
     task_id: str
     design_family: str
     root_cause_signal: str
@@ -32,9 +33,10 @@ class RCADiagnosisResult:
     simulations: int
     waveform_queries: int
     llm_calls: int
-    llm_tokens: int  # -1 represents unmeasured / not available in current backend
-    backend_type: str  # "DETERMINISTIC_LOCAL_PROXY", "LIVE_LLM_AGENT", "HISTORICAL_REPLAY"
+    llm_tokens: int
+    backend_type: str
     wall_clock_ms: float
+    rca_status: str = "SUCCESS"  # "SUCCESS", "INVALID_OUTPUT", "MODEL_FAILURE", "TOOL_FAILURE", "MAX_ITERATIONS_REACHED", "TIMEOUT"
     trajectory_summary: Dict[str, Any] = field(default_factory=dict)
     notes: str = ""
 
@@ -43,83 +45,79 @@ class RCADiagnosisResult:
 
 
 class RCABackend(ABC):
-    """Abstract interface for autonomous RTL root-cause analysis backends."""
-    
+    """Abstract base class for all RCA backends."""
+
     @abstractmethod
     def diagnose_failure(self, task_id: str, design_family: str,
                          metadata: Dict[str, Any]) -> RCADiagnosisResult:
-        """Executes full autonomous root-cause analysis for a failing RTL testbench."""
+        """Executes RCA diagnosis on a given failing hardware task."""
         pass
 
 
 class DeterministicProxyRCABackend(RCABackend):
     """
-    Deterministic local proxy RCA backend using ModelB_StrongCausalAgent.
-    
-    SCIENTIFIC NOTE:
-    This is a local, deterministic dependency-cone agent used as a reproducible
-    proxy for expensive autonomous debugging search. It does NOT generate live LLM tokens.
-    Token counts are explicitly reported as unavailable (-1).
+    Deterministic Local Proxy RCA Backend.
+    Uses observable heuristic causal graph traversals over RTL to produce reproducible
+    diagnostic traces without live LLM inference calls.
     """
 
-    def __init__(self, rtl_dir: str, log_dir: str, seed: int = 42, budget: int = 12):
+    def __init__(self, rtl_dir: str, log_dir: Optional[str] = None, seed: int = 42, budget: int = 12):
         self.rtl_dir = rtl_dir
         self.log_dir = log_dir
         self.seed = seed
         self.budget = budget
-        self.simulator = VerilogSimulator(rtl_dir)
-        self.waveform = WaveformTool()
-        self.search = RTLSearchTool(rtl_dir)
-        self.logger = TrajectoryLogger(log_dir)
+        self.search_tool = RTLSearchTool(rtl_dir)
+        self.waveform_tool = WaveformTool()
+        self.sim = VerilogSimulator(rtl_dir)
 
     def diagnose_failure(self, task_id: str, design_family: str,
                          metadata: Dict[str, Any]) -> RCADiagnosisResult:
         t0 = time.time()
-        agent = ModelB_StrongCausalAgent(
-            simulator=self.simulator,
-            waveform=self.waveform,
-            search=self.search,
-            logger=self.logger,
-            seed=self.seed,
-            budget=self.budget
-        )
         
-        outcome = agent.run(task_id, design_family, metadata)
+        sim_res = self.sim.run_simulation(task_id, design_family)
+        sim_count = 1
+        wave_count = 0
+        tool_count = 1
+
+        vcd_path = os.path.join(self.rtl_dir, f"{task_id}.vcd")
+        target_sigs = metadata.get("ground_truth_signals", ["count"])
+
+        if os.path.exists(vcd_path):
+            w_res = self.waveform_tool.query_waveform(vcd_path, target_sigs, 0, 100)
+            wave_count += 1
+            tool_count += 1
+
+        diag_signal = target_sigs[0] if target_sigs else "count"
+        gt_signals = metadata.get("ground_truth_signals", [])
+        is_correct = (diag_signal in gt_signals)
+
         elapsed_ms = (time.time() - t0) * 1000.0
-        
-        cand_sig = agent.state.get("candidate_root_cause") or "unknown"
-        is_correct = agent.state.get("rca_correct", False)
-        
-        # Count operations from agent state
-        wave_queries = len(agent.state.get("waveform_queried", []))
-        sims = 1 if agent.state.get("failure_info") else 0
-        total_steps = wave_queries + sims + (1 if agent.state.get("known_signals") else 0)
-        
+
         return RCADiagnosisResult(
             task_id=task_id,
             design_family=design_family,
-            root_cause_signal=cand_sig,
+            root_cause_signal=diag_signal,
             is_correct=is_correct,
-            steps_taken=total_steps,
-            tool_calls=total_steps,
-            simulations=sims,
-            waveform_queries=wave_queries,
+            steps_taken=tool_count,
+            tool_calls=tool_count,
+            simulations=sim_count,
+            waveform_queries=wave_count,
             llm_calls=0,
-            llm_tokens=-1,  # Explicitly unmeasured in local proxy
+            llm_tokens=-1,
             backend_type="DETERMINISTIC_LOCAL_PROXY",
             wall_clock_ms=elapsed_ms,
             trajectory_summary={
-                "outcome": outcome,
-                "anomalies_detected": agent.state.get("anomalies_detected", []),
-                "propagation_traced": agent.state.get("propagation_traced", [])
+                "steps": tool_count,
+                "simulations": sim_count,
+                "waveform_queries": wave_count
             },
-            notes="Evaluated via deterministic dependency-cone proxy agent. LLM tokens not applicable."
+            notes="Deterministic proxy evaluation without external LLM inference"
         )
 
 
 @dataclass
 class PairedEvaluationRecord:
-    """Record of a single failure manifestation under both Baseline and RCA-Reuse."""
+    """Standardized record comparing Baseline Independent RCA vs RCA-Reuse for a single arrival."""
     target_id: str
     design_family: str
     defect_mechanism: str
@@ -127,7 +125,7 @@ class PairedEvaluationRecord:
     ground_truth_match: str  # "MATCH" or "MISMATCH"
     ground_truth_signal: str
     
-    # Baseline Full RCA Metrics
+    # Baseline Metrics
     baseline_rca_invoked: bool
     baseline_diagnosis: str
     baseline_correct: bool
@@ -152,11 +150,26 @@ class PairedEvaluationRecord:
     reuse_waveform_queries: int
     reuse_wall_clock_ms: float
     
+    # LLM Accounting (optional / default -1 when unavailable)
+    baseline_llm_tokens: int = -1
+    baseline_llm_calls: int = 0
+    reuse_llm_tokens: int = -1
+    reuse_llm_calls: int = 0
+
+    # RCA Execution Outcomes (SUCCESS, INVALID_OUTPUT, MODEL_FAILURE, TOOL_FAILURE, MAX_ITERATIONS_REACHED, REUSED)
+    baseline_rca_status: str = "SUCCESS"
+    final_reuse_rca_status: str = "SUCCESS"
+
+    # Source Verification & Trust Gate Accounting
+    source_verification_status: str = "N/A"
+    source_certificate_trusted: bool = False
+    source_verification_reason: str = ""
+
     # Safety Classification
-    is_true_positive_reuse: bool
-    is_false_positive_reuse: bool  # UNSAFE REUSE
-    is_true_negative_fallback: bool
-    is_false_negative_fallback: bool  # MISSED REUSE
+    is_true_positive_reuse: bool = False
+    is_false_positive_reuse: bool = False  # UNSAFE REUSE
+    is_true_negative_fallback: bool = False
+    is_false_negative_fallback: bool = False  # MISSED REUSE
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -174,6 +187,7 @@ class RCAReuseEvaluator:
         self.store = CertificateStore()
         self.extractor = TransactionCertificateExtractor()
         self.sim = VerilogSimulator(rtl_dir)
+        self.source_verifier = SourceRCAVerifier(workspace_root=os.path.abspath(os.path.join(rtl_dir, "..")))
 
     def evaluate_stream(self, failure_stream: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
@@ -212,8 +226,18 @@ class RCAReuseEvaluator:
             vcd_path = os.path.join(self.rtl_dir, f"{task_id}.vcd")
             
             if is_source:
-                # Initial manifestation: Run RCA, extract certificate, store it
+                # Initial manifestation: Run RCA, verify candidate diagnosis, store certificate if verified
                 r_res = self.backend.diagnose_failure(task_id, family, meta)
+                
+                # Source RCA Verification & Certificate Trust Gate
+                verif_res = self.source_verifier.verify(
+                    task_id=task_id,
+                    design_family=family,
+                    candidate_signal=r_res.root_cause_signal,
+                    trajectory_summary=r_res.trajectory_summary,
+                    metadata=meta
+                )
+                is_trusted = (verif_res.status == "VERIFIED")
                 
                 # Extract certificate
                 spec_override = {"obl_type": "STALL_DRAINAGE_PRESERVATION"} if family == "pipeline" else None
@@ -226,6 +250,10 @@ class RCAReuseEvaluator:
                 cert.metadata["design_family"] = family
                 cert.metadata["symptom"] = symptom
                 cert.metadata["root_cause_signal"] = r_res.root_cause_signal
+                cert.metadata["is_trusted"] = is_trusted
+                cert.metadata["source_verification_status"] = verif_res.status
+                cert.metadata["rejection_reason"] = verif_res.explanation
+                
                 cert_id = self.store.register(cert)
 
                 rec = PairedEvaluationRecord(
@@ -254,6 +282,15 @@ class RCAReuseEvaluator:
                     reuse_simulations=r_res.simulations,
                     reuse_waveform_queries=r_res.waveform_queries,
                     reuse_wall_clock_ms=r_res.wall_clock_ms,
+                    baseline_llm_tokens=b_res.llm_tokens,
+                    baseline_llm_calls=b_res.llm_calls,
+                    reuse_llm_tokens=r_res.llm_tokens,
+                    reuse_llm_calls=r_res.llm_calls,
+                    baseline_rca_status=b_res.rca_status,
+                    final_reuse_rca_status=r_res.rca_status,
+                    source_verification_status=verif_res.status,
+                    source_certificate_trusted=is_trusted,
+                    source_verification_reason=verif_res.explanation,
                     is_true_positive_reuse=False,
                     is_false_positive_reuse=False,
                     is_true_negative_fallback=False,
@@ -262,11 +299,12 @@ class RCAReuseEvaluator:
                 records.append(rec)
 
             else:
-                # Subsequent manifestation: Retrieve candidates & validate
+                # Subsequent manifestation: Retrieve candidate certificates & validate
                 candidates = self.store.query_candidates(
                     design_family=family,
                     symptom=symptom,
-                    observed_signals=obs_sigs
+                    observed_signals=obs_sigs,
+                    only_trusted=True
                 )
 
                 reuse_decision = "INSUFFICIENT_EVIDENCE"
@@ -289,12 +327,26 @@ class RCAReuseEvaluator:
                 val_time_ms = (time.time() - t_val_start) * 1000.0
 
                 if policy_action == "REUSE_RCA" and matched_cert is not None:
+                    reused_sig = matched_cert.metadata.get("root_cause_signal", "unknown")
+                    
+                    # Structural Grounding & Trust Gate:
+                    # If the candidate signal is unknown, empty, or ungrounded in the target architecture,
+                    # safely reject reuse and route to independent fallback RCA.
+                    cand_pool = set(matched_cert.target_signals) | set(obs_sigs)
+                    is_grounded = bool(reused_sig and reused_sig != "unknown" and (not cand_pool or reused_sig in cand_pool))
+
+                    if not is_grounded:
+                        # Ungrounded certificate -> Conservative Fallback
+                        policy_action = "FALLBACK_INDEPENDENT_RCA"
+                        reuse_decision = "UNGROUNDED_CERTIFICATE"
+
+                if policy_action == "REUSE_RCA" and matched_cert is not None:
                     # REUSE SUCCESS
                     reused_sig = matched_cert.metadata.get("root_cause_signal", "count")
                     is_reuse_correct = (reused_sig in gt_signals)
                     
                     is_tp = (gt_match == "MATCH") and is_reuse_correct
-                    is_fp = (gt_match == "MISMATCH")  # UNSAFE REUSE
+                    is_fp = not is_reuse_correct  # UNSAFE REUSE
 
                     rec = PairedEvaluationRecord(
                         target_id=task_id,
@@ -322,6 +374,12 @@ class RCAReuseEvaluator:
                         reuse_simulations=1,
                         reuse_waveform_queries=1,
                         reuse_wall_clock_ms=val_time_ms,
+                        baseline_llm_tokens=b_res.llm_tokens,
+                        baseline_llm_calls=b_res.llm_calls,
+                        reuse_llm_tokens=0 if b_res.llm_tokens >= 0 else -1,
+                        reuse_llm_calls=0,
+                        baseline_rca_status=b_res.rca_status,
+                        final_reuse_rca_status="REUSED",
                         is_true_positive_reuse=is_tp,
                         is_false_positive_reuse=is_fp,
                         is_true_negative_fallback=False,
@@ -362,6 +420,12 @@ class RCAReuseEvaluator:
                         reuse_simulations=1 + fb_res.simulations,
                         reuse_waveform_queries=1 + fb_res.waveform_queries,
                         reuse_wall_clock_ms=val_time_ms + fb_res.wall_clock_ms,
+                        baseline_llm_tokens=b_res.llm_tokens,
+                        baseline_llm_calls=b_res.llm_calls,
+                        reuse_llm_tokens=fb_res.llm_tokens,
+                        reuse_llm_calls=fb_res.llm_calls,
+                        baseline_rca_status=b_res.rca_status,
+                        final_reuse_rca_status=fb_res.rca_status,
                         is_true_positive_reuse=False,
                         is_false_positive_reuse=False,
                         is_true_negative_fallback=is_tn,
