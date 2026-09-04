@@ -1,0 +1,26 @@
+case_index,target_id,design_family,ground_truth_signal,base_diagnosis,v6_diagnosis,base_correct,v6_correct,transition
+1,heldout_fifo_src,fifo,count,unknown,unknown,False,False,Unknown -> Wrong
+2,fifo_vl_a1,fifo,count,write_data,count,False,True,Wrong -> Correct
+3,fifo_vl_b1,fifo,count,unknown,unknown,False,False,Unknown -> Wrong
+4,fifo_vl_f1,fifo,write_ptr,write_data,read_data,False,False,Wrong -> Wrong
+5,fifo_vl_i2,fifo,count,write_data,read_data,False,False,Wrong -> Wrong
+6,heldout_axi_src,axi,valid_out,valid_out,valid_out,True,True,Correct -> Correct
+7,axi_vl_a1,axi,valid_out,valid_out,unknown,True,False,Correct -> Wrong
+8,axi_vl_b1,axi,valid_out,valid_out,valid_out,True,True,Correct -> Correct
+9,axi_vl_f1,axi,ready_out,valid_out,ready_out,False,True,Wrong -> Correct
+10,axi_vl_i2,axi,valid_out,unknown,unknown,False,False,Unknown -> Wrong
+11,heldout_fsm_src,fsm,state,start,state,False,True,Wrong -> Correct
+12,fsm_vl_a1,fsm,state,unknown,"done,state",False,False,Unknown -> Wrong
+13,fsm_vl_b1,fsm,state,start,state,False,True,Wrong -> Correct
+14,fsm_vl_f1,fsm,done,start,state,False,False,Wrong -> Wrong
+15,fsm_vl_i2,fsm,state,unknown,state,False,True,Wrong -> Correct
+16,heldout_uart_src,uart,cnt,cnt,unknown,True,False,Correct -> Wrong
+17,uart_vl_a1,uart,cnt,cnt,tx,True,False,Correct -> Wrong
+18,uart_vl_b1,uart,cnt,cnt,tx,True,False,Correct -> Wrong
+19,uart_vl_f1,uart,tx,tx,tx,True,True,Correct -> Correct
+20,uart_vl_i2,uart,cnt,unknown,unknown,False,False,Unknown -> Wrong
+21,heldout_pipe_src,pipeline,v1,valid_in,d_out,False,False,Wrong -> Wrong
+22,pipeline_vl_a1,pipeline,v1,valid_in,unknown,False,False,Wrong -> Wrong
+23,pipeline_vl_b1,pipeline,v1,unknown,valid_out,False,False,Unknown -> Wrong
+24,pipeline_vl_f1,pipeline,d1,valid_in,d_out,False,False,Wrong -> Wrong
+25,pipeline_vl_i2,pipeline,v1,unknown,unknown,False,False,Unknown -> Wrong
