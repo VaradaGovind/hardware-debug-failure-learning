@@ -121,7 +121,8 @@ class CertificateStore:
                          design_family: Optional[str] = None,
                          target_module: Optional[str] = None,
                          symptom: Optional[str] = None,
-                         observed_signals: Optional[List[str]] = None) -> List[Tuple[float, TransactionSemanticCertificate]]:
+                         observed_signals: Optional[List[str]] = None,
+                         only_trusted: bool = True) -> List[Tuple[float, TransactionSemanticCertificate]]:
         """
         Retrieves candidate certificates ranked by interface and structural signal overlap.
         
@@ -138,6 +139,11 @@ class CertificateStore:
         scored_candidates = []
         for cid in candidate_ids:
             cert = self._certificates[cid]
+
+            # Filter untrusted certificates if only_trusted is True
+            if only_trusted and not cert.metadata.get("is_trusted", True):
+                continue
+
             score = 1.0
 
             # Boost score if symptom matches metadata
