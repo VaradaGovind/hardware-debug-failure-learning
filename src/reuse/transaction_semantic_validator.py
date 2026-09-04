@@ -125,8 +125,9 @@ class TransactionSemanticValidator:
                     obl_violations.append(c_idx)
 
             elif obl.obligation_type == "OCCUPANCY_CONSERVATION":
-                if curr_s.get("count") != prev_s.get("count"):
-                    obl_violations.append(c_idx)
+                if curr_s.get("read_en") == 1 and curr_s.get("write_en") == 1:
+                    if curr_s.get("count") != prev_s.get("count"):
+                        obl_violations.append(c_idx)
 
         if not obl_violations:
             return {
@@ -162,7 +163,11 @@ class TransactionSemanticValidator:
                     anomaly_cycles.append(c_idx)
 
         if not anomaly_cycles:
-            anomaly_cycles = list(obl_violations)
+            return {
+                "decision": "FAIL",
+                "stage": "STATE_INVARIANT",
+                "reason": f"Expected state invariant anomaly ({inv_type} on {target_reg}) was not observed in waveform."
+            }
 
         if ablation_mode == "TRIGGER_STATE":
             return {"decision": "PASS", "stage": "STATE_INVARIANT", "anomaly_count": len(anomaly_cycles)}
