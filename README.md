@@ -1,254 +1,190 @@
-# RCA-Reuse: Safe Reuse of RTL Root-Cause Analysis
+# RCA-Reuse: Verified Reuse of Hardware Root-Cause Knowledge
 
-> Research prototype for evaluating whether an expensive RTL root-cause analysis (RCA) can be safely validated and reused for later manifestations of related failures.
-
----
-
-## 1. What Problem is RCA-Reuse Solving?
-
-Debugging hardware failure manifestations in RTL simulation is expensive. Diagnosing a single failing testbench often requires iterative signal tracing, waveform inspection, source-code analysis, and hypothesis testing. When similar failure manifestations recur during hardware development or regression testing, engineers or automated debugging agents often repeat the entire investigation from scratch.
-
-**RCA-Reuse** evaluates whether the causal explanation produced by an initial root-cause analysis can be formalized into a reusable **causal certificate** and checked against subsequent failures, bypassing redundant search when the underlying defect mechanism is identical.
+> A research prototype for verifying whether expensive hardware debugging root-cause analysis (RCA) explanations can be formalized as semantic certificates and safely reused across recurring failure manifestations.
 
 ---
 
-## 2. Why is RCA Reuse Difficult?
+## 1. Project Overview
 
-Reusing a prior debugging explanation is not a simple string or waveform similarity search:
+Diagnosing failure manifestations in Register-Transfer Level (RTL) simulation is computationally expensive and engineer-intensive. When debugging an automated regression failure, engineers or AI agents iteratively inspect waveforms, trace signals across clock cycles, search source files, and test causal hypotheses.
 
-1. **Symptom Aliasing:** Completely different defects often produce identical symptoms (e.g., buffer overflow, timeout, or dropped handshake).
-2. **Invariant Ambiguity:** Low-level signal properties (e.g., signal stability or counter increments) can be identical between correct execution, benign timing variations, and distinct bugs.
-3. **Variable Transaction Latency:** Handshake stalls, pipeline backpressure, and arbitrary testbench delays change the cycle distance between trigger and manifestation.
-4. **Incomplete Traces:** Truncated waveforms or aborted testbenches may display matching initial states before downstream causal divergence occurs.
-5. **Asymmetric Cost of False Reuse:** In hardware debugging, a false reuse (transferring the wrong root cause) misdirects verification engineers and costs significantly more time than falling back to independent search.
+When similar or structurally related bugs recur across design revisions, testing streams, or parameter variants, standard practice reruns the complete investigation from scratch. **RCA-Reuse** investigates whether the causal explanation produced by an initial root-cause analysis can be structured into a verifiable **semantic certificate** and safely reused for later failure manifestations, bypassing redundant debugging search without introducing unsafe diagnostic transfers.
 
 ---
 
-## 3. What is the Proposed Approach?
+## 2. Core Idea
 
-RCA-Reuse frames reuse as a **formal causal verification and safety triage pipeline**:
+Previous RCA knowledge is represented as formal **semantic certificates** and is reused only after passing an explicit **verification and trust gate**:
 
 ```text
-Target Failure Trace (VCD)
-         │
-         ▼
-┌────────────────────────────────────────────────────────┐
-│ 1. Adaptive Transaction Boundary Recovery              │
-│    Isolates active transaction segment from waveform   │
-└────────────────────────┬───────────────────────────────┘
-                         │
-                         ▼
-┌────────────────────────────────────────────────────────┐
-│ 2. Evidence Sufficiency Gate                           │
-│    Rejects incomplete, truncated, or unexercised traces│
-└────────┬───────────────────────────────────────┬───────┘
-         │ [Sufficient Evidence]                 │ [Incomplete / Ambiguous]
-         ▼                                       │
-┌─────────────────────────────────────────┐      │
-│ 3. Transaction-Semantic Validator       │      │
-│    - Transaction Preconditions          │      │
-│    - Protocol Obligations               │      │
-│    - Downstream Causal Propagation      │      │
-└────────┬────────────────────────┬───────┘      │
-         │ [Validated PASS]       │ [FAIL]       │
-         ▼                        ▼              ▼
-┌─────────────────┐     ┌────────────────────────────────┐
-│  REUSE_RCA      │     │  FALLBACK_INDEPENDENT_RCA      │
-│  (Bypass Search)│     │  (Run Full Autonomous Search)  │
-└─────────────────┘     └────────────────────────────────┘
+RCA → Certificate → Verification / Trust Gate → Trusted Memory → Semantic Matching → Reuse
 ```
 
-1. **Transaction-Semantic Certificates:** Capture initiating transaction preconditions, protocol-level obligations, and required downstream causal propagation signals.
-2. **Adaptive Boundary Detection:** Recovers variable-length evidence windows directly from observable signal activity and quiescence without relying on fixed cycle counts.
-3. **Conservative Safety Policy:** If evidence is insufficient, truncated, or inconsistent with the certificate, the policy avoids guessing and safely triggers `FALLBACK_INDEPENDENT_RCA`.
+Rather than treating reuse as a syntactic or embedding-based similarity lookup, RCA-Reuse enforces that:
+1. **Source Certificates Must Be Trusted:** An initial diagnosis must pass automated causal and structural verification before its certificate is admitted to memory.
+2. **Target Traces Must Pass Formal Validation:** A target failure trace must satisfy the certificate's preconditions, protocol obligations, and observable anomaly signatures before diagnosis transfer occurs.
+3. **Conservative Fallback on Ambiguity:** If evidence is incomplete, truncated, or inconsistent with the certificate, the system safely abstains and routes the failure to an independent fallback RCA investigation.
 
 ---
 
-## 4. Project Evolution
+## 3. Architecture
 
-The project progressed through empirical hypothesis-and-failure iterations:
+The system coordinates deterministic hardware analysis, protocol obligations, and safety gating:
 
-- **Initial Idea:** Can an existing RCA result be safely reused for future failure manifestations?
-- **First Approach (Phase 3 - Low-Level Invariants):** Matched signal-level invariants and stability constraints.
-- **Problem Discovered:** Failed on adversarial controls; different defects produced identical low-level deltas, leading to a 44.4% false reuse rate.
-- **Next Approach (Phase 4 - Transaction Semantics):** Introduced transaction-level context and protocol obligations (`TransactionSemanticCertificate`).
-- **Blind Evaluation (Phase 4.1):** 50 unseen failures across 5 hardware families (`FIFO`, `AXI`, `FSM`, `UART`, `PIPELINE`).
-  - *Result:* Precision improved from 55.6% to 71.4%, and false reuse dropped to 28.6%.
-- **Next Problem Discovered:** Rigid static transaction windows (4 cycles) collapsed positive recall (33.3%) on variable-latency testbench stimulus.
-- **Adaptive Boundaries (Phase 4.2 / 4.3):** Added dynamic boundary recovery based on signal transitions, handshakes, and quiescence.
-  - *Result:* False reuse dropped to 3.1%, and 10/10 incomplete traces were conservatively rejected.
-- **Cost Analysis:** Modeled full-lifecycle tool costs, demonstrating a ~1.24x search compression and break-even at 2 total manifestations.
-- **Current Research Question:** Can transaction boundaries and protocol obligations be inferred dynamically across complex, interleaved multi-clock protocols without human annotations?
+```text
+                          ┌────────────────────────┐
+                          │ Target Failure (Trace) │
+                          └───────────┬────────────┘
+                                      │
+                                      ▼
+                      ┌────────────────────────────────┐
+                      │ 1. Adaptive Evidence Horizon   │
+                      │    (Settlement Engine)         │
+                      └───────────────┬────────────────┘
+                                      │
+                                      ▼
+                      ┌────────────────────────────────┐
+                      │ 2. Semantic Role Normalizer    │
+                      │    (Canonical Hardware Roles)  │
+                      └───────────────┬────────────────┘
+                                      │
+                                      ▼
+                      ┌────────────────────────────────┐
+                      │ 3. Modular Protocol Adapters   │
+                      │    (FIFO, AXI, FSM, UART, Pipe)│
+                      └───────────────┬────────────────┘
+                                      │
+                                      ▼
+                      ┌────────────────────────────────┐
+                      │ 4. V5 Safety & Trust Gate      │
+                      │    (Final Validation Authority)│
+                      └───────┬────────────────┬───────┘
+                              │                │
+            [Validation PASS] │                │ [FAIL / Insufficient]
+                              ▼                ▼
+                     ┌────────────────┐ ┌───────────────────────────┐
+                     │   REUSE_RCA    │ │ FALLBACK_INDEPENDENT_RCA  │
+                     │ (Bypass Search)│ │ (Run Autonomous RCA)      │
+                     └────────────────┘ └───────────────────────────┘
+```
+
+### Key Architectural Pillars:
+
+* **Deterministic Evidence:** Leverages verifiable RTL simulation outputs, deterministic testbench assertion triggers, and structured waveform slices rather than ungrounded textual summaries.
+* **Waveform & Temporal Context:** Captures multi-cycle temporal causality, identifying the trigger cycle and tracking the settlement window across clock cycles.
+* **Semantic Role Normalization:** Standardizes heterogeneous signal names across different design implementations into normalized `HardwareRole` enums (e.g., `count` and `fifo_count` $\rightarrow$ `OCCUPANCY_TRACKER`; `cnt` and `baud_cnt` $\rightarrow$ `BAUD_PRESCALER`) while strictly preventing role conflation.
+* **Modular Protocol Adapters:** An extensible `ProtocolRegistry` provides dedicated protocol verifiers:
+  - `FifoProtocolAdapter`: Evaluates occupancy conservation and pointer divergence.
+  - `AxiProtocolAdapter`: Evaluates handshake stability and transfer completion contracts.
+  - `FsmProtocolAdapter`: Evaluates state progress and transition deadlocks.
+  - `UartProtocolAdapter`: Models bit-period prescaler timing and baud rollover contracts.
+  - `PipelineProtocolAdapter`: Models pipeline stage retention and hazard stall drainage.
+* **V5 Verification Gate:** A multi-layer trust gate (`SourceRCAVerifier`) ensuring that unverified, hallucinated, or ungrounded diagnoses cannot enter trusted memory.
+* **V8 Unified Certificate Architecture:** A domain-independent 6-dimensional schema capturing root-cause identity, formal invariant obligations, temporal behavior, multi-stage evidence, competing hypothesis rejections, and trust audit trails.
 
 ---
 
-## 5. Summary of Experimental Results
+## 4. Validated V8 Results
 
-| Metric | Baseline (Low-Level) | Proposed (Transaction-Semantic) | Evaluation Scope |
-|---|:---:|:---:|---|
-| **Reuse Precision** | 55.6% | **71.4%** (Frozen) / **96.9%** (Adaptive) | 50-target blind test / 75-target stress test |
-| **False Reuse Rate (FRR)** | 44.4% | **28.6%** (Frozen) / **3.1%** (Adaptive) | 50-target blind test / 75-target stress test |
-| **Positive Transfer (Recall)** | 33.3% | **33.3%** (Frozen) / **77.5%** (Adaptive) | 15 designated positive controls |
-| **Incomplete Trace Handling** | 0% Rejected | **10/10 Rejected (100%)** | 10 truncated stress cases (Class I) |
-| **Search Compression Ratio (SCR)** | 0.96x | **~1.24x** | Analytical full-lifecycle cost model |
-| **Break-Even Point** | Never | **2 total manifestations** | 1 initial source RCA + 1 subsequent target reuse |
+The V8 system was evaluated on an **immutable, frozen 25-case evaluation stream** comprising 5 hardware design families (`FIFO`, `AXI`, `FSM`, `UART`, `PIPELINE`), including 5 source cases, 10 valid reuse targets, 5 adversarial same-symptom negative controls, and 5 truncated/incomplete waveform stress cases.
 
-*Note: These metrics measure triage and validation decisions, not end-to-end bug resolution rates. See [docs/rca_vs_reuse.md](docs/rca_vs_reuse.md).*
+Controlled head-to-head comparison between the baseline reuse architecture (Control A) and the V8 Unified Semantic Architecture (Control B) demonstrated:
 
-### 5.1 Paired Controlled Comparison (Operational Workload Stream)
+| Metric | Control A (V7 + V5 Baseline) | Control B (V7 + V8 Semantic Reuse) | Impact / Delta |
+|---|:---:|:---:|:---:|
+| **Trusted Source Certificates** | 4 / 5 (80.0%) | **5 / 5 (100.0%)** | +25.0% trusted ingestion |
+| **Autonomous Reuses Applied** | 3 / 20 (15.0%) | **7 / 20 (35.0%)** | +133.3% transfer rate |
+| **Correct Autonomous Reuses** | 3 / 20 (15.0%) | **7 / 20 (35.0%)** | +133.3% correct reuses |
+| **False Reuses Observed** | **0** | **0** | **0 false reuses observed** |
+| **Reuse Decision Precision** | **100.0% (3/3)** | **100.0% (7/7)** | Preserved at 100.0% |
+| **Negative Target Rejection Rate** | **100.0% (10/10)** | **100.0% (10/10)** | Preserved at 100.0% |
+| **RCA Investigations Avoided** | 3 | **7** | 7 full searches avoided |
+| **LLM Inference Token Reduction** | 19.6% | **22.0%** | ~22% token reduction |
+| **Wall-Clock Latency Reduction** | 11.3% | **24.7%** | ~24.7% latency reduction |
 
-In addition to static benchmark validation, an end-to-end paired controlled comparison evaluates sequential failure arrivals across 5 hardware families:
-- **Workload Stream:** 25 failure manifestations (5 sources + 20 targets).
-- **RCA Avoidance:** 8 / 25 full RCA investigations avoided (32% reduction in initial RCA invocations).
-- **Latency Reduction:** ~34% lower measured wall-clock execution time under local simulation.
-- **Diagnostic Parity:** 80.0% baseline correctness vs. 80.0% RCA-Reuse correctness (zero accuracy loss).
-- **Incomplete Trace Safety:** 100% (5/5) of truncated traces safely rejected to independent fallback.
-- **Backend Note:** Uses a deterministic local proxy backend; physical LLM token accounting is not available in local mode. Full details and operational accounting are in [docs/rca_vs_reuse.md](docs/rca_vs_reuse.md).
-
----
-
-## 6. Reproducibility Boundaries
-
-### What Can Currently Be Reproduced
-- **Unit Tests:** All unit tests for boundary detection, evidence classification, and certificate parsing run via `pytest`.
-- **End-to-End RTL Smoke Test:** `python scripts/run_rtl_smoke.py` compiles real Verilog fixtures with Icarus Verilog (`iverilog`), runs simulation, generates VCDs, extracts waveforms, checks transaction semantics, and executes the reuse/fallback policy.
-- **Adaptive Boundary Demo:** `python examples/adaptive_boundary_demo.py` demonstrates boundary segmentation on synthetic traces.
-
-### What Is Treated as Historical Artifacts
-- **The 50-Target Blind Benchmark:** The historical 50-row CSV ([results/transaction_semantic_certs/blind_validation/processed/scored_heldout_evaluation.csv](results/transaction_semantic_certs/blind_validation/processed/scored_heldout_evaluation.csv)) contains 19 rows where VCDs were unsimulated during the initial Phase 4.1 run (17 testbench string escaping typos and 2 AXI net conflicts). All 50 rows were retained in the denominator.
-- **Raw Waveform Traces:** 295 local `.vcd` trace files and compiled `.vvp` simulator binaries are excluded from version control via `.gitignore` to prevent repository bloat.
-
-See [docs/blind_test_audit.md](docs/blind_test_audit.md) and [docs/reproducibility.md](docs/reproducibility.md) for full audit records.
+### Critical Safety Findings:
+- **0 false reuses were observed on the frozen evaluation.** In every target arrival where reuse was executed, the transferred root cause matched the ground truth defect signal exactly.
+- **10/10 non-reusable cases safely rejected.** All 5 adversarial same-symptom negatives and all 5 incomplete/truncated waveforms were safely routed to fallback independent RCA.
+- *Note:* Hardware verification involves complex state spaces; these empirical results demonstrate that 0 false reuses were observed on the frozen benchmark under formal invariant triage.
 
 ---
 
-## 7. Quickstart & Running the Prototype
+## 5. Research Progression (V1 – V8)
+
+The project advanced through 8 empirical milestones:
+
+* **V1 / V2 — Controlled Baselines & Bias Removal:** Established the initial paired evaluation methodology and eliminated prompt formatting bias.
+* **V3 / V4 — Deterministic RTL & Temporal Evidence:** Introduced simulator tool integration, multi-cycle waveform query tools, and execution traces into the agentic loop.
+* **V5 — Source Verification & Safety Gate:** Implemented `SourceRCAVerifier`, preventing untrusted initial analyses from poisoning downstream memory and establishing the multi-layer target invariant validator.
+* **V6 / V7 — Learned Causal Discrimination:** Developed canonical training datasets with zero-leakage guarantees and fine-tuned open-weight language models on causal hardware failure isolation.
+* **V7.1 — Systems Bottleneck Analysis:** Audited end-to-end failure modes, identifying schema brittleness, literal signal-name coupling, UART extractor omission, and second-pass ingestion drops as downstream bottlenecks.
+* **V8 — Unified Semantic Certificate Architecture:** Introduced canonical semantic roles, modular protocol adapters, deterministic source ingestion, and evidence-aware adaptive settlement, unlocking a +133% increase in autonomous reuse with 0 false reuses observed.
+
+---
+
+## 6. Repository Structure
+
+```text
+hardware-debug-failure-learning/
+├── docs/                   # Experiment reports, bottleneck audits, and methodology
+│   ├── V8_BASELINE.md
+│   ├── V8_FINAL_REPORT.md
+│   ├── V7_1_FINAL_REPORT.md
+│   ├── FROZEN_25_CASE_INTEGRITY.md
+│   └── ...
+├── experiments/            # Controlled comparison runners and benchmark harnesses
+│   ├── run_rca_vs_reuse_controlled_comparison.py  # Frozen 25-case benchmark
+│   └── ...
+├── results/                # Recorded cost analysis and frozen evaluation logs
+│   └── cost_analysis/
+│       ├── v8_end_to_end_comparison.json
+│       ├── v8_end_to_end_comparison.csv
+│       └── ...
+├── rtl/                    # Verilog designs and testbenches for evaluation stream
+│   ├── designs/
+│   └── testbenches/
+├── scripts/                # Benchmark generators, dataset builders, and audits
+├── src/                    # Core library implementation
+│   ├── agent/              # Multi-step agentic RCA loop and LLM providers
+│   ├── evaluation/         # Metrics, paired evaluation harness, and V8 replay
+│   ├── reuse/              # Unified certificates, protocol adapters, role normalizer
+│   └── tools/              # Simulation, waveform parsing, and search tools
+├── tests/                  # Unit and integration test suites
+└── pyproject.toml          # Package configuration
+```
+
+---
+
+## 7. Getting Started & Reproducibility
 
 ### Prerequisites
-- **Python:** 3.11 or newer
-- **External RTL Simulator:** Icarus Verilog (`iverilog` and `vvp`). On Windows, Icarus 12.0 at `C:\iverilog\bin` is automatically detected by `VerilogSimulator`.
+- Python 3.10+ (tested on Python 3.12)
+- Icarus Verilog (`iverilog`) for simulation (optional for offline replay)
 
-### Setup
-```powershell
-# 1. Create and activate virtual environment
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/VaradaGovind/hardware-debug-failure-learning.git
+cd hardware-debug-failure-learning
+
+# Initialize a virtual environment
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+source .venv/bin/activate  # On Windows: .venv\Scripts\Activate.ps1
 
-# 2. Install dependencies
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-
-# 3. Optional: Install src namespace in editable mode
-python -m pip install -e .
+# Install package in editable mode
+pip install -e .
+pip install pytest
 ```
 
-### Running the End-to-End Smoke Test
-```powershell
-python scripts/run_rtl_smoke.py
+### Running Tests
+```bash
+# Execute the core unit and generalization test suites (53 tests)
+pytest tests/test_v8_unit.py tests/test_v8_generalization.py tests/test_source_rca_verifier.py tests/test_safety_properties.py tests/test_adaptive_boundary.py tests/test_certificate_store.py tests/test_rca_vs_reuse_harness.py tests/test_agentic_rca.py
 ```
 
-Expected output:
-```json
-{
-  "adaptive_decision": "PASS",
-  "causal_decision": "PASS",
-  "expected_failure_detected": true,
-  "explanation": "The fixture intentionally contains a failing FIFO scenario. The simulator executed cleanly and produced the expected failure trace for RCA-Reuse analysis.",
-  "fallback_policy_for_insufficient_evidence": {
-    "incurred_cost_calls": 10.9,
-    "policy_action": "FALLBACK_INDEPENDENT_RCA",
-    "raw_decision": "INSUFFICIENT_EVIDENCE",
-    "reason": "",
-    "safe_to_reuse": false,
-    "stage": "UNKNOWN"
-  },
-  "fixture": "fifo_f2",
-  "reuse_policy": {
-    "incurred_cost_calls": 2.0,
-    "policy_action": "REUSE_RCA",
-    "raw_decision": "PASS",
-    "reason": "Full transaction obligation violation and causal propagation verified.",
-    "safe_to_reuse": true,
-    "stage": "FULL_TRANSACTION_SEMANTIC"
-  },
-  "simulation_execution": "PASS",
-  "simulation_status": "EXPECTED_FAILURE",
-  "simulator_compiled": true,
-  "transaction_semantic_decision": "PASS",
-  "vcd_extracted": true,
-  "waveform_signals": [
-    "clk",
-    "count",
-    "empty",
-    "full",
-    "read_en",
-    "read_ptr",
-    "rst_n",
-    "write_en",
-    "write_ptr"
-  ]
-}
+### Deterministic V8 Offline Replay
+To reproduce the V8 results without requiring GPU access or local model weights:
+```bash
+python src/evaluation/v8_offline_replay.py
 ```
-
-### Running the Unit & Safety Property Suite (25 Tests)
-```powershell
-python -m pytest -v
-```
-
-### Running the Paired Controlled Comparison (Baseline Full RCA vs. RCA-Reuse)
-```powershell
-python experiments/run_rca_vs_reuse_controlled_comparison.py
-```
-
-This runs a 25-manifestation stream across 5 hardware families, comparing Independent Full RCA against the RCA-Reuse pipeline on real RTL simulation traces.
-
-
----
-
-## 8. Limitations & Scope
-
-A complete list of research limitations is maintained in [docs/limitations.md](docs/limitations.md):
-
-1. **Bug Resolution Unmeasured:** End-to-end bug resolution has not yet been directly compared against full RCA.
-2. **Benchmark Scope:** Limited to five controlled RTL hardware families (`FIFO`, `AXI`, `FSM`, `UART`, `PIPELINE`) using controlled research fixtures.
-3. **Adaptive Recall:** Adaptive boundaries demonstrate safety and false-reuse reduction, but do not improve recall over fixed-window controls.
-4. **SoC-Level Scalability:** Multi-clock domains, hierarchy crossing, and million-cycle traces remain unvalidated.
-5. **Cost Accounting:** Cost compression is derived from an analytical tool-call model, not physical LLM token or wall-clock logging.
-6. **Not a Universal RCA Replacement:** Designed strictly as an upstream safety triage filter.
-
----
-
-## 9. Repository Structure
-
-```text
-src/
-  reuse/          Causal certificates, semantic validators, adaptive boundary/evidence code
-  agent/          Baseline, constrained, and re-evaluation agent components
-  tools/          RTL search, Icarus simulator wrapper, and VCD waveform extraction utilities
-  evaluation/     Metrics and evaluation scoring
-  reporting/      Plot generation utilities
-  trajectory/     Agent trajectory schema and logging
-scripts/          Smoke test runner, benchmark generators, and audit scripts
-tests/            Unit tests for boundary detectors and safety validators
-examples/         Self-contained demo scripts and minimal certificate fixtures
-results/          Audited summary CSVs and experimental documentation
-docs/             Architecture, methodology, limitations, audit reports, and comparisons
-rtl/              Verilog designs and testbenches (raw VCDs/VVPs are gitignored)
-```
-
----
-
-## 10. Documentation Index
-
-- [docs/architecture.md](docs/architecture.md): Component pipeline and certificate representations.
-- [docs/methodology.md](docs/methodology.md): Experimental methodology, baselines, and safety checks.
-- [docs/limitations.md](docs/limitations.md): Explicit research boundaries and unproven hypotheses.
-- [docs/rca_vs_reuse.md](docs/rca_vs_reuse.md): Direct comparison of RCA vs. RCA-Reuse metrics, resolution, and costs.
-- [docs/blind_test_audit.md](docs/blind_test_audit.md): Forensic audit of the 50-failure blind evaluation.
-- [docs/reproducibility.md](docs/reproducibility.md): Reproducibility tier breakdown and command verification.
-
----
-
-## License
-
-Source code is released under the [MIT License](LICENSE).
+This executes the V8 unified semantic certificate store and adaptive settlement engine against the frozen 25-case stream, printing the exact comparison metrics reported above.
