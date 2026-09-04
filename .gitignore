@@ -117,3 +117,24 @@ secrets.yaml
 *token*
 *access_token*
 *api_key*
+
+# Scratch and temporary audit scripts
+scratch/
+
+# Post-V8 private research, experiments, datasets, checkpoints, and audits
+# Strict research boundary: V8 is the public release cutoff.
+rtl/designs/v10_*
+rtl/testbenches/v10_*
+scripts/*v9*
+scripts/*v10*
+scripts/evaluate_pipeline_generalization.py
+scripts/run_full_validation_comparison.py
+docs/*V9*
+docs/*V10*
+docs/FINAL_PROJECT_INTEGRITY_STATUS.md
+results/**/*v9*
+results/**/*v10*
+experiments/run_v9_evaluation.py
+tests/test_v10*
+training/
+
