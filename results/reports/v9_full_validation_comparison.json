@@ -1,0 +1,2781 @@
+{
+  "validation_set_size": 134,
+  "v7_v8_baseline": {
+    "model_label": "V7_V8_Baseline",
+    "total_cases": 134,
+    "overall_accuracy_pct": 59.70149253731343,
+    "ci_95_pct": [
+      51.2,
+      67.6
+    ],
+    "correct_count": 80,
+    "invalid_output_rate_pct": 12.686567164179104,
+    "family_breakdown": {
+      "uart": {
+        "acc_pct": 0.0,
+        "counts": "0/2"
+      },
+      "axi": {
+        "acc_pct": 95.5,
+        "counts": "21/22"
+      },
+      "fsm": {
+        "acc_pct": 78.9,
+        "counts": "30/38"
+      },
+      "pipeline": {
+        "acc_pct": 48.9,
+        "counts": "22/45"
+      },
+      "fifo": {
+        "acc_pct": 25.9,
+        "counts": "7/27"
+      }
+    },
+    "type_breakdown": {
+      "POSITIVE_RCA": {
+        "acc_pct": 62.0,
+        "counts": "44/71"
+      },
+      "HARD_NEGATIVE": {
+        "acc_pct": 46.7,
+        "counts": "7/15"
+      },
+      "UNKNOWN_INSUFFICIENT": {
+        "acc_pct": 60.4,
+        "counts": "29/48"
+      }
+    },
+    "records": [
+      {
+        "task_id": "uart_b5",
+        "family": "uart",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "cnt",
+        "prediction": "tx",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "uart_b1",
+        "family": "uart",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "cnt",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "axi_a3",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "valid_out",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_reset_recovery_p2",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_reset_recovery_s1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_reset_recovery_na",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_reset_recovery_p1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_reset_recovery_p3",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_reset_recovery_nb",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "axi_b5",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "valid_out",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipe_b1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipe_b1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipe_b1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_stuck_state_na",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_stuck_state_s1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_stuck_state_nb",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_stuck_state_pos2",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_stuck_state_p3",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_stuck_state_p2",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_stuck_state_pos1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_stuck_state_neg_c",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_stuck_state_p1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_stuck_state_src",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_p1",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_nb",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "write_ptr",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_na",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "count",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_p2",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_s1",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "count",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_p3",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_a3",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_a3",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_d2",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "axi_b1",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "valid_out",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_b1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_b1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_b1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_e1_t10",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_na",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "reset_n",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_e1_s1",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en_a0",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_t8",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en_a",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "count",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "fifo_e1_p2",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_t1",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en_a",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_nb",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_t4",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_p1",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_t5",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_t2",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_t6",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_t9",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en_a",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1_t3",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fifo_e1",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "write_ptr",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_e1_t7",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "fifo_wr_en",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_b4",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_a1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "axi_a2",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "valid_out",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_c1",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_b1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipe_b6",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipe_b6",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipe_b6",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_e1_nb",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "reset_n",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_t10",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "FSM_RST_N",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_na",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_e1_t9",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_t1",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_t7",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "state",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_e1_t5",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_t3",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_t6",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_p2",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_s1",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_t2",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "rst_n",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fsm_e1_t4",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "state",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_e1_p1",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "FSM_RST_N",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "fsm_e1_t8",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_a1",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "valid_out",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_b2",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "count",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "fifo_a2",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_nb",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_p2",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_t3",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "valid_out",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "axi_e1_t9",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_t8",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_t5",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_t4",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "ready_in",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_t10",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_t6",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_s1",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_na",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_t1",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_p1",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 2
+      },
+      {
+        "task_id": "axi_e1_t7",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "axi_e1_t2",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "pipeline_vl_e1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_i1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_c1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_h2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_g1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_i2_extended",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_c2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_e1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_d1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "pipeline_vl_b2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_b2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_i2_extended",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_f2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_c1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_i2_extended",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_h1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_d1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_h1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_h2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_c2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "pipeline_vl_a2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_h1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_f2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "pipeline_vl_a2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_c1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_g1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_g1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_a2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_f2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "pipeline_vl_d1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "pipeline_vl_c2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "d1",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 3
+      },
+      {
+        "task_id": "pipeline_vl_i1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      },
+      {
+        "task_id": "pipeline_vl_h2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_i1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_b2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_e1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 2
+      }
+    ]
+  },
+  "v9_agentic_sft": {
+    "model_label": "V9_Agentic_SFT",
+    "total_cases": 134,
+    "overall_accuracy_pct": 35.07462686567165,
+    "ci_95_pct": [
+      27.5,
+      43.5
+    ],
+    "correct_count": 47,
+    "invalid_output_rate_pct": 97.01492537313433,
+    "family_breakdown": {
+      "uart": {
+        "acc_pct": 0.0,
+        "counts": "0/2"
+      },
+      "axi": {
+        "acc_pct": 68.2,
+        "counts": "15/22"
+      },
+      "fsm": {
+        "acc_pct": 39.5,
+        "counts": "15/38"
+      },
+      "pipeline": {
+        "acc_pct": 2.2,
+        "counts": "1/45"
+      },
+      "fifo": {
+        "acc_pct": 59.3,
+        "counts": "16/27"
+      }
+    },
+    "type_breakdown": {
+      "POSITIVE_RCA": {
+        "acc_pct": 1.4,
+        "counts": "1/71"
+      },
+      "HARD_NEGATIVE": {
+        "acc_pct": 0.0,
+        "counts": "0/15"
+      },
+      "UNKNOWN_INSUFFICIENT": {
+        "acc_pct": 95.8,
+        "counts": "46/48"
+      }
+    },
+    "records": [
+      {
+        "task_id": "uart_b5",
+        "family": "uart",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "cnt",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "uart_b1",
+        "family": "uart",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "cnt",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_a3",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_reset_recovery_p2",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_reset_recovery_s1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_reset_recovery_na",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "done",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_reset_recovery_p1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_reset_recovery_p3",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_reset_recovery_nb",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_b5",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipe_b1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipe_b1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipe_b1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_na",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_s1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_nb",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_pos2",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_p3",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_p2",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_pos1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_neg_c",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_p1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_stuck_state_src",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_p1",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_nb",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_na",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_p2",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_s1",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_simultaneous_rw_p3",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_a3",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_a3",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_d2",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_b1",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_b1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_b1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_b1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t10",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_na",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_s1",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t8",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_p2",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t1",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_nb",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t4",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_p1",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t5",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t2",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t6",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t9",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t3",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_e1_t7",
+        "family": "fifo",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_b4",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_a1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_a2",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_c1",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_b1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipe_b6",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipe_b6",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipe_b6",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_nb",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_t10",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_na",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_t9",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_t1",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_t7",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_t5",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "next_state",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "fsm_e1_t3",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_t6",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_p2",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_s1",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_t2",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_t4",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1",
+        "family": "fsm",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "state",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_p1",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fsm_e1_t8",
+        "family": "fsm",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_a1",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_b2",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "fifo_a2",
+        "family": "fifo",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "count",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_nb",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "ax_token_xxx",
+        "correct": false,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "axi_e1_p2",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t3",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1",
+        "family": "axi",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "valid_out",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t9",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t8",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t5",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t4",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t10",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t6",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_s1",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_na",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t1",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_p1",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t7",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "axi_e1_t2",
+        "family": "axi",
+        "type": "UNKNOWN_INSUFFICIENT",
+        "ground_truth": "unknown",
+        "prediction": "unknown",
+        "correct": true,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_e1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "v1",
+        "correct": true,
+        "status": "SUCCESS",
+        "steps": 1
+      },
+      {
+        "task_id": "pipeline_vl_i1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_c1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_h2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_g1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_i2_extended",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_c2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_e1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_d1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_b2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_b2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_i2_extended",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_f2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_c1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_i2_extended",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_h1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_d1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_h1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_h2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_c2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_a2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_h1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_f2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_a2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_c1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_g1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_g1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_a2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_f2",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_d1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_c2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_i1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_h2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_i1",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_b2",
+        "family": "pipeline",
+        "type": "POSITIVE_RCA",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      },
+      {
+        "task_id": "pipeline_vl_e1",
+        "family": "pipeline",
+        "type": "HARD_NEGATIVE",
+        "ground_truth": "v1",
+        "prediction": "unknown",
+        "correct": false,
+        "status": "INVALID_OUTPUT",
+        "steps": 0
+      }
+    ]
+  }
+}
