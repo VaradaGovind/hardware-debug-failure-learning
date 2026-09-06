@@ -1,0 +1,35 @@
+// Case: v12_acc_div_quot_sign
+// Domain: crypto_arithmetic
+// Provenance: CirFix_ASPLOS22 / OpenCores (MIT)
+// Design: divider_radix2
+
+`timescale 1ns/1ps
+
+module v12_acc_div_quot_sign (
+    input wire clk,
+    input wire rst_n,
+    input wire enable,
+    input wire [31:0] in_data,
+    output reg [31:0] out_data,
+    output reg sign_q,
+    output reg busy,
+    output reg err_flag
+);
+
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            sign_q <= 1'b0;
+            busy <= 1'b0;
+            out_data <= 32'd0;
+            err_flag <= 1'b0;
+        end else if (enable) begin
+            // in_data[0]=dividend_sign, in_data[1]=divisor_sign
+            // Buggy line:
+            sign_q <= (in_data[0] & ~in_data[1]);
+            out_data <= {31'd0, sign_q};
+        end
+    end
+
+
+endmodule
