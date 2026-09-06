@@ -1,0 +1,2406 @@
+{
+  "manifest_metadata": {
+    "experiment_id": "V11_BENCHMARK_EXPANSION_AND_GENERALIZATION",
+    "timestamp": "2026-09-06T07:15:00Z",
+    "total_cases": 100,
+    "hardware_families": [
+      "fifo",
+      "axi",
+      "fsm",
+      "uart",
+      "pipeline"
+    ],
+    "categories": {
+      "CATEGORY_A_IN_FAMILY": 40,
+      "CATEGORY_B_STRUCTURAL": 30,
+      "CATEGORY_C_NEGATIVE_STRESS": 30
+    },
+    "composition": {
+      "positive_reuse_opportunities": 70,
+      "adversarial_negative_targets": 15,
+      "incomplete_trace_targets": 15
+    }
+  },
+  "cases": [
+    {
+      "case_index": 1,
+      "case_id": "v11_fifo_ren_occupancy",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "occupancy",
+      "ground_truth_signals": [
+        "occupancy"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Renamed count to occupancy; 16-bit depth",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "occupancy",
+        "wr_en",
+        "rd_en",
+        "is_full",
+        "is_empty"
+      ]
+    },
+    {
+      "case_index": 2,
+      "case_id": "v11_fifo_ren_level",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fifo_level",
+      "ground_truth_signals": [
+        "fifo_level"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Renamed signals to push/pop and fifo_level",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "fifo_level",
+        "push",
+        "pop",
+        "full_flag",
+        "empty_flag"
+      ]
+    },
+    {
+      "case_index": 3,
+      "case_id": "v11_fifo_ren_depthcnt",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "depth_cnt",
+      "ground_truth_signals": [
+        "depth_cnt"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Renamed request lines and depth_cnt",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "depth_cnt",
+        "wr_req",
+        "rd_req",
+        "fifo_full",
+        "fifo_empty"
+      ]
+    },
+    {
+      "case_index": 4,
+      "case_id": "v11_fifo_ren_items",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "items_in_flight",
+      "ground_truth_signals": [
+        "items_in_flight"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Queue terminology put/get/items_in_flight",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "items_in_flight",
+        "put",
+        "get",
+        "q_full",
+        "q_empty"
+      ]
+    },
+    {
+      "case_index": 5,
+      "case_id": "v11_fifo_ren_buflvl",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "buf_lvl",
+      "ground_truth_signals": [
+        "buf_lvl"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Strobe-based interface with buf_lvl",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "buf_lvl",
+        "write_strobe",
+        "read_strobe",
+        "full_out",
+        "empty_out"
+      ]
+    },
+    {
+      "case_index": 6,
+      "case_id": "v11_fifo_ren_fillcnt",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fill_count",
+      "ground_truth_signals": [
+        "fill_count"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Status flags with fill_count",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "fill_count",
+        "in_push",
+        "out_pop",
+        "full_status",
+        "empty_status"
+      ]
+    },
+    {
+      "case_index": 7,
+      "case_id": "v11_fifo_ren_entrynum",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "entry_num",
+      "ground_truth_signals": [
+        "entry_num"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Streaming wrapper around FIFO count",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "entry_num",
+        "valid_in",
+        "ready_out",
+        "overflow",
+        "underflow"
+      ]
+    },
+    {
+      "case_index": 8,
+      "case_id": "v11_fifo_ren_qdepth",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "q_depth",
+      "ground_truth_signals": [
+        "q_depth"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Abbreviated control signals with q_depth",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "q_depth",
+        "w_en",
+        "r_en",
+        "buf_full",
+        "buf_empty"
+      ]
+    },
+    {
+      "case_index": 9,
+      "case_id": "v11_fifo_str_skid",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "count",
+      "ground_truth_signals": [
+        "count"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Structural skid buffer stage decoupled from RAM",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "count",
+        "skid_valid",
+        "skid_data",
+        "write_en",
+        "read_en"
+      ]
+    },
+    {
+      "case_index": 10,
+      "case_id": "v11_fifo_str_splitalways",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "occupancy",
+      "ground_truth_signals": [
+        "occupancy"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Split always-block separating count datapath from control flags",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "occupancy",
+        "wr_ptr",
+        "rd_ptr",
+        "full_flag",
+        "empty_flag"
+      ]
+    },
+    {
+      "case_index": 11,
+      "case_id": "v11_fifo_str_decomp",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "level_reg",
+      "ground_truth_signals": [
+        "level_reg"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Decomposed Boolean arithmetic for increment/decrement",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "level_reg",
+        "inc_strobe",
+        "dec_strobe",
+        "hold_state"
+      ]
+    },
+    {
+      "case_index": 12,
+      "case_id": "v11_fifo_str_twoport",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "entry_cnt",
+      "ground_truth_signals": [
+        "entry_cnt"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Independent dual-clock asynchronous wrapper handshake",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "entry_cnt",
+        "wr_ack",
+        "rd_ack",
+        "q_full",
+        "q_empty"
+      ]
+    },
+    {
+      "case_index": 13,
+      "case_id": "v11_fifo_str_syncreset",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "items_cnt",
+      "ground_truth_signals": [
+        "items_cnt"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Fully synchronous active-high reset architecture",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "items_cnt",
+        "sync_rst",
+        "wr_pulse",
+        "rd_pulse"
+      ]
+    },
+    {
+      "case_index": 14,
+      "case_id": "v11_fifo_str_multiword",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "word_cnt",
+      "ground_truth_signals": [
+        "word_cnt"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Functional Assertion Failure",
+      "description": "Multi-word burst occupancy calculation",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "word_cnt",
+        "burst_size",
+        "fifo_wr",
+        "fifo_rd"
+      ]
+    },
+    {
+      "case_index": 15,
+      "case_id": "v11_fifo_neg_adv_ptrovf",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "write_ptr",
+      "ground_truth_signals": [
+        "write_ptr"
+      ],
+      "defect_mechanism": "FIFO_PTR_OVERFLOW",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Pointer overflow trap: lexical overlap on count, but actual bug is write_ptr wrap",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "write_ptr",
+        "count",
+        "read_ptr",
+        "full"
+      ]
+    },
+    {
+      "case_index": 16,
+      "case_id": "v11_fifo_neg_adv_rstpol",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "rst_n",
+      "ground_truth_signals": [
+        "rst_n"
+      ],
+      "defect_mechanism": "FIFO_RESET_POLARITY",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Active-low vs active-high reset polarity glitch, count logic is correct",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "rst_n",
+        "count",
+        "write_en",
+        "empty"
+      ]
+    },
+    {
+      "case_index": 17,
+      "case_id": "v11_fifo_neg_adv_watermark",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "watermark",
+      "ground_truth_signals": [
+        "watermark"
+      ],
+      "defect_mechanism": "FIFO_WATERMARK_TRAP",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Interrupt watermark flag threshold off-by-one; simultaneous R/W logic is sound",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "watermark",
+        "count",
+        "high_thresh",
+        "irq_full"
+      ]
+    },
+    {
+      "case_index": 18,
+      "case_id": "v11_fifo_neg_inc_midburst",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "count",
+      "ground_truth_signals": [
+        "count"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Trace truncated mid-burst at cycle T=15 before simultaneous R/W occurs",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "count",
+        "write_en",
+        "read_en"
+      ]
+    },
+    {
+      "case_index": 19,
+      "case_id": "v11_fifo_neg_inc_noobs",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "occupancy",
+      "ground_truth_signals": [
+        "occupancy"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Unobserved internal counter; only top-level full/empty pins visible",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "occupancy",
+        "full_flag",
+        "empty_flag"
+      ]
+    },
+    {
+      "case_index": 20,
+      "case_id": "v11_fifo_neg_inc_ambig",
+      "hardware_family": "fifo",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "fifo_level",
+      "ground_truth_signals": [
+        "fifo_level"
+      ],
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Ambiguous multi-cycle clock jitter obscuring transition cycle",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "fifo_level",
+        "push",
+        "pop"
+      ]
+    },
+    {
+      "case_index": 21,
+      "case_id": "v11_axi_ren_rxvld",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "rx_vld",
+      "ground_truth_signals": [
+        "rx_vld"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Renamed valid/ready to rx_vld/rx_rdy",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "rx_vld",
+        "rx_rdy",
+        "rx_data",
+        "rx_done"
+      ]
+    },
+    {
+      "case_index": 22,
+      "case_id": "v11_axi_ren_saxis",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s_axis_tvalid",
+      "ground_truth_signals": [
+        "s_axis_tvalid"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "AXI4-Stream formal port naming conventions",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "s_axis_tvalid",
+        "s_axis_tready",
+        "s_axis_tdata",
+        "s_axis_tlast"
+      ]
+    },
+    {
+      "case_index": 23,
+      "case_id": "v11_axi_ren_mrdy",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "m_rdy",
+      "ground_truth_signals": [
+        "m_rdy"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Master channel terminology m_vld/m_rdy",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "m_vld",
+        "m_rdy",
+        "m_payload",
+        "m_strobe"
+      ]
+    },
+    {
+      "case_index": 24,
+      "case_id": "v11_axi_ren_chvalid",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ch_valid",
+      "ground_truth_signals": [
+        "ch_valid"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Channel interconnect prefix naming ch_valid",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "ch_valid",
+        "ch_ready",
+        "ch_data",
+        "ch_ack"
+      ]
+    },
+    {
+      "case_index": 25,
+      "case_id": "v11_axi_ren_stream",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "stream_vld",
+      "ground_truth_signals": [
+        "stream_vld"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Streaming bus prefix stream_vld",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "stream_vld",
+        "stream_rdy",
+        "stream_data",
+        "stream_keep"
+      ]
+    },
+    {
+      "case_index": 26,
+      "case_id": "v11_axi_ren_txvld",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tx_vld",
+      "ground_truth_signals": [
+        "tx_vld"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Transmitter interface tx_vld/tx_rdy",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "tx_vld",
+        "tx_rdy",
+        "tx_data",
+        "tx_active"
+      ]
+    },
+    {
+      "case_index": 27,
+      "case_id": "v11_axi_ren_datavld",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "data_vld",
+      "ground_truth_signals": [
+        "data_vld"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Data-centric bus naming data_vld",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "data_vld",
+        "data_rdy",
+        "data_bits",
+        "data_last"
+      ]
+    },
+    {
+      "case_index": 28,
+      "case_id": "v11_axi_ren_axvld",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ax_valid",
+      "ground_truth_signals": [
+        "ax_valid"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Address read/write handshake naming ax_valid",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "ax_valid",
+        "ax_ready",
+        "ax_addr",
+        "ax_prot"
+      ]
+    },
+    {
+      "case_index": 29,
+      "case_id": "v11_axi_str_skidbuffer",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "valid_out",
+      "ground_truth_signals": [
+        "valid_out"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Elastic skid buffer isolating upstream ready from downstream valid",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "valid_out",
+        "ready_out",
+        "skid_reg",
+        "skid_full"
+      ]
+    },
+    {
+      "case_index": 30,
+      "case_id": "v11_axi_str_creditpipe",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "rx_vld",
+      "ground_truth_signals": [
+        "rx_vld"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Credit-based flow control wrapper around AXI handshake",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "rx_vld",
+        "rx_rdy",
+        "credit_cnt",
+        "credit_dec"
+      ]
+    },
+    {
+      "case_index": 31,
+      "case_id": "v11_axi_str_registerpipe",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s_axis_tvalid",
+      "ground_truth_signals": [
+        "s_axis_tvalid"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Registered boundary pipeline stage on valid/ready pair",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "s_axis_tvalid",
+        "s_axis_tready",
+        "pipe_fwd",
+        "pipe_back"
+      ]
+    },
+    {
+      "case_index": 32,
+      "case_id": "v11_axi_str_interconnect",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "m_vld",
+      "ground_truth_signals": [
+        "m_vld"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "1-to-2 channel demultiplexer handshake interlocking",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "m_vld",
+        "m_rdy",
+        "demux_sel",
+        "arb_ready"
+      ]
+    },
+    {
+      "case_index": 33,
+      "case_id": "v11_axi_str_asyncbridge",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ch_valid",
+      "ground_truth_signals": [
+        "ch_valid"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Toggle-based clock domain crossing handshake stage",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "ch_valid",
+        "ch_ready",
+        "toggle_wr",
+        "toggle_rd"
+      ]
+    },
+    {
+      "case_index": 34,
+      "case_id": "v11_axi_str_multibeat",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tx_vld",
+      "ground_truth_signals": [
+        "tx_vld"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Functional Assertion Failure",
+      "description": "Packet burst beat counter intertwined with ready stall",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "tx_vld",
+        "tx_rdy",
+        "beat_counter",
+        "pkt_last"
+      ]
+    },
+    {
+      "case_index": 35,
+      "case_id": "v11_axi_neg_adv_bresp",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "bresp",
+      "ground_truth_signals": [
+        "bresp"
+      ],
+      "defect_mechanism": "AXI_RESP_CORRUPT",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Response bus error status corruption; valid/ready handshake is compliant",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "bresp",
+        "valid_out",
+        "ready_out",
+        "bvalid"
+      ]
+    },
+    {
+      "case_index": 36,
+      "case_id": "v11_axi_neg_adv_strobe",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "wstrb",
+      "ground_truth_signals": [
+        "wstrb"
+      ],
+      "defect_mechanism": "AXI_STROBE_MASK",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Byte strobe unaligned masking drops upper bytes; handshake completes normally",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "wstrb",
+        "rx_vld",
+        "rx_rdy",
+        "wdata"
+      ]
+    },
+    {
+      "case_index": 37,
+      "case_id": "v11_axi_neg_adv_underflow",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "credit_cnt",
+      "ground_truth_signals": [
+        "credit_cnt"
+      ],
+      "defect_mechanism": "AXI_CREDIT_UNDERFLOW",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Credit counter underflow drops credits; channel handshake is structurally correct",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "credit_cnt",
+        "s_axis_tvalid",
+        "s_axis_tready"
+      ]
+    },
+    {
+      "case_index": 38,
+      "case_id": "v11_axi_neg_inc_prestall",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "valid_out",
+      "ground_truth_signals": [
+        "valid_out"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Simulation cut off before downstream backpressure asserts ready=0",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "valid_out",
+        "ready_out"
+      ]
+    },
+    {
+      "case_index": 39,
+      "case_id": "v11_axi_neg_inc_maskrdy",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "rx_vld",
+      "ground_truth_signals": [
+        "rx_vld"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Ready signal omitted from trace VCD header; cannot verify handshake protocol",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "rx_vld",
+        "rx_data"
+      ]
+    },
+    {
+      "case_index": 40,
+      "case_id": "v11_axi_neg_inc_droppedack",
+      "hardware_family": "axi",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "m_vld",
+      "ground_truth_signals": [
+        "m_vld"
+      ],
+      "defect_mechanism": "AXI_HANDSHAKE_LOCK",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Intermittent acknowledge drop with ambiguous causality",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "m_vld",
+        "m_rdy"
+      ]
+    },
+    {
+      "case_index": 41,
+      "case_id": "v11_fsm_ren_fsmst",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fsm_st",
+      "ground_truth_signals": [
+        "fsm_st"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Renamed state register to fsm_st",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "fsm_st",
+        "nxt_st",
+        "token_in",
+        "detect_out"
+      ]
+    },
+    {
+      "case_index": 42,
+      "case_id": "v11_fsm_ren_currst",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "curr_state",
+      "ground_truth_signals": [
+        "curr_state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Canonical curr_state/next_state nomenclature",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "curr_state",
+        "next_state",
+        "in_bit",
+        "seq_found"
+      ]
+    },
+    {
+      "case_index": 43,
+      "case_id": "v11_fsm_ren_streg",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "st_reg",
+      "ground_truth_signals": [
+        "st_reg"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Abbreviated st_reg/st_nxt naming",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "st_reg",
+        "st_nxt",
+        "din",
+        "match_flag"
+      ]
+    },
+    {
+      "case_index": 44,
+      "case_id": "v11_fsm_ren_seqstate",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "seq_state",
+      "ground_truth_signals": [
+        "seq_state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Symbol sequencer naming seq_state",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "seq_state",
+        "seq_next",
+        "symbol_in",
+        "pulse_out"
+      ]
+    },
+    {
+      "case_index": 45,
+      "case_id": "v11_fsm_ren_detstate",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "detector_state",
+      "ground_truth_signals": [
+        "detector_state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Detector nomenclature detector_state",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "detector_state",
+        "next_det",
+        "sample_in",
+        "valid_flag"
+      ]
+    },
+    {
+      "case_index": 46,
+      "case_id": "v11_fsm_ren_arbstate",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "arb_state",
+      "ground_truth_signals": [
+        "arb_state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Arbiter state machine transition naming",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "arb_state",
+        "arb_next",
+        "req_vec",
+        "grant_vec"
+      ]
+    },
+    {
+      "case_index": 47,
+      "case_id": "v11_fsm_ren_ctrlstate",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ctrl_state",
+      "ground_truth_signals": [
+        "ctrl_state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Command controller naming ctrl_state",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "ctrl_state",
+        "ctrl_next",
+        "cmd_in",
+        "exec_out"
+      ]
+    },
+    {
+      "case_index": 48,
+      "case_id": "v11_fsm_ren_machst",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "mach_st",
+      "ground_truth_signals": [
+        "mach_st"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Step machine naming mach_st",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "mach_st",
+        "mach_nxt",
+        "step_en",
+        "status_led"
+      ]
+    },
+    {
+      "case_index": 49,
+      "case_id": "v11_fsm_str_onehot",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "state_onehot",
+      "ground_truth_signals": [
+        "state_onehot"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "One-hot state encoding (4-bit hot) with deadlock at S2",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "state_onehot",
+        "next_onehot",
+        "in_bit",
+        "seq_out"
+      ]
+    },
+    {
+      "case_index": 50,
+      "case_id": "v11_fsm_str_splittree",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "curr_state",
+      "ground_truth_signals": [
+        "curr_state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Two always-block architecture with separated output logic",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "curr_state",
+        "next_state",
+        "condition_tree",
+        "out_pulse"
+      ]
+    },
+    {
+      "case_index": 51,
+      "case_id": "v11_fsm_str_graycode",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fsm_gray",
+      "ground_truth_signals": [
+        "fsm_gray"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Gray-coded state sequencer with glitch-free transitions",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "fsm_gray",
+        "fsm_nxt",
+        "data_in",
+        "flag_out"
+      ]
+    },
+    {
+      "case_index": 52,
+      "case_id": "v11_fsm_str_hierarchical",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sub_state",
+      "ground_truth_signals": [
+        "sub_state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Hierarchical nested FSM with sub-state transition stall",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "main_state",
+        "sub_state",
+        "sub_next",
+        "branch_en"
+      ]
+    },
+    {
+      "case_index": 53,
+      "case_id": "v11_fsm_str_mooreout",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "st_reg",
+      "ground_truth_signals": [
+        "st_reg"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Strict Moore output decoder isolated from transition matrix",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "st_reg",
+        "st_next",
+        "moore_dec",
+        "detected"
+      ]
+    },
+    {
+      "case_index": 54,
+      "case_id": "v11_fsm_str_lookahead",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "seq_state",
+      "ground_truth_signals": [
+        "seq_state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Functional Assertion Failure",
+      "description": "Lookahead pattern matching FSM with early transition",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "seq_state",
+        "lookahead_bit",
+        "fast_match",
+        "slow_match"
+      ]
+    },
+    {
+      "case_index": 55,
+      "case_id": "v11_fsm_neg_adv_resetglitch",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "rst_glitch",
+      "ground_truth_signals": [
+        "rst_glitch"
+      ],
+      "defect_mechanism": "FSM_RESET_GLITCH",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Asynchronous reset bounce resets machine; state transition table is correct",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "rst_glitch",
+        "fsm_st",
+        "nxt_st",
+        "clk"
+      ]
+    },
+    {
+      "case_index": 56,
+      "case_id": "v11_fsm_neg_adv_prio",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "prio_sel",
+      "ground_truth_signals": [
+        "prio_sel"
+      ],
+      "defect_mechanism": "FSM_PRIORITY_INVERT",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Arbiter priority inversion stalls service; individual states transition cleanly",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "prio_sel",
+        "curr_state",
+        "next_state",
+        "req"
+      ]
+    },
+    {
+      "case_index": 57,
+      "case_id": "v11_fsm_neg_adv_illegal",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "illegal_st",
+      "ground_truth_signals": [
+        "illegal_st"
+      ],
+      "defect_mechanism": "FSM_ILLEGAL_STATE",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "SEU soft error recovery trap; valid input path is correct",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "illegal_st",
+        "st_reg",
+        "st_nxt",
+        "err"
+      ]
+    },
+    {
+      "case_index": 58,
+      "case_id": "v11_fsm_neg_inc_earlycut",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "state",
+      "ground_truth_signals": [
+        "state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Trace truncated at state S1 before transition to defective state S2",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "state",
+        "in_bit",
+        "clk"
+      ]
+    },
+    {
+      "case_index": 59,
+      "case_id": "v11_fsm_neg_inc_grayhide",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "fsm_gray",
+      "ground_truth_signals": [
+        "fsm_gray"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "State vector optimized out of debug netlist; only primary I/O available",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "symbol_in",
+        "out_pulse"
+      ]
+    },
+    {
+      "case_index": 60,
+      "case_id": "v11_fsm_neg_inc_multitrig",
+      "hardware_family": "fsm",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "detector_state",
+      "ground_truth_signals": [
+        "detector_state"
+      ],
+      "defect_mechanism": "FSM_STATE_TRANSITION",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Multiple overlapping input pulses create ambiguous transition timing",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "detector_state",
+        "in_bit"
+      ]
+    },
+    {
+      "case_index": 61,
+      "case_id": "v11_uart_ren_bauddiv",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "baud_div",
+      "ground_truth_signals": [
+        "baud_div"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Renamed baud counter to baud_div",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "baud_div",
+        "clk_en",
+        "tx_bit",
+        "busy_reg"
+      ]
+    },
+    {
+      "case_index": 62,
+      "case_id": "v11_uart_ren_accum",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "accum",
+      "ground_truth_signals": [
+        "accum"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Phase accumulator naming accum",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "accum",
+        "step_tick",
+        "tx_pin",
+        "active_flag"
+      ]
+    },
+    {
+      "case_index": 63,
+      "case_id": "v11_uart_ren_tickcnt",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tick_cnt",
+      "ground_truth_signals": [
+        "tick_cnt"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Tick counter terminology tick_cnt",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "tick_cnt",
+        "baud_pulse",
+        "ser_out",
+        "tx_busy"
+      ]
+    },
+    {
+      "case_index": 64,
+      "case_id": "v11_uart_ren_clkdiv",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "clk_div",
+      "ground_truth_signals": [
+        "clk_div"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Clock divider naming clk_div",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "clk_div",
+        "sample_edge",
+        "sdo",
+        "sending"
+      ]
+    },
+    {
+      "case_index": 65,
+      "case_id": "v11_uart_ren_samplecnt",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sample_cnt",
+      "ground_truth_signals": [
+        "sample_cnt"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Oversampling counter naming sample_cnt",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "sample_cnt",
+        "oversample_tick",
+        "txd",
+        "tx_ready"
+      ]
+    },
+    {
+      "case_index": 66,
+      "case_id": "v11_uart_ren_subctr",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sub_counter",
+      "ground_truth_signals": [
+        "sub_counter"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Sub-counter terminology sub_counter",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "sub_counter",
+        "bit_strobe",
+        "tx_wire",
+        "hold_state"
+      ]
+    },
+    {
+      "case_index": 67,
+      "case_id": "v11_uart_ren_rollover",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "rollover_cnt",
+      "ground_truth_signals": [
+        "rollover_cnt"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Rollover counter naming rollover_cnt",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "rollover_cnt",
+        "rollover_pulse",
+        "data_pin",
+        "line_idle"
+      ]
+    },
+    {
+      "case_index": 68,
+      "case_id": "v11_uart_ren_baudctr",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "baud_ctr",
+      "ground_truth_signals": [
+        "baud_ctr"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Abbreviated baud counter baud_ctr",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "baud_ctr",
+        "baud_edge",
+        "tx_serial",
+        "run_state"
+      ]
+    },
+    {
+      "case_index": 69,
+      "case_id": "v11_uart_str_fractional",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "accum",
+      "ground_truth_signals": [
+        "accum"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Fractional baud rate accumulator using Bresenham algorithm",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "accum",
+        "frac_step",
+        "int_tick",
+        "ser_out"
+      ]
+    },
+    {
+      "case_index": 70,
+      "case_id": "v11_uart_str_dualclock",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "baud_div",
+      "ground_truth_signals": [
+        "baud_div"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Dual-clock baud generator with domain crossing toggle",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "baud_div",
+        "ref_clk",
+        "sample_clk",
+        "tx_pin"
+      ]
+    },
+    {
+      "case_index": 71,
+      "case_id": "v11_uart_str_fifoqueue",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tick_cnt",
+      "ground_truth_signals": [
+        "tick_cnt"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "UART transmitter coupled to internal transmit buffer",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "tick_cnt",
+        "tx_fifo_empty",
+        "shift_load",
+        "tx_busy"
+      ]
+    },
+    {
+      "case_index": 72,
+      "case_id": "v11_uart_str_oversample16",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "clk_div",
+      "ground_truth_signals": [
+        "clk_div"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "16x oversampling baud rate state machine",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "clk_div",
+        "os_16x_tick",
+        "majority_bit",
+        "tx_line"
+      ]
+    },
+    {
+      "case_index": 73,
+      "case_id": "v11_uart_str_syncreset",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sample_cnt",
+      "ground_truth_signals": [
+        "sample_cnt"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Synchronous active-high reset timing structure",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "sample_cnt",
+        "sync_rst",
+        "tx_strobe",
+        "frame_ok"
+      ]
+    },
+    {
+      "case_index": 74,
+      "case_id": "v11_uart_str_autoalign",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sub_counter",
+      "ground_truth_signals": [
+        "sub_counter"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Functional Assertion Failure",
+      "description": "Auto-aligning clock drift tracking accumulator",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "sub_counter",
+        "drift_corr",
+        "tx_wire",
+        "baud_lock"
+      ]
+    },
+    {
+      "case_index": 75,
+      "case_id": "v11_uart_neg_adv_stopbit",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "stop_bit",
+      "ground_truth_signals": [
+        "stop_bit"
+      ],
+      "defect_mechanism": "UART_FRAMING_ERROR",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Framing generator outputs 0.5 stop bits; baud accumulator rollover is accurate",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "stop_bit",
+        "baud_div",
+        "ser_out",
+        "tx_busy"
+      ]
+    },
+    {
+      "case_index": 76,
+      "case_id": "v11_uart_neg_adv_parity",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "parity_bit",
+      "ground_truth_signals": [
+        "parity_bit"
+      ],
+      "defect_mechanism": "UART_PARITY_INVERT",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Odd/even parity calculation inverted; baud clock frequency matches baud rate",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "parity_bit",
+        "accum",
+        "tx_pin"
+      ]
+    },
+    {
+      "case_index": 77,
+      "case_id": "v11_uart_neg_adv_shiftstall",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "shift_reg",
+      "ground_truth_signals": [
+        "shift_reg"
+      ],
+      "defect_mechanism": "UART_SHIFT_STALL",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Shift register load enable blocked; baud divider ticks as expected",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "shift_reg",
+        "tick_cnt",
+        "ser_out"
+      ]
+    },
+    {
+      "case_index": 78,
+      "case_id": "v11_uart_neg_inc_shortbaud",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "baud_div",
+      "ground_truth_signals": [
+        "baud_div"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Trace ends at sample tick 3 before baud accumulator completes first rollover",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "baud_div",
+        "tx_pin"
+      ]
+    },
+    {
+      "case_index": 79,
+      "case_id": "v11_uart_neg_inc_notx",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "accum",
+      "ground_truth_signals": [
+        "accum"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Transmit pin txd unobserved in VCD waveform header",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "step_tick",
+        "active_flag"
+      ]
+    },
+    {
+      "case_index": 80,
+      "case_id": "v11_uart_neg_inc_jitter",
+      "hardware_family": "uart",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "tick_cnt",
+      "ground_truth_signals": [
+        "tick_cnt"
+      ],
+      "defect_mechanism": "UART_BAUD_ACCUM",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Excessive simulated clock phase noise masks drift trajectory",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "tick_cnt",
+        "ser_out"
+      ]
+    },
+    {
+      "case_index": 81,
+      "case_id": "v11_pipe_ren_stgvld",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "stg1_vld",
+      "ground_truth_signals": [
+        "stg1_vld"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Renamed pipeline registers to stg1_vld/stg2_vld",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "stg1_vld",
+        "stg2_vld",
+        "p_data",
+        "pipe_out"
+      ]
+    },
+    {
+      "case_index": 82,
+      "case_id": "v11_pipe_ren_pvalid",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "p1_valid",
+      "ground_truth_signals": [
+        "p1_valid"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Pipeline numbered stages p1_valid/p2_valid",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "p1_valid",
+        "p2_valid",
+        "p1_data",
+        "p2_data"
+      ]
+    },
+    {
+      "case_index": 83,
+      "case_id": "v11_pipe_ren_fwdvld",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fwd_vld",
+      "ground_truth_signals": [
+        "fwd_vld"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Forwarding valid signal naming fwd_vld",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "fwd_vld",
+        "pipe_vld",
+        "raw_hazard",
+        "bubble_reg"
+      ]
+    },
+    {
+      "case_index": 84,
+      "case_id": "v11_pipe_ren_sactive",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s1_active",
+      "ground_truth_signals": [
+        "s1_active"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Stage active naming s1_active/s2_active",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "s1_active",
+        "s2_active",
+        "tok_data",
+        "drain_vld"
+      ]
+    },
+    {
+      "case_index": 85,
+      "case_id": "v11_pipe_ren_idvld",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "id_vld",
+      "ground_truth_signals": [
+        "id_vld"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Instruction Decode / Execute naming id_vld/ex_vld",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "id_vld",
+        "ex_vld",
+        "inst_data",
+        "alu_out"
+      ]
+    },
+    {
+      "case_index": 86,
+      "case_id": "v11_pipe_ren_stagevld",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "stage_a_vld",
+      "ground_truth_signals": [
+        "stage_a_vld"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Alphabetical stage naming stage_a_vld",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "stage_a_vld",
+        "stage_b_vld",
+        "bus_a",
+        "bus_b"
+      ]
+    },
+    {
+      "case_index": 87,
+      "case_id": "v11_pipe_ren_tokvld",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tok_vld1",
+      "ground_truth_signals": [
+        "tok_vld1"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Token pipeline terminology tok_vld1",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "tok_vld1",
+        "tok_vld2",
+        "token_payload",
+        "final_valid"
+      ]
+    },
+    {
+      "case_index": 88,
+      "case_id": "v11_pipe_ren_sready",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_A_IN_FAMILY",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s1_ready_sig",
+      "ground_truth_signals": [
+        "s1_ready_sig"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Decoupled lane naming s1_ready_sig",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "s1_ready_sig",
+        "s2_ready_sig",
+        "lane_data",
+        "lane_valid"
+      ]
+    },
+    {
+      "case_index": 89,
+      "case_id": "v11_pipe_str_splitdatapath",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "stg1_vld",
+      "ground_truth_signals": [
+        "stg1_vld"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Separated datapath and hazard control unit",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "stg1_vld",
+        "stg2_vld",
+        "alu_op",
+        "reg_file_we"
+      ]
+    },
+    {
+      "case_index": 90,
+      "case_id": "v11_pipe_str_elasticring",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "p1_valid",
+      "ground_truth_signals": [
+        "p1_valid"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Elastic ring pipeline with backpressure tokens",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "p1_valid",
+        "p2_valid",
+        "ring_token",
+        "stall_ring"
+      ]
+    },
+    {
+      "case_index": 91,
+      "case_id": "v11_pipe_str_branchpred",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fwd_vld",
+      "ground_truth_signals": [
+        "fwd_vld"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Branch prediction flush bubble injection",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "fwd_vld",
+        "pipe_vld",
+        "pred_taken",
+        "flush_pipeline"
+      ]
+    },
+    {
+      "case_index": 92,
+      "case_id": "v11_pipe_str_3stagedeep",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s1_active",
+      "ground_truth_signals": [
+        "s1_active"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "3-stage deep decoupled hazard forwarding pipeline",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "s1_active",
+        "s2_active",
+        "s3_active",
+        "drain_valid"
+      ]
+    },
+    {
+      "case_index": 93,
+      "case_id": "v11_pipe_str_variablelat",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "id_vld",
+      "ground_truth_signals": [
+        "id_vld"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Variable-latency memory hazard stall mechanism",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "id_vld",
+        "ex_vld",
+        "mem_vld",
+        "stall_req"
+      ]
+    },
+    {
+      "case_index": 94,
+      "case_id": "v11_pipe_str_interleaving",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_B_STRUCTURAL",
+      "role": "TARGET_POSITIVE",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tok_vld1",
+      "ground_truth_signals": [
+        "tok_vld1"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Functional Assertion Failure",
+      "description": "Dual-thread interleaved pipeline slot allocation",
+      "is_reusable_positive": true,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "tok_vld1",
+        "tok_vld2",
+        "thread_id",
+        "sched_valid"
+      ]
+    },
+    {
+      "case_index": 95,
+      "case_id": "v11_pipe_neg_adv_fwddata",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "fwd_data",
+      "ground_truth_signals": [
+        "fwd_data"
+      ],
+      "defect_mechanism": "PIPELINE_DATA_HAZARD",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "ALU forwarding mux selects stale operand; valid/stall bubble control is correct",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "fwd_data",
+        "stg1_vld",
+        "stg2_vld",
+        "out_data"
+      ]
+    },
+    {
+      "case_index": 96,
+      "case_id": "v11_pipe_neg_adv_branchflush",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "flush_latch",
+      "ground_truth_signals": [
+        "flush_latch"
+      ],
+      "defect_mechanism": "PIPELINE_BRANCH_LATCH",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Branch mispredict flush latch fails to clear; pipeline stall registers are sound",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "flush_latch",
+        "p1_valid",
+        "p2_valid"
+      ]
+    },
+    {
+      "case_index": 97,
+      "case_id": "v11_pipe_neg_adv_squash",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_ADVERSARIAL_NEGATIVE",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "squash_mask",
+      "ground_truth_signals": [
+        "squash_mask"
+      ],
+      "defect_mechanism": "PIPELINE_EXC_SQUASH",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Exception squash mask inverts instruction retire; stall hazard logic is correct",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": true,
+      "is_incomplete_trace": false,
+      "candidate_signals": [
+        "squash_mask",
+        "fwd_vld",
+        "pipe_vld"
+      ]
+    },
+    {
+      "case_index": 98,
+      "case_id": "v11_pipe_neg_inc_nostall",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "stg1_vld",
+      "ground_truth_signals": [
+        "stg1_vld"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Simulation stopped at cycle T=10 before hazard condition triggers",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "stg1_vld",
+        "p_data"
+      ]
+    },
+    {
+      "case_index": 99,
+      "case_id": "v11_pipe_neg_inc_blackbox",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "p1_valid",
+      "ground_truth_signals": [
+        "p1_valid"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Internal pipeline stages synthesized as black box; internal valid signals missing",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "in_valid",
+        "out_valid"
+      ]
+    },
+    {
+      "case_index": 100,
+      "case_id": "v11_pipe_neg_inc_multihaz",
+      "hardware_family": "pipeline",
+      "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+      "role": "TARGET_INCOMPLETE_EVIDENCE",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "s1_active",
+      "ground_truth_signals": [
+        "s1_active"
+      ],
+      "defect_mechanism": "PIPELINE_HAZARD_STALL",
+      "symptom": "Adversarial or Incomplete Telemetry",
+      "description": "Concurrent structural and data hazards creating ambiguous causality",
+      "is_reusable_positive": false,
+      "is_adversarial_negative": false,
+      "is_incomplete_trace": true,
+      "candidate_signals": [
+        "s1_active",
+        "s2_active"
+      ]
+    }
+  ]
+}

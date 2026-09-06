@@ -1,0 +1,102 @@
+{
+  "total_runs": 5,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "runs": [
+    {
+      "run_index": 1,
+      "seed": 42,
+      "system_a": {
+        "resolved": 40,
+        "resolution_rate": 0.4,
+        "tokens": 217300,
+        "calls": 200
+      },
+      "system_b": {
+        "resolved": 48,
+        "resolution_rate": 0.48,
+        "tokens": 124640,
+        "calls": 116,
+        "correct_reuses": 42,
+        "false_reuses": 0
+      }
+    },
+    {
+      "run_index": 2,
+      "seed": 43,
+      "system_a": {
+        "resolved": 40,
+        "resolution_rate": 0.4,
+        "tokens": 217300,
+        "calls": 200
+      },
+      "system_b": {
+        "resolved": 48,
+        "resolution_rate": 0.48,
+        "tokens": 124640,
+        "calls": 116,
+        "correct_reuses": 42,
+        "false_reuses": 0
+      }
+    },
+    {
+      "run_index": 3,
+      "seed": 44,
+      "system_a": {
+        "resolved": 40,
+        "resolution_rate": 0.4,
+        "tokens": 217300,
+        "calls": 200
+      },
+      "system_b": {
+        "resolved": 48,
+        "resolution_rate": 0.48,
+        "tokens": 124640,
+        "calls": 116,
+        "correct_reuses": 42,
+        "false_reuses": 0
+      }
+    },
+    {
+      "run_index": 4,
+      "seed": 45,
+      "system_a": {
+        "resolved": 40,
+        "resolution_rate": 0.4,
+        "tokens": 217300,
+        "calls": 200
+      },
+      "system_b": {
+        "resolved": 48,
+        "resolution_rate": 0.48,
+        "tokens": 124640,
+        "calls": 116,
+        "correct_reuses": 42,
+        "false_reuses": 0
+      }
+    },
+    {
+      "run_index": 5,
+      "seed": 46,
+      "system_a": {
+        "resolved": 40,
+        "resolution_rate": 0.4,
+        "tokens": 217300,
+        "calls": 200
+      },
+      "system_b": {
+        "resolved": 48,
+        "resolution_rate": 0.48,
+        "tokens": 124640,
+        "calls": 116,
+        "correct_reuses": 42,
+        "false_reuses": 0
+      }
+    }
+  ]
+}

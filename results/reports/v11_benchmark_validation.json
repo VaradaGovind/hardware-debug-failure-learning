@@ -1,0 +1,1010 @@
+{
+  "benchmark_id": "V11_BENCHMARK_VALIDATION",
+  "timestamp": "2026-09-06T07:12:55Z",
+  "total_generated": 100,
+  "valid_cases": 100,
+  "invalid_cases": 0,
+  "validation_rate_pct": 100.0,
+  "validation_records": [
+    {
+      "case_id": "v11_fifo_ren_occupancy",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "occupancy",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_ren_level",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fifo_level",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_ren_depthcnt",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "depth_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_ren_items",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "items_in_flight",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_ren_buflvl",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "buf_lvl",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_ren_fillcnt",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fill_count",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_ren_entrynum",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "entry_num",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_ren_qdepth",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "q_depth",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_str_skid",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "count",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_str_splitalways",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "occupancy",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_str_decomp",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "level_reg",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_str_twoport",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "entry_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_str_syncreset",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "items_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_str_multiword",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "word_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_neg_adv_ptrovf",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "write_ptr",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": false,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_neg_adv_rstpol",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "rst_n",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": false,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_neg_adv_watermark",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "watermark",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": false,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_neg_inc_midburst",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "count",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_neg_inc_noobs",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "occupancy",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fifo_neg_inc_ambig",
+      "hardware_family": "fifo",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "fifo_level",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_ren_rxvld",
+      "hardware_family": "axi",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "rx_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_ren_saxis",
+      "hardware_family": "axi",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s_axis_tvalid",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_ren_mrdy",
+      "hardware_family": "axi",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "m_rdy",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_ren_chvalid",
+      "hardware_family": "axi",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ch_valid",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_ren_stream",
+      "hardware_family": "axi",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "stream_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_ren_txvld",
+      "hardware_family": "axi",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tx_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_ren_datavld",
+      "hardware_family": "axi",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "data_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_ren_axvld",
+      "hardware_family": "axi",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ax_valid",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_str_skidbuffer",
+      "hardware_family": "axi",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "valid_out",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_str_creditpipe",
+      "hardware_family": "axi",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "rx_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_str_registerpipe",
+      "hardware_family": "axi",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s_axis_tvalid",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_str_interconnect",
+      "hardware_family": "axi",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "m_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_str_asyncbridge",
+      "hardware_family": "axi",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ch_valid",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_str_multibeat",
+      "hardware_family": "axi",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tx_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_neg_adv_bresp",
+      "hardware_family": "axi",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "bresp",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_neg_adv_strobe",
+      "hardware_family": "axi",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "wstrb",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_neg_adv_underflow",
+      "hardware_family": "axi",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "credit_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_neg_inc_prestall",
+      "hardware_family": "axi",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "valid_out",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_neg_inc_maskrdy",
+      "hardware_family": "axi",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "rx_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_axi_neg_inc_droppedack",
+      "hardware_family": "axi",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "m_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_ren_fsmst",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fsm_st",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_ren_currst",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "curr_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_ren_streg",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "st_reg",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_ren_seqstate",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "seq_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_ren_detstate",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "detector_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_ren_arbstate",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "arb_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_ren_ctrlstate",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ctrl_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_ren_machst",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "mach_st",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_str_onehot",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "state_onehot",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_str_splittree",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "curr_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_str_graycode",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fsm_gray",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_str_hierarchical",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sub_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_str_mooreout",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "st_reg",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_str_lookahead",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "seq_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_neg_adv_resetglitch",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "rst_glitch",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": false,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_neg_adv_prio",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "prio_sel",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": false,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_neg_adv_illegal",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "illegal_st",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": false,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_neg_inc_earlycut",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_neg_inc_grayhide",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "fsm_gray",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_fsm_neg_inc_multitrig",
+      "hardware_family": "fsm",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "detector_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_ren_bauddiv",
+      "hardware_family": "uart",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "baud_div",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_ren_accum",
+      "hardware_family": "uart",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "accum",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_ren_tickcnt",
+      "hardware_family": "uart",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tick_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_ren_clkdiv",
+      "hardware_family": "uart",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "clk_div",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_ren_samplecnt",
+      "hardware_family": "uart",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sample_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_ren_subctr",
+      "hardware_family": "uart",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sub_counter",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_ren_rollover",
+      "hardware_family": "uart",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "rollover_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_ren_baudctr",
+      "hardware_family": "uart",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "baud_ctr",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_str_fractional",
+      "hardware_family": "uart",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "accum",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_str_dualclock",
+      "hardware_family": "uart",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "baud_div",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_str_fifoqueue",
+      "hardware_family": "uart",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tick_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_str_oversample16",
+      "hardware_family": "uart",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "clk_div",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_str_syncreset",
+      "hardware_family": "uart",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sample_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_str_autoalign",
+      "hardware_family": "uart",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sub_counter",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_neg_adv_stopbit",
+      "hardware_family": "uart",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "stop_bit",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_neg_adv_parity",
+      "hardware_family": "uart",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "parity_bit",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_neg_adv_shiftstall",
+      "hardware_family": "uart",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "shift_reg",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_neg_inc_shortbaud",
+      "hardware_family": "uart",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "baud_div",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_neg_inc_notx",
+      "hardware_family": "uart",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "accum",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_uart_neg_inc_jitter",
+      "hardware_family": "uart",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "tick_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_ren_stgvld",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "stg1_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_ren_pvalid",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "p1_valid",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_ren_fwdvld",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fwd_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_ren_sactive",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s1_active",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_ren_idvld",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "id_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_ren_stagevld",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "stage_a_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_ren_tokvld",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tok_vld1",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_ren_sready",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_A_IN_FAMILY",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s1_ready_sig",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_str_splitdatapath",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "stg1_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_str_elasticring",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "p1_valid",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_str_branchpred",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "fwd_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_str_3stagedeep",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "s1_active",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_str_variablelat",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "id_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_str_interleaving",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_B_STRUCTURAL",
+      "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "tok_vld1",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_neg_adv_fwddata",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "fwd_data",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": false,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_neg_adv_branchflush",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "flush_latch",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": false,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_neg_adv_squash",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "ADVERSARIAL_NEGATIVE",
+      "ground_truth_signal": "squash_mask",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": false,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_neg_inc_nostall",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "stg1_vld",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_neg_inc_blackbox",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "p1_valid",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v11_pipe_neg_inc_multihaz",
+      "hardware_family": "pipeline",
+      "category": "CATEGORY_C_NEGATIVE_STRESS",
+      "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+      "ground_truth_signal": "s1_active",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    }
+  ]
+}

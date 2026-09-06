@@ -1,0 +1,157 @@
+{
+  "experiment": "V11_BENCHMARK_EXPANSION_AND_GENERALIZATION",
+  "benchmark_size": 100,
+  "repeated_runs": 5,
+  "primary_results": {
+    "system_a_resolution_rate": 0.4,
+    "system_b_resolution_rate": 0.48,
+    "resolution_difference_absolute": 0.08,
+    "resolution_difference_relative_pct": 20.0,
+    "system_a_tokens": 217300,
+    "system_b_tokens": 124640,
+    "token_reduction_pct": 42.64,
+    "system_a_calls": 200,
+    "system_b_calls": 116,
+    "call_reduction_pct": 42.0,
+    "investigations_avoided": 42,
+    "correct_reuses": 42,
+    "false_reuses": 0,
+    "reuse_precision": 1.0,
+    "negative_rejection_rate": 1.0
+  },
+  "statistical_verdict": {
+    "verdict": "STATISTICALLY_SUPPORTED_IMPROVEMENT",
+    "mcnemar_p_value": 0.007812,
+    "bootstrap_delta_mean": 0.07983400000000002,
+    "bootstrap_delta_ci_95": [
+      0.03,
+      0.14
+    ],
+    "prob_b_superior": 0.9998
+  },
+  "ablation_comparison": {
+    "system_name": "Ablation_B_Unverified_Reuse",
+    "reuses_applied": 85,
+    "correct_reuses": 70,
+    "false_reuses": 15,
+    "reuse_precision": 0.8235294117647058,
+    "total_resolved": 70,
+    "resolution_rate": 0.7
+  },
+  "hardware_family_breakdown": {
+    "fifo": {
+      "cases": 20,
+      "system_a_resolved": 7,
+      "system_b_resolved": 9,
+      "resolution_delta": 0.1,
+      "system_a_tokens": 44480,
+      "system_b_tokens": 24090,
+      "token_reduction_pct": 45.84,
+      "system_a_calls": 40,
+      "system_b_calls": 22,
+      "call_reduction_pct": 45.0,
+      "correct_reuses": 9,
+      "false_reuses": 0
+    },
+    "axi": {
+      "cases": 20,
+      "system_a_resolved": 7,
+      "system_b_resolved": 8,
+      "resolution_delta": 0.05,
+      "system_a_tokens": 43205,
+      "system_b_tokens": 30065,
+      "token_reduction_pct": 30.41,
+      "system_a_calls": 40,
+      "system_b_calls": 28,
+      "call_reduction_pct": 30.0,
+      "correct_reuses": 6,
+      "false_reuses": 0
+    },
+    "fsm": {
+      "cases": 20,
+      "system_a_resolved": 6,
+      "system_b_resolved": 8,
+      "resolution_delta": 0.1,
+      "system_a_tokens": 43375,
+      "system_b_tokens": 25855,
+      "token_reduction_pct": 40.39,
+      "system_a_calls": 40,
+      "system_b_calls": 24,
+      "call_reduction_pct": 40.0,
+      "correct_reuses": 8,
+      "false_reuses": 0
+    },
+    "uart": {
+      "cases": 20,
+      "system_a_resolved": 11,
+      "system_b_resolved": 11,
+      "resolution_delta": 0.0,
+      "system_a_tokens": 43120,
+      "system_b_tokens": 25600,
+      "token_reduction_pct": 40.63,
+      "system_a_calls": 40,
+      "system_b_calls": 24,
+      "call_reduction_pct": 40.0,
+      "correct_reuses": 8,
+      "false_reuses": 0
+    },
+    "pipeline": {
+      "cases": 20,
+      "system_a_resolved": 9,
+      "system_b_resolved": 12,
+      "resolution_delta": 0.15,
+      "system_a_tokens": 43120,
+      "system_b_tokens": 19030,
+      "token_reduction_pct": 55.87,
+      "system_a_calls": 40,
+      "system_b_calls": 18,
+      "call_reduction_pct": 55.0,
+      "correct_reuses": 11,
+      "false_reuses": 0
+    }
+  },
+  "benchmark_category_breakdown": {
+    "CATEGORY_A_IN_FAMILY": {
+      "cases": 40,
+      "system_a_resolved": 27,
+      "system_b_resolved": 32,
+      "resolution_delta": 0.125,
+      "system_a_tokens": 88280,
+      "system_b_tokens": 17690,
+      "token_reduction_pct": 79.96,
+      "system_a_calls": 80,
+      "system_b_calls": 16,
+      "call_reduction_pct": 80.0,
+      "correct_reuses": 32,
+      "false_reuses": 0
+    },
+    "CATEGORY_B_STRUCTURAL": {
+      "cases": 30,
+      "system_a_resolved": 7,
+      "system_b_resolved": 10,
+      "resolution_delta": 0.1,
+      "system_a_tokens": 65955,
+      "system_b_tokens": 43885,
+      "token_reduction_pct": 33.46,
+      "system_a_calls": 60,
+      "system_b_calls": 40,
+      "call_reduction_pct": 33.33,
+      "correct_reuses": 10,
+      "false_reuses": 0
+    },
+    "CATEGORY_C_NEGATIVE_STRESS": {
+      "cases": 30,
+      "system_a_resolved": 6,
+      "system_b_resolved": 6,
+      "resolution_delta": 0.0,
+      "system_a_tokens": 63065,
+      "system_b_tokens": 63065,
+      "token_reduction_pct": 0.0,
+      "system_a_calls": 60,
+      "system_b_calls": 60,
+      "call_reduction_pct": 0.0,
+      "correct_reuses": 0,
+      "false_reuses": 0
+    }
+  }
+}

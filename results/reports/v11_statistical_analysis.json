@@ -1,0 +1,179 @@
+{
+  "mcnemar_exact_test": {
+    "discordant_pairs": 8,
+    "b_sys_a_only": 0,
+    "c_sys_b_only": 8,
+    "p_value": 0.007812,
+    "interpretation": "Discordant pairs n=8 (b=0, c=8). Exact two-sided p=0.0078. Statistically significant difference (p < 0.05)."
+  },
+  "paired_bootstrap_10000": {
+    "n_resamples": 10000,
+    "seed": 42,
+    "resolution_delta": {
+      "mean": 0.07983400000000002,
+      "median": 0.08000000000000002,
+      "std": 0.026829320602654107,
+      "ci_95": [
+        0.03,
+        0.14
+      ],
+      "prob_sys_b_strictly_greater": 0.9998,
+      "prob_sys_b_greater_or_equal": 1.0
+    },
+    "token_savings_pct": {
+      "mean": 42.575165602545106,
+      "median": 42.62387798485807,
+      "std": 4.982944258509356,
+      "ci_95": [
+        32.71,
+        52.45
+      ]
+    }
+  },
+  "wilson_confidence_intervals_95": {
+    "system_a_resolution": {
+      "point": 0.4,
+      "ci": [
+        0.3094012864324589,
+        0.4979974132089382
+      ]
+    },
+    "system_b_resolution": {
+      "point": 0.48,
+      "ci": [
+        0.384645517580519,
+        0.5768342223477603
+      ]
+    },
+    "reuse_precision": {
+      "point": 1.0,
+      "ci": [
+        0.916201209134296,
+        0.9999999999999999
+      ]
+    },
+    "negative_rejection": {
+      "point": 1.0,
+      "ci": [
+        0.8864866068260312,
+        0.9999999999999999
+      ]
+    }
+  },
+  "hardware_family_breakdown": {
+    "fifo": {
+      "cases": 20,
+      "system_a_resolved": 7,
+      "system_b_resolved": 9,
+      "resolution_delta": 0.1,
+      "system_a_tokens": 44480,
+      "system_b_tokens": 24090,
+      "token_reduction_pct": 45.84,
+      "system_a_calls": 40,
+      "system_b_calls": 22,
+      "call_reduction_pct": 45.0,
+      "correct_reuses": 9,
+      "false_reuses": 0
+    },
+    "axi": {
+      "cases": 20,
+      "system_a_resolved": 7,
+      "system_b_resolved": 8,
+      "resolution_delta": 0.05,
+      "system_a_tokens": 43205,
+      "system_b_tokens": 30065,
+      "token_reduction_pct": 30.41,
+      "system_a_calls": 40,
+      "system_b_calls": 28,
+      "call_reduction_pct": 30.0,
+      "correct_reuses": 6,
+      "false_reuses": 0
+    },
+    "fsm": {
+      "cases": 20,
+      "system_a_resolved": 6,
+      "system_b_resolved": 8,
+      "resolution_delta": 0.1,
+      "system_a_tokens": 43375,
+      "system_b_tokens": 25855,
+      "token_reduction_pct": 40.39,
+      "system_a_calls": 40,
+      "system_b_calls": 24,
+      "call_reduction_pct": 40.0,
+      "correct_reuses": 8,
+      "false_reuses": 0
+    },
+    "uart": {
+      "cases": 20,
+      "system_a_resolved": 11,
+      "system_b_resolved": 11,
+      "resolution_delta": 0.0,
+      "system_a_tokens": 43120,
+      "system_b_tokens": 25600,
+      "token_reduction_pct": 40.63,
+      "system_a_calls": 40,
+      "system_b_calls": 24,
+      "call_reduction_pct": 40.0,
+      "correct_reuses": 8,
+      "false_reuses": 0
+    },
+    "pipeline": {
+      "cases": 20,
+      "system_a_resolved": 9,
+      "system_b_resolved": 12,
+      "resolution_delta": 0.15,
+      "system_a_tokens": 43120,
+      "system_b_tokens": 19030,
+      "token_reduction_pct": 55.87,
+      "system_a_calls": 40,
+      "system_b_calls": 18,
+      "call_reduction_pct": 55.0,
+      "correct_reuses": 11,
+      "false_reuses": 0
+    }
+  },
+  "benchmark_category_breakdown": {
+    "CATEGORY_A_IN_FAMILY": {
+      "cases": 40,
+      "system_a_resolved": 27,
+      "system_b_resolved": 32,
+      "resolution_delta": 0.125,
+      "system_a_tokens": 88280,
+      "system_b_tokens": 17690,
+      "token_reduction_pct": 79.96,
+      "system_a_calls": 80,
+      "system_b_calls": 16,
+      "call_reduction_pct": 80.0,
+      "correct_reuses": 32,
+      "false_reuses": 0
+    },
+    "CATEGORY_B_STRUCTURAL": {
+      "cases": 30,
+      "system_a_resolved": 7,
+      "system_b_resolved": 10,
+      "resolution_delta": 0.1,
+      "system_a_tokens": 65955,
+      "system_b_tokens": 43885,
+      "token_reduction_pct": 33.46,
+      "system_a_calls": 60,
+      "system_b_calls": 40,
+      "call_reduction_pct": 33.33,
+      "correct_reuses": 10,
+      "false_reuses": 0
+    },
+    "CATEGORY_C_NEGATIVE_STRESS": {
+      "cases": 30,
+      "system_a_resolved": 6,
+      "system_b_resolved": 6,
+      "resolution_delta": 0.0,
+      "system_a_tokens": 63065,
+      "system_b_tokens": 63065,
+      "token_reduction_pct": 0.0,
+      "system_a_calls": 60,
+      "system_b_calls": 60,
+      "call_reduction_pct": 0.0,
+      "correct_reuses": 0,
+      "false_reuses": 0
+    }
+  }
+}

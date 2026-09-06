@@ -1,0 +1,2302 @@
+[
+  {
+    "case_id": "v11_fifo_ren_occupancy",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "occupancy",
+      "resolved": true,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "occupancy",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_ren_level",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "fifo_level",
+      "resolved": true,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "fifo_level",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_ren_depthcnt",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "depth_cnt",
+      "resolved": true,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "depth_cnt",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_ren_items",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "items_in_flight",
+      "resolved": true,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "items_in_flight",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_ren_buflvl",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "empty_out",
+      "resolved": false,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "empty_out",
+      "resolved": false,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_ren_fillcnt",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "empty_status",
+      "resolved": false,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "empty_status",
+      "resolved": false,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_ren_entrynum",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "underflow",
+      "resolved": false,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "entry_num",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "SYSTEM_B_ONLY"
+  },
+  {
+    "case_id": "v11_fifo_ren_qdepth",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "q_depth",
+      "resolved": true,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "q_depth",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_str_skid",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "read_en",
+      "resolved": false,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "read_en",
+      "resolved": false,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_str_splitalways",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "occupancy",
+      "resolved": true,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "occupancy",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_str_decomp",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "hold_state",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "hold_state",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_str_twoport",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "q_empty",
+      "resolved": false,
+      "tokens": 2275,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "entry_cnt",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "SYSTEM_B_ONLY"
+  },
+  {
+    "case_id": "v11_fifo_str_syncreset",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "items_cnt",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "items_cnt",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_str_multiword",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "fifo_rd",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "fifo_rd",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_neg_adv_ptrovf",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "write_ptr",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "write_ptr",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_neg_adv_rstpol",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "empty",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "empty",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_neg_adv_watermark",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "irq_full",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "irq_full",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_neg_inc_midburst",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "read_en",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "read_en",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_neg_inc_noobs",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "empty_flag",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "empty_flag",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fifo_neg_inc_ambig",
+    "hardware_family": "fifo",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "pop",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "pop",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_ren_rxvld",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "rx_done",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "rx_done",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_ren_saxis",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "s_axis_tvalid",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "s_axis_tvalid",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_ren_mrdy",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "m_strobe",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "m_strobe",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_ren_chvalid",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "ch_ack",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "ch_valid",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "SYSTEM_B_ONLY"
+  },
+  {
+    "case_id": "v11_axi_ren_stream",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "stream_vld",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "stream_vld",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_ren_txvld",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "tx_vld",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "tx_vld",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_ren_datavld",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "data_last",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "data_last",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_ren_axvld",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "ax_valid",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "ax_valid",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_str_skidbuffer",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "skid_full",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "skid_full",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_str_creditpipe",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "credit_dec",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "credit_dec",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_str_registerpipe",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "s_axis_tvalid",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "s_axis_tvalid",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_str_interconnect",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "arb_ready",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "arb_ready",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_str_asyncbridge",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "toggle_rd",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "toggle_rd",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_str_multibeat",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "pkt_last",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "pkt_last",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_neg_adv_bresp",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "bvalid",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "bvalid",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_neg_adv_strobe",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "wstrb",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "wstrb",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_neg_adv_underflow",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "s_axis_tready",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "s_axis_tready",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_neg_inc_prestall",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "ready_out",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "ready_out",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_neg_inc_maskrdy",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "rx_data",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "rx_data",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_axi_neg_inc_droppedack",
+    "hardware_family": "axi",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "m_vld",
+      "resolved": true,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "m_vld",
+      "resolved": true,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_ren_fsmst",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "fsm_st",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "fsm_st",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_ren_currst",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "seq_found",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "seq_found",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_ren_streg",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "match_flag",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "match_flag",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_ren_seqstate",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "seq_state",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "seq_state",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_ren_detstate",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "detector_state",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "detector_state",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_ren_arbstate",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "arb_state",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "arb_state",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_ren_ctrlstate",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "exec_out",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "ctrl_state",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "SYSTEM_B_ONLY"
+  },
+  {
+    "case_id": "v11_fsm_ren_machst",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "mach_st",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "mach_st",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_str_onehot",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "seq_out",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "seq_out",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_str_splittree",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "out_pulse",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "out_pulse",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_str_graycode",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "flag_out",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "flag_out",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_str_hierarchical",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "branch_en",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "branch_en",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_str_mooreout",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "st_reg",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "st_reg",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_str_lookahead",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "slow_match",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "seq_state",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "SYSTEM_B_ONLY"
+  },
+  {
+    "case_id": "v11_fsm_neg_adv_resetglitch",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "clk",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "clk",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_neg_adv_prio",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "req",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "req",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_neg_adv_illegal",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "err",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "err",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_neg_inc_earlycut",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "clk",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "clk",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_neg_inc_grayhide",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "out_pulse",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "out_pulse",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_fsm_neg_inc_multitrig",
+    "hardware_family": "fsm",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "in_bit",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "in_bit",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_ren_bauddiv",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "baud_div",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "baud_div",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_ren_accum",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "accum",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "accum",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_ren_tickcnt",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "tick_cnt",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "tick_cnt",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_ren_clkdiv",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "clk_div",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "clk_div",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_ren_samplecnt",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "tx_ready",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "tx_ready",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_ren_subctr",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "sub_counter",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "sub_counter",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_ren_rollover",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "rollover_cnt",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "rollover_cnt",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_ren_baudctr",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "baud_ctr",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "baud_ctr",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_str_fractional",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "ser_out",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "ser_out",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_str_dualclock",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "tx_pin",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "tx_pin",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_str_fifoqueue",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "tx_busy",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "tx_busy",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_str_oversample16",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "tx_line",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "tx_line",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_str_syncreset",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "frame_ok",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "frame_ok",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_str_autoalign",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "sub_counter",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "sub_counter",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_neg_adv_stopbit",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "stop_bit",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "stop_bit",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_neg_adv_parity",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "parity_bit",
+      "resolved": true,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "parity_bit",
+      "resolved": true,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_neg_adv_shiftstall",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "ser_out",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "ser_out",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_neg_inc_shortbaud",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "tx_pin",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "tx_pin",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_neg_inc_notx",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "active_flag",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "active_flag",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_uart_neg_inc_jitter",
+    "hardware_family": "uart",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "tick_cnt",
+      "resolved": true,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "tick_cnt",
+      "resolved": true,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_ren_stgvld",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "stg1_vld",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "stg1_vld",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_ren_pvalid",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "p1_valid",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "p1_valid",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_ren_fwdvld",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "bubble_reg",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "fwd_vld",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "SYSTEM_B_ONLY"
+  },
+  {
+    "case_id": "v11_pipe_ren_sactive",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "s1_active",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "s1_active",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_ren_idvld",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "id_vld",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "id_vld",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_ren_stagevld",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "stage_a_vld",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "stage_a_vld",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_ren_tokvld",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "final_valid",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "tok_vld1",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "SYSTEM_B_ONLY"
+  },
+  {
+    "case_id": "v11_pipe_ren_sready",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_A_IN_FAMILY",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "s1_ready_sig",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "s1_ready_sig",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_str_splitdatapath",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "reg_file_we",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "reg_file_we",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_str_elasticring",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "stall_ring",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "p1_valid",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "SYSTEM_B_ONLY"
+  },
+  {
+    "case_id": "v11_pipe_str_branchpred",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "flush_pipeline",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "flush_pipeline",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_str_3stagedeep",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "s1_active",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "s1_active",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_str_variablelat",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "stall_req",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "stall_req",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_str_interleaving",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_B_STRUCTURAL",
+    "case_type": "POSITIVE_REUSE_OPPORTUNITY",
+    "system_a": {
+      "diagnosis": "tok_vld1",
+      "resolved": true,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis": "tok_vld1",
+      "resolved": true,
+      "tokens": 0,
+      "calls": 0
+    },
+    "reuse_result": "ACCEPTED",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_neg_adv_fwddata",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "out_data",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "out_data",
+      "resolved": false,
+      "tokens": 2190,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_neg_adv_branchflush",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "flush_latch",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "flush_latch",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_neg_adv_squash",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "ADVERSARIAL_NEGATIVE",
+    "system_a": {
+      "diagnosis": "pipe_vld",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "pipe_vld",
+      "resolved": false,
+      "tokens": 2105,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_neg_inc_nostall",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "p_data",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "p_data",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_neg_inc_blackbox",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "p1_valid",
+      "resolved": true,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "p1_valid",
+      "resolved": true,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "BOTH_RESOLVED"
+  },
+  {
+    "case_id": "v11_pipe_neg_inc_multihaz",
+    "hardware_family": "pipeline",
+    "benchmark_category": "CATEGORY_C_NEGATIVE_STRESS",
+    "case_type": "INCOMPLETE_TRACE_NEGATIVE",
+    "system_a": {
+      "diagnosis": "s2_active",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "system_b": {
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis": "s2_active",
+      "resolved": false,
+      "tokens": 2020,
+      "calls": 2
+    },
+    "reuse_result": "REJECTED_OR_FALLBACK",
+    "transition": "NEITHER_RESOLVED"
+  }
+]
