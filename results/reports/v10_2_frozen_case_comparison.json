@@ -1,0 +1,603 @@
+{
+  "audit_timestamp": "2026-09-04T15:00:00Z",
+  "benchmark_name": "Canonical 25-Case Frozen Sequential Stream",
+  "v8_metrics": {
+    "total_cases": 25,
+    "correct_count": 17,
+    "accuracy_pct": 68.0,
+    "autonomous_reuses_applied": 7,
+    "unsafe_false_reuses": 0,
+    "reuse_precision_pct": 100.0,
+    "negative_rejection_rate_pct": 100.0
+  },
+  "v10_2_metrics": {
+    "total_cases": 25,
+    "correct_count": 16,
+    "accuracy_pct": 64.0,
+    "autonomous_reuses_applied": 4,
+    "unsafe_false_reuses": 0,
+    "reuse_precision_pct": 100.0,
+    "negative_rejection_rate_pct": 100.0
+  },
+  "safety_audit_finding": "0 false reuses were observed on the frozen evaluation.",
+  "case_divergence_summary": {
+    "both_correct_count": 14,
+    "both_failed_count": 6,
+    "v8_won_count": 3,
+    "v10_2_won_count": 2,
+    "v8_won_details": [
+      {
+        "target_id": "heldout_fifo_src",
+        "gt": "count",
+        "v8": "count",
+        "v10_2": "write_data"
+      },
+      {
+        "target_id": "fifo_vl_a1",
+        "gt": "count",
+        "v8": "count",
+        "v10_2": "full"
+      },
+      {
+        "target_id": "fifo_vl_b1",
+        "gt": "count",
+        "v8": "count",
+        "v10_2": "mem"
+      }
+    ],
+    "v10_2_won_details": [
+      {
+        "target_id": "axi_vl_i2",
+        "gt": "valid_out",
+        "v8": "ready_in",
+        "v10_2": "valid_out"
+      },
+      {
+        "target_id": "pipeline_vl_f1",
+        "gt": "d1",
+        "v8": "v1",
+        "v10_2": "d1"
+      }
+    ]
+  },
+  "source_cases_audit": [
+    {
+      "target_id": "heldout_fifo_src",
+      "family": "fifo",
+      "ground_truth": "count",
+      "v8_source_diagnosis": "count",
+      "v8_source_correct": true,
+      "v8_certificate_trusted": true,
+      "v10_source_diagnosis": "write_data",
+      "v10_source_correct": false,
+      "v10_certificate_trusted": false,
+      "downstream_impact": "V8 established trusted certificate; V10.2 rejected as passive stimulus (write_data)"
+    },
+    {
+      "target_id": "heldout_axi_src",
+      "family": "axi",
+      "ground_truth": "valid_out",
+      "v8_source_diagnosis": "valid_out",
+      "v8_source_correct": true,
+      "v8_certificate_trusted": true,
+      "v10_source_diagnosis": "valid_out",
+      "v10_source_correct": true,
+      "v10_certificate_trusted": true,
+      "downstream_impact": "Both established trusted source certificate"
+    },
+    {
+      "target_id": "heldout_fsm_src",
+      "family": "fsm",
+      "ground_truth": "state",
+      "v8_source_diagnosis": "unknown",
+      "v8_source_correct": false,
+      "v8_certificate_trusted": true,
+      "v10_source_diagnosis": "state",
+      "v10_source_correct": true,
+      "v10_certificate_trusted": true,
+      "downstream_impact": "Both established trusted source certificate"
+    },
+    {
+      "target_id": "heldout_uart_src",
+      "family": "uart",
+      "ground_truth": "cnt",
+      "v8_source_diagnosis": "cnt",
+      "v8_source_correct": true,
+      "v8_certificate_trusted": true,
+      "v10_source_diagnosis": "cnt",
+      "v10_source_correct": true,
+      "v10_certificate_trusted": true,
+      "downstream_impact": "Both established trusted source certificate"
+    },
+    {
+      "target_id": "heldout_pipe_src",
+      "family": "pipeline",
+      "ground_truth": "v1",
+      "v8_source_diagnosis": "d1",
+      "v8_source_correct": false,
+      "v8_certificate_trusted": true,
+      "v10_source_diagnosis": "valid_in",
+      "v10_source_correct": false,
+      "v10_certificate_trusted": false,
+      "downstream_impact": "Both established trusted source certificate"
+    }
+  ],
+  "regression_root_cause_analysis": "The 1-case accuracy regression from V8 (17/25, 68%) to V10.2 (16/25, 64%) is completely explained by the FIFO cluster: on 'heldout_fifo_src', V10.2 diagnosed 'write_data' (which the V5 verifier correctly rejected as a passive testbench stimulus without assignment logic). Because no trusted source certificate was established, subsequent positive targets 'fifo_vl_a1' and 'fifo_vl_b1' could not trigger reuse and fell back to independent RCA, where V10.2 predicted 'full' and 'mem'. Conversely, V10.2 directly outperformed V8 on two difficult cases: 'axi_vl_i2' (V10.2 'valid_out' [True] vs V8 'ready_in' [False]) and 'pipeline_vl_f1' (V10.2 'd1' [True] vs V8 'v1' [False]), correctly resolving temporal pipeline register causality.",
+  "all_case_comparisons": [
+    {
+      "index": 1,
+      "target_id": "heldout_fifo_src",
+      "family": "fifo",
+      "is_source": true,
+      "ground_truth": "count",
+      "v8": {
+        "diagnosis": "count",
+        "correct": true,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "write_data",
+        "correct": false,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      }
+    },
+    {
+      "index": 2,
+      "target_id": "fifo_vl_a1",
+      "family": "fifo",
+      "is_source": false,
+      "ground_truth": "count",
+      "v8": {
+        "diagnosis": "count",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "full",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 3,
+      "target_id": "fifo_vl_b1",
+      "family": "fifo",
+      "is_source": false,
+      "ground_truth": "count",
+      "v8": {
+        "diagnosis": "count",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "mem",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 4,
+      "target_id": "fifo_vl_f1",
+      "family": "fifo",
+      "is_source": false,
+      "ground_truth": "write_ptr",
+      "v8": {
+        "diagnosis": "count",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "data",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 5,
+      "target_id": "fifo_vl_i2",
+      "family": "fifo",
+      "is_source": false,
+      "ground_truth": "count",
+      "v8": {
+        "diagnosis": "count",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "count",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 6,
+      "target_id": "heldout_axi_src",
+      "family": "axi",
+      "is_source": true,
+      "ground_truth": "valid_out",
+      "v8": {
+        "diagnosis": "valid_out",
+        "correct": true,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "valid_out",
+        "correct": true,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      }
+    },
+    {
+      "index": 7,
+      "target_id": "axi_vl_a1",
+      "family": "axi",
+      "is_source": false,
+      "ground_truth": "valid_out",
+      "v8": {
+        "diagnosis": "valid_out",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "valid_out",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      }
+    },
+    {
+      "index": 8,
+      "target_id": "axi_vl_b1",
+      "family": "axi",
+      "is_source": false,
+      "ground_truth": "valid_out",
+      "v8": {
+        "diagnosis": "valid_out",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "valid_out",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      }
+    },
+    {
+      "index": 9,
+      "target_id": "axi_vl_f1",
+      "family": "axi",
+      "is_source": false,
+      "ground_truth": "ready_out",
+      "v8": {
+        "diagnosis": "valid_out",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "valid_out",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 10,
+      "target_id": "axi_vl_i2",
+      "family": "axi",
+      "is_source": false,
+      "ground_truth": "valid_out",
+      "v8": {
+        "diagnosis": "ready_in",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "valid_out",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 11,
+      "target_id": "heldout_fsm_src",
+      "family": "fsm",
+      "is_source": true,
+      "ground_truth": "state",
+      "v8": {
+        "diagnosis": "state",
+        "correct": true,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "state",
+        "correct": true,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      }
+    },
+    {
+      "index": 12,
+      "target_id": "fsm_vl_a1",
+      "family": "fsm",
+      "is_source": false,
+      "ground_truth": "state",
+      "v8": {
+        "diagnosis": "state",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "state",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      }
+    },
+    {
+      "index": 13,
+      "target_id": "fsm_vl_b1",
+      "family": "fsm",
+      "is_source": false,
+      "ground_truth": "state",
+      "v8": {
+        "diagnosis": "state",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "state",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      }
+    },
+    {
+      "index": 14,
+      "target_id": "fsm_vl_f1",
+      "family": "fsm",
+      "is_source": false,
+      "ground_truth": "done",
+      "v8": {
+        "diagnosis": "state",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "state",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 15,
+      "target_id": "fsm_vl_i2",
+      "family": "fsm",
+      "is_source": false,
+      "ground_truth": "state",
+      "v8": {
+        "diagnosis": "state",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "state",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 16,
+      "target_id": "heldout_uart_src",
+      "family": "uart",
+      "is_source": true,
+      "ground_truth": "cnt",
+      "v8": {
+        "diagnosis": "cnt",
+        "correct": true,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "cnt",
+        "correct": true,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      }
+    },
+    {
+      "index": 17,
+      "target_id": "uart_vl_a1",
+      "family": "uart",
+      "is_source": false,
+      "ground_truth": "cnt",
+      "v8": {
+        "diagnosis": "cnt",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "cnt",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 18,
+      "target_id": "uart_vl_b1",
+      "family": "uart",
+      "is_source": false,
+      "ground_truth": "cnt",
+      "v8": {
+        "diagnosis": "cnt",
+        "correct": true,
+        "reused": true,
+        "policy_action": "REUSE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "cnt",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 19,
+      "target_id": "uart_vl_f1",
+      "family": "uart",
+      "is_source": false,
+      "ground_truth": "tx",
+      "v8": {
+        "diagnosis": "cnt",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "cnt",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 20,
+      "target_id": "uart_vl_i2",
+      "family": "uart",
+      "is_source": false,
+      "ground_truth": "cnt",
+      "v8": {
+        "diagnosis": "cnt",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "cnt",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 21,
+      "target_id": "heldout_pipe_src",
+      "family": "pipeline",
+      "is_source": true,
+      "ground_truth": "v1",
+      "v8": {
+        "diagnosis": "d1",
+        "correct": false,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "pipeline",
+        "correct": false,
+        "reused": false,
+        "policy_action": "SOURCE_RCA"
+      }
+    },
+    {
+      "index": 22,
+      "target_id": "pipeline_vl_a1",
+      "family": "pipeline",
+      "is_source": false,
+      "ground_truth": "v1",
+      "v8": {
+        "diagnosis": "d1",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "d1",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 23,
+      "target_id": "pipeline_vl_b1",
+      "family": "pipeline",
+      "is_source": false,
+      "ground_truth": "v1",
+      "v8": {
+        "diagnosis": "v1",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "v1",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 24,
+      "target_id": "pipeline_vl_f1",
+      "family": "pipeline",
+      "is_source": false,
+      "ground_truth": "d1",
+      "v8": {
+        "diagnosis": "v1",
+        "correct": false,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "d1",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    },
+    {
+      "index": 25,
+      "target_id": "pipeline_vl_i2",
+      "family": "pipeline",
+      "is_source": false,
+      "ground_truth": "v1",
+      "v8": {
+        "diagnosis": "v1",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      },
+      "v10_2": {
+        "diagnosis": "v1",
+        "correct": true,
+        "reused": false,
+        "policy_action": "FALLBACK_INDEPENDENT_RCA"
+      }
+    }
+  ]
+}

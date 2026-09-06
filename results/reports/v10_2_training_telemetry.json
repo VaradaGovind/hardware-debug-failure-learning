@@ -1,0 +1,27 @@
+{
+  "status": "COMPLETED",
+  "total_steps": 310,
+  "best_val_loss": 0.037872321784296246,
+  "total_time_seconds": 5965.0,
+  "learning_rate": 0.0001,
+  "epochs": 2,
+  "grad_accum": 4,
+  "max_seq_len": 896,
+  "checkpoint_dir": "C:/Users/varad/ml-cache/rca-reuse/v10_2/checkpoints/v10_2_agentic_lora\\best_v10_2_checkpoint",
+  "training_history": [
+    {
+      "epoch": 1,
+      "global_step": 155,
+      "train_loss": 0.4388,
+      "val_loss": 0.0543,
+      "epoch_time_s": 3020.7
+    },
+    {
+      "epoch": 2,
+      "global_step": 310,
+      "train_loss": 0.0083,
+      "val_loss": 0.0379,
+      "epoch_time_s": 2873.4
+    }
+  ]
+}

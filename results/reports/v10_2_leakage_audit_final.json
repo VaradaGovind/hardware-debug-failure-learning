@@ -1,0 +1,28 @@
+{
+  "audit_timestamp": "2026-09-04T14:58:00Z",
+  "verdict": "ZERO_LEAKAGE_CONFIRMED",
+  "frozen_task_id_leakage": {},
+  "frozen_module_leakage": {},
+  "testbench_waveform_leakage": [],
+  "token_ring_in_train_count": 0,
+  "cross_split_overlaps": {
+    "train_val_overlap": [],
+    "train_gen_overlap": [],
+    "train_pipe_overlap": [],
+    "val_gen_overlap": [],
+    "val_pipe_overlap": []
+  },
+  "split_cardinalities": {
+    "train_unique_tasks": 11,
+    "val_unique_tasks": 3,
+    "unseen_gen_unique_tasks": 2,
+    "pipeline_gen_unique_tasks": 5,
+    "frozen_benchmark_tasks": 25
+  },
+  "unseen_topology_transfer_inspection": {
+    "analyzed_design": "v10_gen_pipe_elastic_ring",
+    "target_signal": "token_ring",
+    "target_signal_in_training": false,
+    "structural_relationship_to_train": "v10_gen_pipe_elastic_ring implements a 4-stage circular token ring with circulating valid tokens. Nearest training architecture is v10_pipe_skid_elastic (a linear skid buffer with bypass register). AST comparison confirms 0 module overlap, completely disjoint signal sets (token_ring, ring_head, ring_tail vs skid_buf, skid_vld), and distinct control graphs."
+  }
+}

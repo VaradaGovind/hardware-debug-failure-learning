@@ -1,0 +1,470 @@
+{
+  "simulation_timestamp": "2026-09-04T15:02:00Z",
+  "benchmark_cases": 25,
+  "systems_summary": {
+    "System_A_V8_Only": {
+      "description": "Frozen V8 Operational Baseline (Single-turn Soup V7 + V8 Reuse Stack)",
+      "correct_cases": 17,
+      "accuracy_pct": 68.0,
+      "autonomous_reuses": 7,
+      "unsafe_reuses": 0,
+      "reuse_precision_pct": 100.0,
+      "negative_rejection_rate_pct": 100.0
+    },
+    "System_B_V10_2_Only": {
+      "description": "V10.2 Agentic SFT Model (Per-turn Tool Assisted + V8 Reuse Stack)",
+      "correct_cases": 16,
+      "accuracy_pct": 64.0,
+      "autonomous_reuses": 4,
+      "unsafe_reuses": 0,
+      "reuse_precision_pct": 100.0,
+      "negative_rejection_rate_pct": 100.0
+    },
+    "System_C_Predetermined_Hybrid": {
+      "description": "V8 Fast Path + V10.2 Fallback Routing Rule",
+      "correct_cases": 18,
+      "accuracy_pct": 72.0,
+      "autonomous_reuses": 7,
+      "unsafe_reuses": 0,
+      "reuse_precision_pct": 100.0,
+      "negative_rejection_rate_pct": 100.0,
+      "fallback_to_v10_count": 14,
+      "fast_path_v8_count": 11
+    },
+    "COUNTERFACTUAL_CEILING": {
+      "description": "Hypothetical Oracle Upper Bound (Always Selects Best Known Decision per Case)",
+      "correct_cases": 19,
+      "accuracy_pct": 76.0,
+      "note": "COUNTERFACTUAL UPPER BOUND ONLY. Not an empirical single-model result."
+    }
+  },
+  "system_c_case_records": [
+    {
+      "target_id": "heldout_fifo_src",
+      "family": "fifo",
+      "ground_truth": "count",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "count",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "fifo_vl_a1",
+      "family": "fifo",
+      "ground_truth": "count",
+      "chosen_system": "V10_2_AGENTIC_FALLBACK",
+      "routing_reason": "V8 unverified or fallback; routed to V10.2 agentic diagnosis.",
+      "final_diagnosis": "full",
+      "correct": false,
+      "reused": false
+    },
+    {
+      "target_id": "fifo_vl_b1",
+      "family": "fifo",
+      "ground_truth": "count",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "count",
+      "correct": true,
+      "reused": true
+    },
+    {
+      "target_id": "fifo_vl_f1",
+      "family": "fifo",
+      "ground_truth": "write_ptr",
+      "chosen_system": "V10_2_AGENTIC_FALLBACK",
+      "routing_reason": "V8 unverified or fallback; routed to V10.2 agentic diagnosis.",
+      "final_diagnosis": "data",
+      "correct": false,
+      "reused": false
+    },
+    {
+      "target_id": "fifo_vl_i2",
+      "family": "fifo",
+      "ground_truth": "count",
+      "chosen_system": "V10_2_AGENTIC_FALLBACK",
+      "routing_reason": "V8 unverified or fallback; routed to V10.2 agentic diagnosis.",
+      "final_diagnosis": "count",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "heldout_axi_src",
+      "family": "axi",
+      "ground_truth": "valid_out",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "valid_out",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "axi_vl_a1",
+      "family": "axi",
+      "ground_truth": "valid_out",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "valid_out",
+      "correct": true,
+      "reused": true
+    },
+    {
+      "target_id": "axi_vl_b1",
+      "family": "axi",
+      "ground_truth": "valid_out",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "valid_out",
+      "correct": true,
+      "reused": true
+    },
+    {
+      "target_id": "axi_vl_f1",
+      "family": "axi",
+      "ground_truth": "ready_out",
+      "chosen_system": "V10_2_AGENTIC_FALLBACK",
+      "routing_reason": "V8 unverified or fallback; routed to V10.2 agentic diagnosis.",
+      "final_diagnosis": "valid_out",
+      "correct": false,
+      "reused": false
+    },
+    {
+      "target_id": "axi_vl_i2",
+      "family": "axi",
+      "ground_truth": "valid_out",
+      "chosen_system": "V10_2_AGENTIC_FALLBACK",
+      "routing_reason": "V8 unverified or fallback; routed to V10.2 agentic diagnosis.",
+      "final_diagnosis": "valid_out",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "heldout_fsm_src",
+      "family": "fsm",
+      "ground_truth": "state",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "state",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "fsm_vl_a1",
+      "family": "fsm",
+      "ground_truth": "state",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "state",
+      "correct": true,
+      "reused": true
+    },
+    {
+      "target_id": "fsm_vl_b1",
+      "family": "fsm",
+      "ground_truth": "state",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "state",
+      "correct": true,
+      "reused": true
+    },
+    {
+      "target_id": "fsm_vl_f1",
+      "family": "fsm",
+      "ground_truth": "done",
+      "chosen_system": "V10_2_AGENTIC_FALLBACK",
+      "routing_reason": "V8 unverified or fallback; routed to V10.2 agentic diagnosis.",
+      "final_diagnosis": "state",
+      "correct": false,
+      "reused": false
+    },
+    {
+      "target_id": "fsm_vl_i2",
+      "family": "fsm",
+      "ground_truth": "state",
+      "chosen_system": "V10_2_AGENTIC_FALLBACK",
+      "routing_reason": "V8 unverified or fallback; routed to V10.2 agentic diagnosis.",
+      "final_diagnosis": "state",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "heldout_uart_src",
+      "family": "uart",
+      "ground_truth": "cnt",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "cnt",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "uart_vl_a1",
+      "family": "uart",
+      "ground_truth": "cnt",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "cnt",
+      "correct": true,
+      "reused": true
+    },
+    {
+      "target_id": "uart_vl_b1",
+      "family": "uart",
+      "ground_truth": "cnt",
+      "chosen_system": "V8_FAST_PATH",
+      "routing_reason": "V8 established trusted certificate / high-confidence reuse.",
+      "final_diagnosis": "cnt",
+      "correct": true,
+      "reused": true
+    },
+    {
+      "target_id": "uart_vl_f1",
+      "family": "uart",
+      "ground_truth": "tx",
+      "chosen_system": "V10_2_AGENTIC_FALLBACK",
+      "routing_reason": "V8 unverified or fallback; routed to V10.2 agentic diagnosis.",
+      "final_diagnosis": "cnt",
+      "correct": false,
+      "reused": false
+    },
+    {
+      "target_id": "uart_vl_i2",
+      "family": "uart",
+      "ground_truth": "cnt",
+      "chosen_system": "V10_2_AGENTIC_FALLBACK",
+      "routing_reason": "V8 unverified or fallback; routed to V10.2 agentic diagnosis.",
+      "final_diagnosis": "cnt",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "heldout_pipe_src",
+      "family": "pipeline",
+      "ground_truth": "v1",
+      "chosen_system": "V10_2_AGENTIC",
+      "routing_reason": "Pipeline family routed to V10.2 for tool-assisted temporal register tracing.",
+      "final_diagnosis": "pipeline",
+      "correct": false,
+      "reused": false
+    },
+    {
+      "target_id": "pipeline_vl_a1",
+      "family": "pipeline",
+      "ground_truth": "v1",
+      "chosen_system": "V10_2_AGENTIC",
+      "routing_reason": "Pipeline family routed to V10.2 for tool-assisted temporal register tracing.",
+      "final_diagnosis": "d1",
+      "correct": false,
+      "reused": false
+    },
+    {
+      "target_id": "pipeline_vl_b1",
+      "family": "pipeline",
+      "ground_truth": "v1",
+      "chosen_system": "V10_2_AGENTIC",
+      "routing_reason": "Pipeline family routed to V10.2 for tool-assisted temporal register tracing.",
+      "final_diagnosis": "v1",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "pipeline_vl_f1",
+      "family": "pipeline",
+      "ground_truth": "d1",
+      "chosen_system": "V10_2_AGENTIC",
+      "routing_reason": "Pipeline family routed to V10.2 for tool-assisted temporal register tracing.",
+      "final_diagnosis": "d1",
+      "correct": true,
+      "reused": false
+    },
+    {
+      "target_id": "pipeline_vl_i2",
+      "family": "pipeline",
+      "ground_truth": "v1",
+      "chosen_system": "V10_2_AGENTIC",
+      "routing_reason": "Pipeline family routed to V10.2 for tool-assisted temporal register tracing.",
+      "final_diagnosis": "v1",
+      "correct": true,
+      "reused": false
+    }
+  ],
+  "counterfactual_ceiling_records": [
+    {
+      "target_id": "heldout_fifo_src",
+      "ground_truth": "count",
+      "oracle_choice": "V8",
+      "diagnosis": "count",
+      "correct": true
+    },
+    {
+      "target_id": "fifo_vl_a1",
+      "ground_truth": "count",
+      "oracle_choice": "V8",
+      "diagnosis": "count",
+      "correct": true
+    },
+    {
+      "target_id": "fifo_vl_b1",
+      "ground_truth": "count",
+      "oracle_choice": "V8",
+      "diagnosis": "count",
+      "correct": true
+    },
+    {
+      "target_id": "fifo_vl_f1",
+      "ground_truth": "write_ptr",
+      "oracle_choice": "NEITHER_CORRECT",
+      "diagnosis": "count",
+      "correct": false
+    },
+    {
+      "target_id": "fifo_vl_i2",
+      "ground_truth": "count",
+      "oracle_choice": "V8",
+      "diagnosis": "count",
+      "correct": true
+    },
+    {
+      "target_id": "heldout_axi_src",
+      "ground_truth": "valid_out",
+      "oracle_choice": "V8",
+      "diagnosis": "valid_out",
+      "correct": true
+    },
+    {
+      "target_id": "axi_vl_a1",
+      "ground_truth": "valid_out",
+      "oracle_choice": "V8",
+      "diagnosis": "valid_out",
+      "correct": true
+    },
+    {
+      "target_id": "axi_vl_b1",
+      "ground_truth": "valid_out",
+      "oracle_choice": "V8",
+      "diagnosis": "valid_out",
+      "correct": true
+    },
+    {
+      "target_id": "axi_vl_f1",
+      "ground_truth": "ready_out",
+      "oracle_choice": "NEITHER_CORRECT",
+      "diagnosis": "valid_out",
+      "correct": false
+    },
+    {
+      "target_id": "axi_vl_i2",
+      "ground_truth": "valid_out",
+      "oracle_choice": "V10_2",
+      "diagnosis": "valid_out",
+      "correct": true
+    },
+    {
+      "target_id": "heldout_fsm_src",
+      "ground_truth": "state",
+      "oracle_choice": "V8",
+      "diagnosis": "state",
+      "correct": true
+    },
+    {
+      "target_id": "fsm_vl_a1",
+      "ground_truth": "state",
+      "oracle_choice": "V8",
+      "diagnosis": "state",
+      "correct": true
+    },
+    {
+      "target_id": "fsm_vl_b1",
+      "ground_truth": "state",
+      "oracle_choice": "V8",
+      "diagnosis": "state",
+      "correct": true
+    },
+    {
+      "target_id": "fsm_vl_f1",
+      "ground_truth": "done",
+      "oracle_choice": "NEITHER_CORRECT",
+      "diagnosis": "state",
+      "correct": false
+    },
+    {
+      "target_id": "fsm_vl_i2",
+      "ground_truth": "state",
+      "oracle_choice": "V8",
+      "diagnosis": "state",
+      "correct": true
+    },
+    {
+      "target_id": "heldout_uart_src",
+      "ground_truth": "cnt",
+      "oracle_choice": "V8",
+      "diagnosis": "cnt",
+      "correct": true
+    },
+    {
+      "target_id": "uart_vl_a1",
+      "ground_truth": "cnt",
+      "oracle_choice": "V8",
+      "diagnosis": "cnt",
+      "correct": true
+    },
+    {
+      "target_id": "uart_vl_b1",
+      "ground_truth": "cnt",
+      "oracle_choice": "V8",
+      "diagnosis": "cnt",
+      "correct": true
+    },
+    {
+      "target_id": "uart_vl_f1",
+      "ground_truth": "tx",
+      "oracle_choice": "NEITHER_CORRECT",
+      "diagnosis": "cnt",
+      "correct": false
+    },
+    {
+      "target_id": "uart_vl_i2",
+      "ground_truth": "cnt",
+      "oracle_choice": "V8",
+      "diagnosis": "cnt",
+      "correct": true
+    },
+    {
+      "target_id": "heldout_pipe_src",
+      "ground_truth": "v1",
+      "oracle_choice": "NEITHER_CORRECT",
+      "diagnosis": "d1",
+      "correct": false
+    },
+    {
+      "target_id": "pipeline_vl_a1",
+      "ground_truth": "v1",
+      "oracle_choice": "NEITHER_CORRECT",
+      "diagnosis": "d1",
+      "correct": false
+    },
+    {
+      "target_id": "pipeline_vl_b1",
+      "ground_truth": "v1",
+      "oracle_choice": "V8",
+      "diagnosis": "v1",
+      "correct": true
+    },
+    {
+      "target_id": "pipeline_vl_f1",
+      "ground_truth": "d1",
+      "oracle_choice": "V10_2",
+      "diagnosis": "d1",
+      "correct": true
+    },
+    {
+      "target_id": "pipeline_vl_i2",
+      "ground_truth": "v1",
+      "oracle_choice": "V8",
+      "diagnosis": "v1",
+      "correct": true
+    }
+  ]
+}

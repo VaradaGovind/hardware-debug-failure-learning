@@ -1,0 +1,45 @@
+{
+  "mcnemar_exact_test": {
+    "discordant_pairs": 2,
+    "b_sys_a_only": 0,
+    "c_sys_b_only": 2,
+    "p_value": 0.5,
+    "interpretation": "Discordant pairs n=2 (b=0, c=2). Exact two-sided p=0.5000. Difference is NOT statistically significant at alpha=0.05 due to small sample size."
+  },
+  "wilson_confidence_intervals_95": {
+    "system_a_resolution_rate": {
+      "point_estimate": 0.48,
+      "ci_lower": 0.3003,
+      "ci_upper": 0.665
+    },
+    "system_b_resolution_rate": {
+      "point_estimate": 0.56,
+      "ci_lower": 0.3707,
+      "ci_upper": 0.7333
+    }
+  },
+  "paired_bootstrap": {
+    "n_resamples": 10000,
+    "seed": 42,
+    "resolution_delta": {
+      "mean": 0.079588,
+      "median": 0.07999999999999996,
+      "std": 0.05409907814371702,
+      "ci_95": [
+        0.0,
+        0.2
+      ],
+      "prob_sys_b_strictly_greater": 0.8747,
+      "prob_sys_b_greater_or_equal": 1.0
+    },
+    "token_savings_pct": {
+      "mean": 22.217750453633514,
+      "median": 21.723162045481022,
+      "std": 7.898538203937226,
+      "ci_95": [
+        8.47,
+        39.27
+      ]
+    }
+  }
+}

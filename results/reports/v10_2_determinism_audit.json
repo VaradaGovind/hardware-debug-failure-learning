@@ -1,0 +1,16 @@
+{
+  "classification": "A_FULLY_DETERMINISTIC",
+  "is_fully_deterministic": true,
+  "runs_analyzed": 5,
+  "system_a_resolution_variance": 0.0,
+  "system_b_resolution_variance": 0.0,
+  "system_a_token_variance": 0.0,
+  "system_b_token_variance": 0.0,
+  "system_a_call_variance": 0.0,
+  "system_b_call_variance": 0.0,
+  "case_disagreement_count_system_a": 0,
+  "case_disagreement_count_system_b": 0,
+  "identical_system_a_runs": 5,
+  "identical_system_b_runs": 5,
+  "summary": "Greedy decoding and deterministic assertion simulation produced identical case-level outputs across all repeated runs."
+}

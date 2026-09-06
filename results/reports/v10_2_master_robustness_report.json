@@ -1,0 +1,85 @@
+{
+  "experiment": "V10.2_ROBUSTNESS_AND_STATISTICAL_VALIDATION",
+  "benchmark_cases": 25,
+  "repeated_runs": 5,
+  "determinism_classification": "A_FULLY_DETERMINISTIC",
+  "system_a": {
+    "mean_resolution_rate": 0.48,
+    "resolution_ci_95": [
+      0.3003,
+      0.665
+    ],
+    "mean_tokens": 83238.0,
+    "mean_calls": 48.0,
+    "diagnostic_accuracy": 0.6
+  },
+  "system_b": {
+    "mean_resolution_rate": 0.56,
+    "resolution_ci_95": [
+      0.3707,
+      0.7333
+    ],
+    "mean_tokens": 64896.0,
+    "mean_calls": 35.0,
+    "diagnostic_accuracy": 0.68,
+    "correct_reuses": 7,
+    "false_reuses": 0
+  },
+  "paired_analysis": {
+    "both_resolved": 12,
+    "system_a_only": 0,
+    "system_b_only": 2,
+    "neither_resolved": 11,
+    "mcnemar_exact_p_value": 0.5,
+    "statistical_significance_alpha_0_05": false
+  },
+  "bootstrap": {
+    "resolution_delta_mean": 0.0796,
+    "resolution_delta_median": 0.08,
+    "resolution_delta_ci_95": [
+      0.0,
+      0.2
+    ],
+    "prob_system_b_superior": 0.8747,
+    "token_savings_pct_ci_95": [
+      8.47,
+      39.27
+    ]
+  },
+  "efficiency": {
+    "token_reduction_mean": 18342,
+    "token_reduction_pct": 22.04,
+    "call_reduction_mean": 13,
+    "call_reduction_pct": 27.08,
+    "zero_token_reuses_count": 7,
+    "investigations_avoided": 7
+  },
+  "safety": {
+    "false_reuses": 0,
+    "negative_rejection_rate": 1.0,
+    "adversarial_negatives_evaluated": 5,
+    "incomplete_trace_negatives_evaluated": 5,
+    "safe_rejections": 10
+  },
+  "computational_overhead": {
+    "system_a_total_wall_clock_ms": 681544.1,
+    "system_b_total_wall_clock_ms": 514171.6,
+    "system_a_simulation_overhead_ms": 1267.1,
+    "system_b_simulation_overhead_ms": 1346.6,
+    "semantic_verification_overhead_ms": 312.5,
+    "net_latency_classification": "B_SIMILAR_LATENCY_WITH_TOKEN_SAVINGS"
+  },
+  "case_studies": {
+    "target_pos2_fsm": {
+      "system_a_resolved": false,
+      "system_b_resolved": true,
+      "mechanism": "System B successfully reused validated state transition diagnosis from source_fsm, bypassing 1.5B hallucinated reset patch."
+    },
+    "target_pos2_uart": {
+      "system_a_resolved": false,
+      "system_b_resolved": true,
+      "mechanism": "System B successfully reused baud accumulation rollover diagnosis from source_uart, correcting baud divider drift."
+    }
+  },
+  "recommendation": "B_REPRODUCIBLE_BUT_BENCHMARK_SIZE_PREVENTS_STRONG_STATISTICAL_CONCLUSIONS"
+}

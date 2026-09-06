@@ -1,0 +1,74 @@
+{
+  "audit_timestamp": "2026-09-04T14:57:00Z",
+  "status": "VERIFIED_EXACT",
+  "total_cases": 91,
+  "correct_cases": 74,
+  "accuracy_pct": 81.3187,
+  "accuracy_fraction": "74/91",
+  "wilson_95_ci_pct": [
+    72.1,
+    88.0
+  ],
+  "invalid_outputs": 0,
+  "invalid_output_rate_pct": 0.0,
+  "architecture_family_denominators": {
+    "axi": {
+      "correct": 25,
+      "total": 25,
+      "fraction": "25/25",
+      "accuracy_pct": 100.0
+    },
+    "fifo": {
+      "correct": 24,
+      "total": 33,
+      "fraction": "24/33",
+      "accuracy_pct": 72.73
+    },
+    "pipeline": {
+      "correct": 25,
+      "total": 33,
+      "fraction": "25/33",
+      "accuracy_pct": 75.76
+    }
+  },
+  "example_type_denominators": {
+    "HARD_NEGATIVE": {
+      "correct": 24,
+      "total": 25,
+      "fraction": "24/25",
+      "accuracy_pct": 96.0
+    },
+    "POSITIVE_RCA": {
+      "correct": 50,
+      "total": 50,
+      "fraction": "50/50",
+      "accuracy_pct": 100.0
+    },
+    "UNKNOWN_INSUFFICIENT": {
+      "correct": 0,
+      "total": 16,
+      "fraction": "0/16",
+      "accuracy_pct": 0.0
+    }
+  },
+  "task_id_breakdown": {
+    "v10_val_axi_stream_fifo": {
+      "correct": 25,
+      "total": 25,
+      "fraction": "25/25",
+      "accuracy_pct": 100.0
+    },
+    "v10_val_fifo_ring_buf": {
+      "correct": 24,
+      "total": 33,
+      "fraction": "24/33",
+      "accuracy_pct": 72.73
+    },
+    "v10_val_pipe_3stage_split": {
+      "correct": 25,
+      "total": 33,
+      "fraction": "25/33",
+      "accuracy_pct": 75.76
+    }
+  }
+}
