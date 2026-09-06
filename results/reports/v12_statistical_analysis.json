@@ -1,0 +1,53 @@
+{
+  "contingency_matrix": {
+    "a_both_resolved": 5,
+    "b_sys_a_only": 0,
+    "c_sys_b_only": 8,
+    "d_both_unresolved": 17,
+    "discordant_b_vs_c": [
+      0,
+      8
+    ]
+  },
+  "mcnemar_exact_test": {
+    "discordant_pairs": 8,
+    "b_sys_a_only": 0,
+    "c_sys_b_only": 8,
+    "p_value": 0.007812,
+    "interpretation": "Discordant pairs n=8 (b=0, c=8). Exact two-sided p=0.0078. Statistically significant difference (p < 0.05)."
+  },
+  "wilson_score_intervals": {
+    "system_a": [
+      0.0734,
+      0.3356
+    ],
+    "system_b": [
+      0.2738,
+      0.608
+    ]
+  },
+  "paired_bootstrap_10000": {
+    "n_resamples": 10000,
+    "seed": 42,
+    "resolution_delta": {
+      "mean": 0.26544,
+      "median": 0.26666666666666666,
+      "std": 0.08067111392699511,
+      "ci_95": [
+        0.1,
+        0.4333
+      ],
+      "prob_sys_b_strictly_greater": 0.9998,
+      "prob_sys_b_greater_or_equal": 1.0
+    },
+    "token_savings_pct": {
+      "mean": 36.56377894378382,
+      "median": 36.65138429757614,
+      "std": 8.725475390485322,
+      "ci_95": [
+        19.99,
+        53.42
+      ]
+    }
+  }
+}

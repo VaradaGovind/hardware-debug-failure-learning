@@ -1,0 +1,279 @@
+{
+  "benchmark_id": "V12_EXTERNAL_BENCHMARK_VALIDATION",
+  "total_generated": 30,
+  "valid_cases": 30,
+  "invalid_cases": 0,
+  "validation_rate_pct": 100.0,
+  "validation_records": [
+    {
+      "case_id": "v12_mem_sdram_refresh",
+      "domain": "memory_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "refresh_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_mem_sdram_bankdec",
+      "domain": "memory_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "bank_addr",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_mem_sdram_precharge",
+      "domain": "memory_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "precharge_timer",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_mem_cache_taghit",
+      "domain": "memory_controller",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "tag_hit",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_mem_sdram_adv_neg",
+      "domain": "memory_controller",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "col_mask",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_mem_sdram_inc_trace",
+      "domain": "memory_controller",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "cas_timer",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_bus_i2c_stretch",
+      "domain": "bus_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "slave_wait",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_bus_i2c_startsetup",
+      "domain": "bus_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sda_oen",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_bus_i2c_ackphase",
+      "domain": "bus_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ack_rec",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_bus_spi_cpolphase",
+      "domain": "bus_controller",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "sck_reg",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_bus_i2c_adv_neg",
+      "domain": "bus_controller",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "al_flag",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_bus_i2c_inc_trace",
+      "domain": "bus_controller",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "scl_timer",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_arb_rr_token",
+      "domain": "arbitration",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "token_ptr",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_arb_rr_mask",
+      "domain": "arbitration",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "req_mask",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_arb_prio_starve",
+      "domain": "arbitration",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "starve_timeout",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_arb_grant_lock",
+      "domain": "arbitration",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "grant_locked",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_arb_rr_adv_neg",
+      "domain": "arbitration",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "comb_grant",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_arb_rr_inc_trace",
+      "domain": "arbitration",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "last_granted",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_dma_desc_term",
+      "domain": "dma_control",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "desc_eol",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_dma_byte_count",
+      "domain": "dma_control",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "byte_count",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_dma_burst_wrap",
+      "domain": "dma_control",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "burst_addr",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_dma_pic_mask",
+      "domain": "dma_control",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "irq_pending",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_dma_desc_adv_neg",
+      "domain": "dma_control",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "chan_prio",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_dma_desc_inc_trace",
+      "domain": "dma_control",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "dma_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_acc_sha3_pad_delim",
+      "domain": "crypto_arithmetic",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "delim_byte",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_acc_sha3_rate_trunc",
+      "domain": "crypto_arithmetic",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "byte_pad_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_acc_div_quot_sign",
+      "domain": "crypto_arithmetic",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sign_q",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_acc_div_rem_restore",
+      "domain": "crypto_arithmetic",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "rem_reg",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_acc_sha3_adv_neg",
+      "domain": "crypto_arithmetic",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "round_cnt",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    },
+    {
+      "case_id": "v12_acc_sha3_inc_trace",
+      "domain": "crypto_arithmetic",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "sponge_state",
+      "pre_repair_detects_bug": true,
+      "correct_repair_resolves": true,
+      "is_valid": true
+    }
+  ]
+}

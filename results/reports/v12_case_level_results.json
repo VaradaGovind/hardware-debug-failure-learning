@@ -1,0 +1,940 @@
+{
+  "benchmark_id": "V12_EXTERNAL_REALISTIC_HARDWARE_BENCHMARK",
+  "total_cases": 30,
+  "system_a_records": [
+    {
+      "case_id": "v12_mem_sdram_refresh",
+      "domain": "memory_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "refresh_cnt",
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_mem_sdram_bankdec",
+      "domain": "memory_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "bank_addr",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_mem_sdram_precharge",
+      "domain": "memory_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "precharge_timer",
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 2495,
+      "calls": 2,
+      "wall_clock_ms": 10479.0
+    },
+    {
+      "case_id": "v12_mem_cache_taghit",
+      "domain": "memory_controller",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "tag_hit",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_mem_sdram_adv_neg",
+      "domain": "memory_controller",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "col_mask",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_mem_sdram_inc_trace",
+      "domain": "memory_controller",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "cas_timer",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2495,
+      "calls": 2,
+      "wall_clock_ms": 10479.0
+    },
+    {
+      "case_id": "v12_bus_i2c_stretch",
+      "domain": "bus_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "slave_wait",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2435,
+      "calls": 2,
+      "wall_clock_ms": 10227.0
+    },
+    {
+      "case_id": "v12_bus_i2c_startsetup",
+      "domain": "bus_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sda_oen",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2480,
+      "calls": 2,
+      "wall_clock_ms": 10416.0
+    },
+    {
+      "case_id": "v12_bus_i2c_ackphase",
+      "domain": "bus_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ack_rec",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_bus_spi_cpolphase",
+      "domain": "bus_controller",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "sck_reg",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_bus_i2c_adv_neg",
+      "domain": "bus_controller",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "al_flag",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2435,
+      "calls": 2,
+      "wall_clock_ms": 10227.0
+    },
+    {
+      "case_id": "v12_bus_i2c_inc_trace",
+      "domain": "bus_controller",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "scl_timer",
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_arb_rr_token",
+      "domain": "arbitration",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "token_ptr",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2390,
+      "calls": 2,
+      "wall_clock_ms": 10038.0
+    },
+    {
+      "case_id": "v12_arb_rr_mask",
+      "domain": "arbitration",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "req_mask",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2375,
+      "calls": 2,
+      "wall_clock_ms": 9975.0
+    },
+    {
+      "case_id": "v12_arb_prio_starve",
+      "domain": "arbitration",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "starve_timeout",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2435,
+      "calls": 2,
+      "wall_clock_ms": 10227.0
+    },
+    {
+      "case_id": "v12_arb_grant_lock",
+      "domain": "arbitration",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "grant_locked",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2420,
+      "calls": 2,
+      "wall_clock_ms": 10164.0
+    },
+    {
+      "case_id": "v12_arb_rr_adv_neg",
+      "domain": "arbitration",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "comb_grant",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2420,
+      "calls": 2,
+      "wall_clock_ms": 10164.0
+    },
+    {
+      "case_id": "v12_arb_rr_inc_trace",
+      "domain": "arbitration",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "last_granted",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_dma_desc_term",
+      "domain": "dma_control",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "desc_eol",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2405,
+      "calls": 2,
+      "wall_clock_ms": 10101.0
+    },
+    {
+      "case_id": "v12_dma_byte_count",
+      "domain": "dma_control",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "byte_count",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2420,
+      "calls": 2,
+      "wall_clock_ms": 10164.0
+    },
+    {
+      "case_id": "v12_dma_burst_wrap",
+      "domain": "dma_control",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "burst_addr",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2420,
+      "calls": 2,
+      "wall_clock_ms": 10164.0
+    },
+    {
+      "case_id": "v12_dma_pic_mask",
+      "domain": "dma_control",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "irq_pending",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2390,
+      "calls": 2,
+      "wall_clock_ms": 10038.0
+    },
+    {
+      "case_id": "v12_dma_desc_adv_neg",
+      "domain": "dma_control",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "chan_prio",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_dma_desc_inc_trace",
+      "domain": "dma_control",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "dma_state",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2480,
+      "calls": 2,
+      "wall_clock_ms": 10416.0
+    },
+    {
+      "case_id": "v12_acc_sha3_pad_delim",
+      "domain": "crypto_arithmetic",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "delim_byte",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2480,
+      "calls": 2,
+      "wall_clock_ms": 10416.0
+    },
+    {
+      "case_id": "v12_acc_sha3_rate_trunc",
+      "domain": "crypto_arithmetic",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "byte_pad_cnt",
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 2495,
+      "calls": 2,
+      "wall_clock_ms": 10479.0
+    },
+    {
+      "case_id": "v12_acc_div_quot_sign",
+      "domain": "crypto_arithmetic",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sign_q",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_acc_div_rem_restore",
+      "domain": "crypto_arithmetic",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "rem_reg",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2495,
+      "calls": 2,
+      "wall_clock_ms": 10479.0
+    },
+    {
+      "case_id": "v12_acc_sha3_adv_neg",
+      "domain": "crypto_arithmetic",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "round_cnt",
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_acc_sha3_inc_trace",
+      "domain": "crypto_arithmetic",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "sponge_state",
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2480,
+      "calls": 2,
+      "wall_clock_ms": 10416.0
+    }
+  ],
+  "system_b_records": [
+    {
+      "case_id": "v12_mem_sdram_refresh",
+      "domain": "memory_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "refresh_cnt",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_mem_sdram_bankdec",
+      "domain": "memory_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "bank_addr",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_mem_sdram_precharge",
+      "domain": "memory_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "precharge_timer",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_mem_cache_taghit",
+      "domain": "memory_controller",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "tag_hit",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_mem_sdram_adv_neg",
+      "domain": "memory_controller",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "col_mask",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_mem_sdram_inc_trace",
+      "domain": "memory_controller",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "cas_timer",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2495,
+      "calls": 2,
+      "wall_clock_ms": 10479.0
+    },
+    {
+      "case_id": "v12_bus_i2c_stretch",
+      "domain": "bus_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "slave_wait",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2435,
+      "calls": 2,
+      "wall_clock_ms": 10227.0
+    },
+    {
+      "case_id": "v12_bus_i2c_startsetup",
+      "domain": "bus_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sda_oen",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_bus_i2c_ackphase",
+      "domain": "bus_controller",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "ack_rec",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_bus_spi_cpolphase",
+      "domain": "bus_controller",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "sck_reg",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_bus_i2c_adv_neg",
+      "domain": "bus_controller",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "al_flag",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2435,
+      "calls": 2,
+      "wall_clock_ms": 10227.0
+    },
+    {
+      "case_id": "v12_bus_i2c_inc_trace",
+      "domain": "bus_controller",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "scl_timer",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 2465,
+      "calls": 2,
+      "wall_clock_ms": 10353.0
+    },
+    {
+      "case_id": "v12_arb_rr_token",
+      "domain": "arbitration",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "token_ptr",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2390,
+      "calls": 2,
+      "wall_clock_ms": 10038.0
+    },
+    {
+      "case_id": "v12_arb_rr_mask",
+      "domain": "arbitration",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "req_mask",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2375,
+      "calls": 2,
+      "wall_clock_ms": 9975.0
+    },
+    {
+      "case_id": "v12_arb_prio_starve",
+      "domain": "arbitration",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "starve_timeout",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_arb_grant_lock",
+      "domain": "arbitration",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "grant_locked",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2420,
+      "calls": 2,
+      "wall_clock_ms": 10164.0
+    },
+    {
+      "case_id": "v12_arb_rr_adv_neg",
+      "domain": "arbitration",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "comb_grant",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2420,
+      "calls": 2,
+      "wall_clock_ms": 10164.0
+    },
+    {
+      "case_id": "v12_arb_rr_inc_trace",
+      "domain": "arbitration",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "last_granted",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_dma_desc_term",
+      "domain": "dma_control",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "desc_eol",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_dma_byte_count",
+      "domain": "dma_control",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "byte_count",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_dma_burst_wrap",
+      "domain": "dma_control",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "burst_addr",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_dma_pic_mask",
+      "domain": "dma_control",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "irq_pending",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_dma_desc_adv_neg",
+      "domain": "dma_control",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "chan_prio",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_dma_desc_inc_trace",
+      "domain": "dma_control",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "dma_state",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2480,
+      "calls": 2,
+      "wall_clock_ms": 10416.0
+    },
+    {
+      "case_id": "v12_acc_sha3_pad_delim",
+      "domain": "crypto_arithmetic",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "delim_byte",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_acc_sha3_rate_trunc",
+      "domain": "crypto_arithmetic",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "byte_pad_cnt",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_acc_div_quot_sign",
+      "domain": "crypto_arithmetic",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "ground_truth_signal": "sign_q",
+      "reuse_attempted": true,
+      "reuse_accepted": true,
+      "fallback_used": false,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 0,
+      "calls": 0,
+      "wall_clock_ms": 0.0
+    },
+    {
+      "case_id": "v12_acc_div_rem_restore",
+      "domain": "crypto_arithmetic",
+      "category": "STRUCTURAL_VARIANT",
+      "ground_truth_signal": "rem_reg",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2495,
+      "calls": 2,
+      "wall_clock_ms": 10479.0
+    },
+    {
+      "case_id": "v12_acc_sha3_adv_neg",
+      "domain": "crypto_arithmetic",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "ground_truth_signal": "round_cnt",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": true,
+      "is_resolved": true,
+      "tokens": 2450,
+      "calls": 2,
+      "wall_clock_ms": 10290.0
+    },
+    {
+      "case_id": "v12_acc_sha3_inc_trace",
+      "domain": "crypto_arithmetic",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "ground_truth_signal": "sponge_state",
+      "reuse_attempted": true,
+      "reuse_accepted": false,
+      "fallback_used": true,
+      "diagnosis_correct": false,
+      "is_resolved": false,
+      "tokens": 2480,
+      "calls": 2,
+      "wall_clock_ms": 10416.0
+    }
+  ],
+  "ablation_b_records": [
+    {
+      "case_id": "v12_mem_sdram_refresh",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_mem_sdram_bankdec",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_mem_sdram_precharge",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_mem_cache_taghit",
+      "category": "STRUCTURAL_VARIANT",
+      "naive_accepted": false,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_mem_sdram_adv_neg",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "naive_accepted": true,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_mem_sdram_inc_trace",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "naive_accepted": true,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_bus_i2c_stretch",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_bus_i2c_startsetup",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": false,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_bus_i2c_ackphase",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_bus_spi_cpolphase",
+      "category": "STRUCTURAL_VARIANT",
+      "naive_accepted": false,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_bus_i2c_adv_neg",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "naive_accepted": true,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_bus_i2c_inc_trace",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "naive_accepted": true,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_arb_rr_token",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_arb_rr_mask",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": false,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_arb_prio_starve",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_arb_grant_lock",
+      "category": "STRUCTURAL_VARIANT",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_arb_rr_adv_neg",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "naive_accepted": true,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_arb_rr_inc_trace",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "naive_accepted": true,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_dma_desc_term",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": false,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_dma_byte_count",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_dma_burst_wrap",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_dma_pic_mask",
+      "category": "STRUCTURAL_VARIANT",
+      "naive_accepted": false,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_dma_desc_adv_neg",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "naive_accepted": false,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_dma_desc_inc_trace",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "naive_accepted": true,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_acc_sha3_pad_delim",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_acc_sha3_rate_trunc",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": false,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_acc_div_quot_sign",
+      "category": "POSITIVE_REUSE_OPPORTUNITY",
+      "naive_accepted": false,
+      "is_resolved": false
+    },
+    {
+      "case_id": "v12_acc_div_rem_restore",
+      "category": "STRUCTURAL_VARIANT",
+      "naive_accepted": true,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_acc_sha3_adv_neg",
+      "category": "ADVERSARIAL_NEGATIVE_CONTROL",
+      "naive_accepted": false,
+      "is_resolved": true
+    },
+    {
+      "case_id": "v12_acc_sha3_inc_trace",
+      "category": "INCOMPLETE_EVIDENCE_NEGATIVE_CONTROL",
+      "naive_accepted": false,
+      "is_resolved": true
+    }
+  ]
+}
