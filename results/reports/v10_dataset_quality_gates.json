@@ -1,0 +1,95 @@
+{
+  "overall_quality_gate_verdict": "PASSED",
+  "gate_1_leakage_with_frozen_benchmark": {
+    "status": "PASS",
+    "exact_rtl_matches": 0,
+    "structural_matches": 0
+  },
+  "gate_2_split_disjointness": {
+    "status": "PASS",
+    "train_val_task_overlap": 0,
+    "train_gen_task_overlap": 0,
+    "val_gen_task_overlap": 0,
+    "cross_split_structural_leakage": 0
+  },
+  "gate_3_tool_and_trajectory_validity": {
+    "status": "PASS",
+    "invalid_tool_calls": 0,
+    "unsupported_rca_conclusions": 0
+  },
+  "distribution_breakdown": {
+    "total_trajectories": 1109,
+    "train_count": 988,
+    "val_count": 91,
+    "gen_count": 30,
+    "family_distribution": {
+      "TRAIN": {
+        "pipeline": 513,
+        "fifo": 181,
+        "axi": 98,
+        "uart": 98,
+        "fsm": 98
+      },
+      "VALIDATION": {
+        "fifo": 33,
+        "pipeline": 33,
+        "axi": 25
+      },
+      "GENERALIZATION": {
+        "pipeline": 30
+      }
+    },
+    "example_type_distribution": {
+      "TRAIN": {
+        "HARD_NEGATIVE": 693,
+        "POSITIVE_RCA": 220,
+        "UNKNOWN_INSUFFICIENT": 75
+      },
+      "VALIDATION": {
+        "UNKNOWN_INSUFFICIENT": 16,
+        "HARD_NEGATIVE": 25,
+        "POSITIVE_RCA": 50
+      },
+      "GENERALIZATION": {
+        "POSITIVE_RCA": 30
+      }
+    },
+    "root_cause_distribution": {
+      "TRAIN": {
+        "busy_cycles": 83,
+        "gray_wr_ptr": 83,
+        "s1_valid": 83,
+        "credit_count": 83,
+        "unknown": 75,
+        "frac_acc": 83,
+        "skid_vld": 83,
+        "sub_state": 83,
+        "stg2_tok": 83,
+        "tvalid_out": 83,
+        "watermark_lvl": 83,
+        "fwd_data": 83
+      },
+      "VALIDATION": {
+        "unknown": 16,
+        "items_avail": 25,
+        "p1_val": 25,
+        "strm_val": 25
+      },
+      "GENERALIZATION": {
+        "token_ring": 15,
+        "ex_v": 15
+      }
+    },
+    "pipeline_topology_distribution": {
+      "v10_pipe_var_latency": 83,
+      "v10_pipe_2stage_decoupled": 98,
+      "v10_pipe_credit_backpressure": 83,
+      "v10_pipe_skid_elastic": 83,
+      "v10_pipe_4stage_deep": 83,
+      "v10_pipe_3stage_hazard": 83,
+      "v10_val_pipe_3stage_split": 33,
+      "v10_gen_pipe_elastic_ring": 15,
+      "v10_gen_pipe_5stage_branch": 15
+    }
+  }
+}
