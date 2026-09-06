@@ -1,190 +1,243 @@
-# RCA-Reuse: Verified Reuse of Hardware Root-Cause Knowledge
+# RCA-Reuse: Verified Root Cause Analysis Reuse for Hardware Debugging
 
-> A research prototype for verifying whether expensive hardware debugging root-cause analysis (RCA) explanations can be formalized as semantic certificates and safely reused across recurring failure manifestations.
+> **Verified Root Cause Analysis reuse for efficient and safe LLM-assisted hardware debugging.**
 
----
-
-## 1. Project Overview
-
-Diagnosing failure manifestations in Register-Transfer Level (RTL) simulation is computationally expensive and engineer-intensive. When debugging an automated regression failure, engineers or AI agents iteratively inspect waveforms, trace signals across clock cycles, search source files, and test causal hypotheses.
-
-When similar or structurally related bugs recur across design revisions, testing streams, or parameter variants, standard practice reruns the complete investigation from scratch. **RCA-Reuse** investigates whether the causal explanation produced by an initial root-cause analysis can be structured into a verifiable **semantic certificate** and safely reused for later failure manifestations, bypassing redundant debugging search without introducing unsafe diagnostic transfers.
+[![CI Test Suite](https://img.shields.io/badge/tests-100%20passed%2C%2011%20skipped-brightgreen)](#reproducibility)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python: 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![Hardware: Icarus Verilog](https://img.shields.io/badge/simulator-iverilog%2012.0-orange)](http://iverilog.icarus.com/)
 
 ---
 
-## 2. Core Idea
+## Why RCA-Reuse?
 
-Previous RCA knowledge is represented as formal **semantic certificates** and is reused only after passing an explicit **verification and trust gate**:
+Hardware debugging in Register-Transfer Level (RTL) simulation is computationally expensive and engineer-intensive. When debugging automated regression failures, engineers and AI agents repeatedly spend thousands of LLM inference tokens performing expensive root-cause analysis (RCA) from scratch—tracing multi-cycle waveforms, inspecting signal causality, and formulating diagnostic hypotheses.
+
+Standard practice discards previously solved and verified debugging knowledge when testing subsequent revisions or related IP variants. However, **naive reuse is dangerous**: superficially similar failure symptoms (e.g., an unexpected FIFO empty flag or an AXI handshake timeout) frequently stem from completely different circuit bugs. Unchecked diagnostic transfer leads to false repairs and broken invariants.
+
+**RCA-Reuse** solves this fundamental safety-efficiency tradeoff through **Verified RCA Reuse**: historical root-cause explanations are stored in trusted memory as formal semantic certificates and reused *only* when a multi-stage semantic verification gate proves that the previous root cause strictly applies to the new failure trace. If verification fails, the system safely rejects reuse and falls back to autonomous LLM investigation.
+
+---
+
+## Core Idea
 
 ```text
-RCA → Certificate → Verification / Trust Gate → Trusted Memory → Semantic Matching → Reuse
-```
-
-Rather than treating reuse as a syntactic or embedding-based similarity lookup, RCA-Reuse enforces that:
-1. **Source Certificates Must Be Trusted:** An initial diagnosis must pass automated causal and structural verification before its certificate is admitted to memory.
-2. **Target Traces Must Pass Formal Validation:** A target failure trace must satisfy the certificate's preconditions, protocol obligations, and observable anomaly signatures before diagnosis transfer occurs.
-3. **Conservative Fallback on Ambiguity:** If evidence is incomplete, truncated, or inconsistent with the certificate, the system safely abstains and routes the failure to an independent fallback RCA investigation.
-
----
-
-## 3. Architecture
-
-The system coordinates deterministic hardware analysis, protocol obligations, and safety gating:
-
-```text
-                          ┌────────────────────────┐
-                          │ Target Failure (Trace) │
-                          └───────────┬────────────┘
-                                      │
-                                      ▼
-                      ┌────────────────────────────────┐
-                      │ 1. Adaptive Evidence Horizon   │
-                      │    (Settlement Engine)         │
-                      └───────────────┬────────────────┘
-                                      │
-                                      ▼
-                      ┌────────────────────────────────┐
-                      │ 2. Semantic Role Normalizer    │
-                      │    (Canonical Hardware Roles)  │
-                      └───────────────┬────────────────┘
-                                      │
-                                      ▼
-                      ┌────────────────────────────────┐
-                      │ 3. Modular Protocol Adapters   │
-                      │    (FIFO, AXI, FSM, UART, Pipe)│
-                      └───────────────┬────────────────┘
-                                      │
-                                      ▼
-                      ┌────────────────────────────────┐
-                      │ 4. V5 Safety & Trust Gate      │
-                      │    (Final Validation Authority)│
-                      └───────┬────────────────┬───────┘
-                              │                │
-            [Validation PASS] │                │ [FAIL / Insufficient]
-                              ▼                ▼
-                     ┌────────────────┐ ┌───────────────────────────┐
-                     │   REUSE_RCA    │ │ FALLBACK_INDEPENDENT_RCA  │
-                     │ (Bypass Search)│ │ (Run Autonomous RCA)      │
-                     └────────────────┘ └───────────────────────────┘
-```
-
-### Key Architectural Pillars:
-
-* **Deterministic Evidence:** Leverages verifiable RTL simulation outputs, deterministic testbench assertion triggers, and structured waveform slices rather than ungrounded textual summaries.
-* **Waveform & Temporal Context:** Captures multi-cycle temporal causality, identifying the trigger cycle and tracking the settlement window across clock cycles.
-* **Semantic Role Normalization:** Standardizes heterogeneous signal names across different design implementations into normalized `HardwareRole` enums (e.g., `count` and `fifo_count` $\rightarrow$ `OCCUPANCY_TRACKER`; `cnt` and `baud_cnt` $\rightarrow$ `BAUD_PRESCALER`) while strictly preventing role conflation.
-* **Modular Protocol Adapters:** An extensible `ProtocolRegistry` provides dedicated protocol verifiers:
-  - `FifoProtocolAdapter`: Evaluates occupancy conservation and pointer divergence.
-  - `AxiProtocolAdapter`: Evaluates handshake stability and transfer completion contracts.
-  - `FsmProtocolAdapter`: Evaluates state progress and transition deadlocks.
-  - `UartProtocolAdapter`: Models bit-period prescaler timing and baud rollover contracts.
-  - `PipelineProtocolAdapter`: Models pipeline stage retention and hazard stall drainage.
-* **V5 Verification Gate:** A multi-layer trust gate (`SourceRCAVerifier`) ensuring that unverified, hallucinated, or ungrounded diagnoses cannot enter trusted memory.
-* **V8 Unified Certificate Architecture:** A domain-independent 6-dimensional schema capturing root-cause identity, formal invariant obligations, temporal behavior, multi-stage evidence, competing hypothesis rejections, and trust audit trails.
-
----
-
-## 4. Validated V8 Results
-
-The V8 system was evaluated on an **immutable, frozen 25-case evaluation stream** comprising 5 hardware design families (`FIFO`, `AXI`, `FSM`, `UART`, `PIPELINE`), including 5 source cases, 10 valid reuse targets, 5 adversarial same-symptom negative controls, and 5 truncated/incomplete waveform stress cases.
-
-Controlled head-to-head comparison between the baseline reuse architecture (Control A) and the V8 Unified Semantic Architecture (Control B) demonstrated:
-
-| Metric | Control A (V7 + V5 Baseline) | Control B (V7 + V8 Semantic Reuse) | Impact / Delta |
-|---|:---:|:---:|:---:|
-| **Trusted Source Certificates** | 4 / 5 (80.0%) | **5 / 5 (100.0%)** | +25.0% trusted ingestion |
-| **Autonomous Reuses Applied** | 3 / 20 (15.0%) | **7 / 20 (35.0%)** | +133.3% transfer rate |
-| **Correct Autonomous Reuses** | 3 / 20 (15.0%) | **7 / 20 (35.0%)** | +133.3% correct reuses |
-| **False Reuses Observed** | **0** | **0** | **0 false reuses observed** |
-| **Reuse Decision Precision** | **100.0% (3/3)** | **100.0% (7/7)** | Preserved at 100.0% |
-| **Negative Target Rejection Rate** | **100.0% (10/10)** | **100.0% (10/10)** | Preserved at 100.0% |
-| **RCA Investigations Avoided** | 3 | **7** | 7 full searches avoided |
-| **LLM Inference Token Reduction** | 19.6% | **22.0%** | ~22% token reduction |
-| **Wall-Clock Latency Reduction** | 11.3% | **24.7%** | ~24.7% latency reduction |
-
-### Critical Safety Findings:
-- **0 false reuses were observed on the frozen evaluation.** In every target arrival where reuse was executed, the transferred root cause matched the ground truth defect signal exactly.
-- **10/10 non-reusable cases safely rejected.** All 5 adversarial same-symptom negatives and all 5 incomplete/truncated waveforms were safely routed to fallback independent RCA.
-- *Note:* Hardware verification involves complex state spaces; these empirical results demonstrate that 0 false reuses were observed on the frozen benchmark under formal invariant triage.
-
----
-
-## 5. Research Progression (V1 – V8)
-
-The project advanced through 8 empirical milestones:
-
-* **V1 / V2 — Controlled Baselines & Bias Removal:** Established the initial paired evaluation methodology and eliminated prompt formatting bias.
-* **V3 / V4 — Deterministic RTL & Temporal Evidence:** Introduced simulator tool integration, multi-cycle waveform query tools, and execution traces into the agentic loop.
-* **V5 — Source Verification & Safety Gate:** Implemented `SourceRCAVerifier`, preventing untrusted initial analyses from poisoning downstream memory and establishing the multi-layer target invariant validator.
-* **V6 / V7 — Learned Causal Discrimination:** Developed canonical training datasets with zero-leakage guarantees and fine-tuned open-weight language models on causal hardware failure isolation.
-* **V7.1 — Systems Bottleneck Analysis:** Audited end-to-end failure modes, identifying schema brittleness, literal signal-name coupling, UART extractor omission, and second-pass ingestion drops as downstream bottlenecks.
-* **V8 — Unified Semantic Certificate Architecture:** Introduced canonical semantic roles, modular protocol adapters, deterministic source ingestion, and evidence-aware adaptive settlement, unlocking a +133% increase in autonomous reuse with 0 false reuses observed.
-
----
-
-## 6. Repository Structure
-
-```text
-hardware-debug-failure-learning/
-├── docs/                   # Experiment reports, bottleneck audits, and methodology
-│   ├── V8_BASELINE.md
-│   ├── V8_FINAL_REPORT.md
-│   ├── V7_1_FINAL_REPORT.md
-│   ├── FROZEN_25_CASE_INTEGRITY.md
-│   └── ...
-├── experiments/            # Controlled comparison runners and benchmark harnesses
-│   ├── run_rca_vs_reuse_controlled_comparison.py  # Frozen 25-case benchmark
-│   └── ...
-├── results/                # Recorded cost analysis and frozen evaluation logs
-│   └── cost_analysis/
-│       ├── v8_end_to_end_comparison.json
-│       ├── v8_end_to_end_comparison.csv
-│       └── ...
-├── rtl/                    # Verilog designs and testbenches for evaluation stream
-│   ├── designs/
-│   └── testbenches/
-├── scripts/                # Benchmark generators, dataset builders, and audits
-├── src/                    # Core library implementation
-│   ├── agent/              # Multi-step agentic RCA loop and LLM providers
-│   ├── evaluation/         # Metrics, paired evaluation harness, and V8 replay
-│   ├── reuse/              # Unified certificates, protocol adapters, role normalizer
-│   └── tools/              # Simulation, waveform parsing, and search tools
-├── tests/                  # Unit and integration test suites
-└── pyproject.toml          # Package configuration
+New Failure Trace
+       │
+       ▼
+Memory Retrieval (Trusted RCA Certificates)
+       │
+       ▼
+Semantic Verification Gate (AST + Invariant + Temporal Horizon)
+      / \
+     /   \
+  ACCEPT  REJECT (Negative Control or Ambiguity)
+    │       │
+    │       ▼
+    │     Autonomous LLM Investigation (System A Fallback)
+    │       │
+    └───────┼──────────────────────────────┐
+            ▼                              ▼
+    Deterministic Patch Synthesizer   Unresolved
+            │
+            ▼
+    Physical Simulation Oracle (Icarus Verilog Assertions)
+            │
+            ▼
+       PASS / FAIL
 ```
 
 ---
 
-## 7. Getting Started & Reproducibility
+## System Architecture
 
-### Prerequisites
-- Python 3.10+ (tested on Python 3.12)
-- Icarus Verilog (`iverilog`) for simulation (optional for offline replay)
+The architecture enforces an asymmetric, controlled comparison between two configurations sharing identical underlying inference engines:
 
-### Installation
+```mermaid
+flowchart TD
+    subgraph Input["Failure Observation"]
+        FT["Target Failure Trace\n(VCD / Assertions / Log)"]
+        FR["Semantic Role Normalizer\n(Signal Normalization & Protocol)"]
+        FT --> FR
+    end
+
+    subgraph Verification["Verification Authority"]
+        TM[("Trusted RCA Memory\n(Verified Certificates)")]
+        VG{"Semantic Verification Gate\n- Role Preconditions\n- Temporal Boundary\n- Anomaly Signature"}
+        FR --> VG
+        TM --> VG
+    end
+
+    subgraph Decision["Execution Paths"]
+        VG -- "VERIFIED (Accept)" --> UR["Reuse Certified RCA\n(0 LLM Tokens / 0 Calls)"]
+        VG -- "UNVERIFIED (Safe Reject)" --> FB["System A Fallback\n(Autonomous LLM RCA)"]
+    end
+
+    subgraph Synthesis["Patch & Oracle"]
+        PS["Deterministic Patch Synthesizer\n(Unified Diff Generation)"]
+        SIM["Icarus Verilog Simulation Oracle\n(Physical Assertion Verification)"]
+        UR --> PS
+        FB --> PS
+        PS --> SIM
+        SIM --> OUT["Resolution Verdict\n(PASS / FAIL)"]
+    end
+
+    style VG fill:#f9f,stroke:#333,stroke-width:2px
+    style UR fill:#bbf,stroke:#333,stroke-width:1px
+    style FB fill:#ffe,stroke:#333,stroke-width:1px
+    style SIM fill:#bfb,stroke:#333,stroke-width:2px
+```
+
+### Key Architectural Pillars
+1. **Identical LLM Foundation**: Both systems use frozen `Qwen/Qwen2.5-Coder-1.5B-Instruct` with the `soup_v7_qwen_lora` adapter and greedy decoding ($T = 0.0$).
+2. **Semantic Verification Gate**: A formal gate checking AST roles, invariant contracts, and settlement horizons.
+3. **Safe Fallback**: When candidate reuse fails semantic validation, the case is routed to the unassisted System A LLM pipeline.
+4. **Physical Simulation Oracle**: No LLM evaluates its own repair. All candidate patches are simulated in Icarus Verilog against formal testbench assertions.
+
+---
+
+## Experimental Results
+
+The verified reuse mechanism was evaluated across two controlled benchmarks: **V11** (100-case canonical benchmark across 5 hardware families) and **V12** (30-case external benchmark across 5 unfamiliar IP domains).
+
+| Experiment | Benchmark Scope | System A (Plain LLM) | System B (Verified Reuse) | Absolute Delta | Relative Boost | McNemar Exact $p$ | Token Savings | False Reuses | Negative Rejection |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **V11 Benchmark** | 100 cases (5 Canonical Families) | 40.0% (40/100) | **48.0% (48/100)** | **+8.0%** | **+20.0%** | $p = 0.007812$ | **42.64%** | **0** | **100% (30/30)** |
+| **V12 External** | 30 cases (5 Unfamiliar IP Domains) | 16.67% (5/30) | **43.33% (13/30)** | **+26.67%** | **+160.0%** | $p = 0.007812$ | **36.67%** | **0** | **100% (10/10)** |
+
+*Detailed case-by-case data and statistical breakdowns are available in [RESULTS.md](RESULTS.md).*
+
+---
+
+## Key Findings
+
+1. **Statistically Significant Resolution Gains**: System B achieved statistically significant improvements over plain LLM RCA on both benchmarks ($p = 0.007812 < 0.01$, McNemar exact test; 10,000 paired bootstrap 95% CI strictly positive).
+2. **Zero False Reuses Observed (100% Precision)**: Across both benchmarks, System B applied verified reuse 53 times (42 in V11, 11 in V12) with **zero false reuses**. In every instance, the transferred root-cause diagnosis matched the ground-truth defect signal.
+3. **Perfect Negative Control Rejection**: System B successfully rejected 100% of non-reusable negative controls (30/30 in V11, 10/10 in V12), safely falling back to independent investigation.
+4. **Significant Workload Reduction**: By reusing certified analyses, System B reduced LLM token consumption by **42.64%** in V11 and **36.67%** in V12, eliminating redundant inferences.
+5. **Physical Machine Grounding**: All repairs were compiled and simulated in Icarus Verilog. Resolution required passing 100% of functional testbench assertions.
+
+---
+
+## Scientific Controls
+
+To ensure that observed differences reflect the verified reuse mechanism and not confounding factors:
+
+* **Identical Base Model**: `Qwen/Qwen2.5-Coder-1.5B-Instruct`.
+* **Identical LoRA Weights**: Frozen `soup_v7_qwen_lora` (`best_v7_checkpoint`).
+* **Identical Decoding Policy**: Greedy decoding ($T = 0.0$, top-p = 1.0) for deterministic outputs.
+* **Identical Prompts**: System A and System B fallback use identical system and user prompts.
+* **Identical Patch Synthesizer**: Shared deterministic patch synthesizer generating unified diffs.
+* **Identical Simulation Environment**: Icarus Verilog v12.0 testbench assertion oracle.
+* **System A Isolation**: System A has strictly zero memory access, zero index access, and zero certificate lookups.
+
+---
+
+## Reproducibility
+
+### 1. Environment Setup
+
 ```bash
 # Clone the repository
 git clone https://github.com/VaradaGovind/hardware-debug-failure-learning.git
 cd hardware-debug-failure-learning
 
-# Initialize a virtual environment
+# Create and activate a virtual environment
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\Activate.ps1
+source .venv/bin/activate       # Linux / macOS
+# .venv\Scripts\Activate.ps1    # Windows PowerShell
 
-# Install package in editable mode
+# Install dependencies and package
 pip install -e .
 pip install pytest
 ```
 
-### Running Tests
+### 2. Run Test Suite
+
 ```bash
-# Execute the core unit and generalization test suites (53 tests)
-pytest tests/test_v8_unit.py tests/test_v8_generalization.py tests/test_source_rca_verifier.py tests/test_safety_properties.py tests/test_adaptive_boundary.py tests/test_certificate_store.py tests/test_rca_vs_reuse_harness.py tests/test_agentic_rca.py
+# Run the complete test suite (100 passed, 11 skipped, 0 failures)
+python -m pytest -q
 ```
 
-### Deterministic V8 Offline Replay
-To reproduce the V8 results without requiring GPU access or local model weights:
+### 3. Run Controlled Benchmark Evaluations
+
 ```bash
-python src/evaluation/v8_offline_replay.py
+# Reproduce V11 Generalization Experiment (N=100)
+python experiments/run_v11_generalization.py
+
+# Reproduce V12 External Validation Experiment (N=30)
+python experiments/run_v12_external_validation.py
 ```
-This executes the V8 unified semantic certificate store and adaptive settlement engine against the frozen 25-case stream, printing the exact comparison metrics reported above.
+
+### 4. Verify Benchmark Audits
+
+```bash
+# Verify V12 structural novelty and lexical divergence metrics
+python scripts/calculate_novelty_metrics.py
+
+# Verify historical artifact integrity across 41 frozen files
+python scripts/check_integrity.py
+```
+
+*For complete reproducibility details, see [REPRODUCIBILITY.md](REPRODUCIBILITY.md).*
+
+---
+
+## Repository Structure
+
+```text
+hardware-debug-failure-learning/
+├── docs/                   # Experiment reports, scientific audits, and methodology
+│   ├── ARCHITECTURE.md     # In-depth architectural decomposition and safety gating
+│   ├── BENCHMARK_PROVENANCE.md # Origin, adaptation, and validation of benchmark IP
+│   ├── V11_GENERALIZATION_AND_STATISTICAL_EVALUATION.md # Comprehensive V11 report
+│   ├── V12_EXTERNAL_GENERALIZATION_REPORT.md           # Comprehensive V12 report
+│   ├── V12_STRUCTURAL_NOVELTY_AUDIT.md                 # Lexical novelty analysis
+│   └── ...
+├── experiments/            # Master evaluation runners
+│   ├── run_v11_generalization.py      # V11 benchmark runner (N=100)
+│   └── run_v12_external_validation.py  # V12 external benchmark runner (N=30)
+├── results/                # Recorded experimental outputs
+│   ├── cost_analysis/      # Token, call, and latency metrics
+│   └── reports/            # Machine-readable JSON evaluation reports & manifests
+├── rtl/                    # Verilog RTL implementations and testbenches
+│   ├── designs/            # Historical benchmark circuits (FIFO, AXI, FSM, UART, Pipe)
+│   └── v12/                # External realistic circuits (SDRAM, I2C, SPI, Arbiter, DMA, SHA-3)
+├── scripts/                # Benchmark generators and validation utilities
+│   ├── build_v11_benchmark.py          # Constructs 100-case canonical corpus
+│   ├── build_v12_external_benchmark.py # Constructs 30-case external corpus
+│   ├── calculate_novelty_metrics.py    # Computes lexical novelty & Jaccard metrics
+│   └── check_integrity.py              # Validates 41 frozen historical files
+├── src/                    # Core library implementation
+│   ├── agent/              # Prompt templates and LLM client orchestration
+│   ├── evaluation/         # Deterministic evaluators and patch synthesizers
+│   ├── reuse/              # Semantic certificates, role normalizers, and safety gates
+│   └── tools/              # Simulation harnesses and waveform inspection
+├── tests/                  # Pytest regression suite (100 passed, 11 skipped)
+├── RESULTS.md              # Research results and progression summary
+└── REPRODUCIBILITY.md      # Detailed reproducibility protocol
+```
+
+---
+
+## Research Documentation
+
+* **Architecture & Safety Design**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+* **Benchmark Provenance & Realism**: [docs/BENCHMARK_PROVENANCE.md](docs/BENCHMARK_PROVENANCE.md)
+* **Full Research Results**: [RESULTS.md](RESULTS.md)
+* **Step-by-Step Reproduction**: [REPRODUCIBILITY.md](REPRODUCIBILITY.md)
+* **V11 Milestone Report**: [docs/V11_GENERALIZATION_AND_STATISTICAL_EVALUATION.md](docs/V11_GENERALIZATION_AND_STATISTICAL_EVALUATION.md)
+* **V12 Milestone Report**: [docs/V12_EXTERNAL_GENERALIZATION_REPORT.md](docs/V12_EXTERNAL_GENERALIZATION_REPORT.md)
+* **Release Notes**: [docs/RELEASE_V12_1.md](docs/RELEASE_V12_1.md)
+
+---
+
+## Current Limitations
+
+Scientific precision requires documenting the boundaries of current evidence:
+
+1. **Small Model Scale**: Evaluation was performed on an open-weights 1.5B parameter base model (`Qwen2.5-Coder-1.5B-Instruct`). While this demonstrates feasibility on local hardware, scaling behavior to larger models (e.g., 7B, 32B, 70B) remains future work.
+2. **Domain Boundaries**: Although V12 evaluated 5 unfamiliar domains (memory controllers, bus protocols, arbitration, DMA, crypto/arithmetic), this does not prove universal transfer across arbitrary proprietary ASIC/SoC architectures.
+3. **Patch Synthesis Scope**: The current patch synthesizer targets single-site structural corrections and localized control repairs. Multi-file architectural redesigns remain outside current scope.
+4. **Benchmark Nature**: Benchmark instances represent machine-validated bug instances modeled after open-source IP patterns and structures, rather than untouched extractions from commercial issue trackers. See [docs/BENCHMARK_PROVENANCE.md](docs/BENCHMARK_PROVENANCE.md).
+
