@@ -1,0 +1,49 @@
+# ==============================================================================
+# Experiment V9: Agentic Supervised Fine-Tuning (SFT) Configuration
+# Model: Qwen2.5-Coder-1.5B-Instruct via LoRA on DirectML GPU (AMD RX 7600S)
+# Task: Multi-Step Evidence-Driven Hardware Root-Cause Analysis
+# ==============================================================================
+
+model:
+  name_or_path: "Qwen/Qwen2.5-Coder-1.5B-Instruct"
+  torch_dtype: "float16"
+  trust_remote_code: true
+  use_cache: false
+
+lora:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+
+data:
+  train_file: "C:/Users/varad/ml-cache/rca-reuse/v9/datasets/agentic_train_v9.json"
+  val_file: "C:/Users/varad/ml-cache/rca-reuse/v9/datasets/agentic_val_v9.json"
+  format: "sharegpt_multiturn"
+  max_seq_length: 1536
+
+training:
+  output_dir: "C:/Users/varad/ml-cache/rca-reuse/v9/checkpoints/v9_agentic_sft_lora"
+  num_train_epochs: 3
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 4
+  learning_rate: 0.0002
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.05
+  weight_decay: 0.01
+  logging_steps: 20
+  eval_steps: 50
+  save_strategy: "epoch"
+  seed: 42
+  fp16: true
+  optim: "adamw_torch"

@@ -1,0 +1,188 @@
+{
+  "status": "PASSED_ZERO_LEAKAGE",
+  "audit_version": "V7_SCIENTIFIC_AUDIT",
+  "total_train_samples": 935,
+  "total_val_samples": 235,
+  "frozen_benchmark_size": 25,
+  "metrics": {
+    "exact_id_overlap_train_val": 0,
+    "exact_id_overlap_train_frozen": 0,
+    "exact_id_overlap_val_frozen": 0,
+    "exact_prompt_hash_overlap": 0,
+    "normalized_prompt_hash_overlap": 0,
+    "train_frozen_leakage_count": 0,
+    "val_frozen_leakage_count": 0,
+    "cross_split_near_duplicate_count": 1085,
+    "unique_train_rtl_architectures": 201,
+    "unique_val_rtl_architectures": 61,
+    "shared_rtl_scaffolding_templates": 17
+  },
+  "suspicious_near_duplicate_pairs": [
+    {
+      "val_id": "v7_unknown_truncated_fifo_b4",
+      "train_id": "v7_unknown_truncated_fifo_b3",
+      "family": "fifo",
+      "val_source_case": "fifo_b4",
+      "train_source_case": "fifo_b3",
+      "similarity": 0.9351
+    },
+    {
+      "val_id": "v7_unknown_truncated_fifo_b4",
+      "train_id": "v7_unknown_truncated_fifo_b5",
+      "family": "fifo",
+      "val_source_case": "fifo_b4",
+      "train_source_case": "fifo_b5",
+      "similarity": 0.9351
+    },
+    {
+      "val_id": "v7_unknown_truncated_fifo_b4",
+      "train_id": "v7_unknown_truncated_fifo_b6",
+      "family": "fifo",
+      "val_source_case": "fifo_b4",
+      "train_source_case": "fifo_b6",
+      "similarity": 0.9392
+    },
+    {
+      "val_id": "v7_unknown_truncated_axi_handshake_hold_nb",
+      "train_id": "v7_unknown_truncated_axi_burst_count_nb",
+      "family": "axi",
+      "val_source_case": "axi_handshake_hold_nb",
+      "train_source_case": "axi_burst_count_nb",
+      "similarity": 0.9707
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_synth_variant_fifo_reset_clear_na",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_reset_clear_na",
+      "similarity": 0.9323
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_symptom_fifo_reset_clear_na_read_data",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_reset_clear_na",
+      "similarity": 0.9323
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_passive_input_fifo_reset_clear_na_rst_n",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_reset_clear_na",
+      "similarity": 0.9323
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_internal_fifo_reset_clear_na_write_ptr",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_reset_clear_na",
+      "similarity": 0.9323
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_synth_variant_fifo_ptr_wrap_nb",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_ptr_wrap_nb",
+      "similarity": 0.9373
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_symptom_fifo_ptr_wrap_nb_read_data",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_ptr_wrap_nb",
+      "similarity": 0.9373
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_passive_input_fifo_ptr_wrap_nb_rst_n",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_ptr_wrap_nb",
+      "similarity": 0.9373
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_internal_fifo_ptr_wrap_nb_write_ptr",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_ptr_wrap_nb",
+      "similarity": 0.9373
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_synth_variant_fifo_simultaneous_rw_na",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_simultaneous_rw_na",
+      "similarity": 0.9373
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_symptom_fifo_simultaneous_rw_na_read_data",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_simultaneous_rw_na",
+      "similarity": 0.9373
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_passive_input_fifo_simultaneous_rw_na_rst_n",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_simultaneous_rw_na",
+      "similarity": 0.9373
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_internal_fifo_simultaneous_rw_na_write_ptr",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_simultaneous_rw_na",
+      "similarity": 0.9373
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_synth_variant_fifo_ptr_wrap_na",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_ptr_wrap_na",
+      "similarity": 0.9323
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_symptom_fifo_ptr_wrap_na_read_data",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_ptr_wrap_na",
+      "similarity": 0.9323
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_passive_input_fifo_ptr_wrap_na_rst_n",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_ptr_wrap_na",
+      "similarity": 0.9323
+    },
+    {
+      "val_id": "v7_synth_variant_fifo_simultaneous_rw_nb",
+      "train_id": "v7_hard_neg_internal_fifo_ptr_wrap_na_write_ptr",
+      "family": "fifo",
+      "val_source_case": "fifo_simultaneous_rw_nb",
+      "train_source_case": "fifo_ptr_wrap_na",
+      "similarity": 0.9323
+    }
+  ],
+  "findings_and_interpretation": {
+    "frozen_test_leakage": "ZERO: No frozen test cases appear in either train or validation.",
+    "cross_split_prompt_leakage": "ZERO: Exactly 0 identical or normalized-identical prompts exist across train and validation.",
+    "near_duplicates": "1085 cross-split pairs share standard system instructions and prompt boilerplate with different signal traces and RTL mutations.",
+    "shared_rtl_templates": "17 standard module top-level wrapper templates (e.g. standard AXI/FIFO port lists) are shared across splits with distinct internal logic mutations."
+  }
+}

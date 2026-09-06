@@ -1,0 +1,52 @@
+# ==============================================================================
+# Soup / PEFT LLM Fine-Tuning Configuration for Hardware Agentic RCA (V6)
+# Model: Qwen2.5-Coder-1.5B-Instruct via LoRA / QLoRA / Layer-Streaming
+# Dataset: V6 Canonical Simulation-Grounded Hardware RCA Dataset (330 samples)
+# ==============================================================================
+
+model:
+  name_or_path: "Qwen/Qwen2.5-Coder-1.5B-Instruct"
+  torch_dtype: "bfloat16"
+  trust_remote_code: true
+  use_cache: false
+
+lora:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+
+data:
+  train_file: "C:/Users/varad/ml-cache/rca-reuse/datasets/processed/rca_train_v6.json"
+  val_file: "C:/Users/varad/ml-cache/rca-reuse/datasets/processed/rca_val_v6.json"
+  format: "sharegpt"
+  max_seq_length: 2048
+  dataset_text_field: "conversations"
+
+training:
+  output_dir: "C:/Users/varad/ml-cache/rca-reuse/v6/checkpoints/soup_qwen_rca_lora"
+  num_train_epochs: 3
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 4
+  learning_rate: 0.0002
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.05
+  weight_decay: 0.01
+  logging_steps: 5
+  eval_steps: 20
+  save_strategy: "epoch"
+  evaluation_strategy: "steps"
+  seed: 42
+  fp16: false
+  bf16: true
+  optim: "adamw_torch"

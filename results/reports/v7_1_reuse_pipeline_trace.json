@@ -1,0 +1,1124 @@
+{
+  "metadata": {
+    "experiment": "V7.1_REUSE_PIPELINE_TRACE",
+    "benchmark": "Canonical Frozen 25-Case Evaluation Stream",
+    "v7_adapter_path": "C:/Users/varad/ml-cache/rca-reuse/v7/checkpoints/soup_v7_qwen_lora/best_v7_checkpoint",
+    "v6_adapter_path": "C:/Users/varad/ml-cache/rca-reuse/v6/checkpoints/soup_qwen_rca_lora/best_v6_checkpoint",
+    "total_targets": 20,
+    "total_sources": 5
+  },
+  "source_cases": {
+    "heldout_fifo_src": {
+      "source_id": "heldout_fifo_src",
+      "design_family": "fifo",
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "ground_truth_signal": "count",
+      "v6": {
+        "baseline_diagnosis": "unknown",
+        "baseline_correct": false,
+        "reuse_source_diagnosis": "unknown",
+        "reuse_source_correct": false,
+        "rca_status": "SUCCESS",
+        "certificate_trusted": false,
+        "verification_status": "REJECTED",
+        "verification_reason": "Candidate root-cause signal is unknown, empty, or ungrounded."
+      },
+      "v7": {
+        "baseline_diagnosis": "count",
+        "baseline_correct": true,
+        "reuse_source_diagnosis": "count",
+        "reuse_source_correct": true,
+        "rca_status": "SUCCESS",
+        "certificate_trusted": true,
+        "verification_status": "VERIFIED",
+        "verification_reason": "Candidate signal 'count' is verified with observable causal anomaly and temporal evidence in design 'heldout_fifo_src'."
+      }
+    },
+    "heldout_axi_src": {
+      "source_id": "heldout_axi_src",
+      "design_family": "axi",
+      "defect_mechanism": "AXI_HANDSHAKE_HOLD",
+      "ground_truth_signal": "valid_out",
+      "v6": {
+        "baseline_diagnosis": "valid_out",
+        "baseline_correct": true,
+        "reuse_source_diagnosis": "valid_out",
+        "reuse_source_correct": true,
+        "rca_status": "SUCCESS",
+        "certificate_trusted": true,
+        "verification_status": "VERIFIED",
+        "verification_reason": "Candidate signal 'valid_out' is verified with observable causal anomaly and temporal evidence in design 'heldout_axi_src'."
+      },
+      "v7": {
+        "baseline_diagnosis": "valid_out",
+        "baseline_correct": true,
+        "reuse_source_diagnosis": "unknown",
+        "reuse_source_correct": false,
+        "rca_status": "INVALID_OUTPUT",
+        "certificate_trusted": false,
+        "verification_status": "REJECTED",
+        "verification_reason": "Candidate root-cause signal is unknown, empty, or ungrounded."
+      }
+    },
+    "heldout_fsm_src": {
+      "source_id": "heldout_fsm_src",
+      "design_family": "fsm",
+      "defect_mechanism": "FSM_STUCK_STATE",
+      "ground_truth_signal": "state",
+      "v6": {
+        "baseline_diagnosis": "state",
+        "baseline_correct": true,
+        "reuse_source_diagnosis": "state",
+        "reuse_source_correct": true,
+        "rca_status": "SUCCESS",
+        "certificate_trusted": true,
+        "verification_status": "VERIFIED",
+        "verification_reason": "Candidate signal 'state' is verified with observable causal anomaly and temporal evidence in design 'heldout_fsm_src'."
+      },
+      "v7": {
+        "baseline_diagnosis": "unknown",
+        "baseline_correct": false,
+        "reuse_source_diagnosis": "state",
+        "reuse_source_correct": true,
+        "rca_status": "SUCCESS",
+        "certificate_trusted": true,
+        "verification_status": "VERIFIED",
+        "verification_reason": "Candidate signal 'state' is verified with observable causal anomaly and temporal evidence in design 'heldout_fsm_src'."
+      }
+    },
+    "heldout_uart_src": {
+      "source_id": "heldout_uart_src",
+      "design_family": "uart",
+      "defect_mechanism": "UART_BAUD_DIVIDER",
+      "ground_truth_signal": "cnt",
+      "v6": {
+        "baseline_diagnosis": "unknown",
+        "baseline_correct": false,
+        "reuse_source_diagnosis": "tx",
+        "reuse_source_correct": false,
+        "rca_status": "SUCCESS",
+        "certificate_trusted": true,
+        "verification_status": "VERIFIED",
+        "verification_reason": "Candidate signal 'tx' is verified with observable causal anomaly and temporal evidence in design 'heldout_uart_src'."
+      },
+      "v7": {
+        "baseline_diagnosis": "cnt",
+        "baseline_correct": true,
+        "reuse_source_diagnosis": "cnt",
+        "reuse_source_correct": true,
+        "rca_status": "SUCCESS",
+        "certificate_trusted": true,
+        "verification_status": "VERIFIED",
+        "verification_reason": "Candidate signal 'cnt' is verified with observable causal anomaly and temporal evidence in design 'heldout_uart_src'."
+      }
+    },
+    "heldout_pipe_src": {
+      "source_id": "heldout_pipe_src",
+      "design_family": "pipeline",
+      "defect_mechanism": "PIPE_STALL_BUBBLE",
+      "ground_truth_signal": "v1",
+      "v6": {
+        "baseline_diagnosis": "d_out",
+        "baseline_correct": false,
+        "reuse_source_diagnosis": "valid_out",
+        "reuse_source_correct": false,
+        "rca_status": "SUCCESS",
+        "certificate_trusted": true,
+        "verification_status": "VERIFIED",
+        "verification_reason": "Candidate signal 'valid_out' is verified with observable causal anomaly and temporal evidence in design 'heldout_pipe_src'."
+      },
+      "v7": {
+        "baseline_diagnosis": "d1",
+        "baseline_correct": false,
+        "reuse_source_diagnosis": "d1",
+        "reuse_source_correct": false,
+        "rca_status": "SUCCESS",
+        "certificate_trusted": true,
+        "verification_status": "VERIFIED",
+        "verification_reason": "Candidate signal 'd1' is verified with observable causal anomaly and temporal evidence in design 'heldout_pipe_src'."
+      }
+    }
+  },
+  "target_traces": [
+    {
+      "case_index": 1,
+      "target_id": "fifo_vl_a1",
+      "design_family": "fifo",
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "ground_truth_signal": "count",
+      "ground_truth_match": "MATCH",
+      "symptom": "Data Mismatch",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_fifo_src",
+          "v7_baseline_diagnosis": "count",
+          "v7_reuse_branch_diagnosis": "count",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'count' is verified with observable causal anomaly and temporal evidence in design 'heldout_fifo_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "fifo",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "count",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "10. Insufficient evidence"
+    },
+    {
+      "case_index": 2,
+      "target_id": "fifo_vl_b1",
+      "design_family": "fifo",
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "ground_truth_signal": "count",
+      "ground_truth_match": "MATCH",
+      "symptom": "Data Mismatch",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_fifo_src",
+          "v7_baseline_diagnosis": "count",
+          "v7_reuse_branch_diagnosis": "count",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'count' is verified with observable causal anomaly and temporal evidence in design 'heldout_fifo_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "fifo",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "PASS",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "REUSE_RCA",
+          "reused_prior_rca": true,
+          "fallback_rca_executed": false
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "count",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "2. Correct reuse"
+    },
+    {
+      "case_index": 3,
+      "target_id": "fifo_vl_f1",
+      "design_family": "fifo",
+      "defect_mechanism": "FIFO_PTR_OVERFLOW",
+      "ground_truth_signal": "write_ptr",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Data Mismatch",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_fifo_src",
+          "v7_baseline_diagnosis": "count",
+          "v7_reuse_branch_diagnosis": "count",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'count' is verified with observable causal anomaly and temporal evidence in design 'heldout_fifo_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "fifo",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "FAIL",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "count",
+          "final_correct": false,
+          "baseline_correct": false,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "7. Reuse rejected correctly"
+    },
+    {
+      "case_index": 4,
+      "target_id": "fifo_vl_i2",
+      "design_family": "fifo",
+      "defect_mechanism": "FIFO_SIMULTANEOUS_RW",
+      "ground_truth_signal": "count",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Data Mismatch",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_fifo_src",
+          "v7_baseline_diagnosis": "count",
+          "v7_reuse_branch_diagnosis": "count",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'count' is verified with observable causal anomaly and temporal evidence in design 'heldout_fifo_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "fifo",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "count",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "7. Reuse rejected correctly"
+    },
+    {
+      "case_index": 5,
+      "target_id": "axi_vl_a1",
+      "design_family": "axi",
+      "defect_mechanism": "AXI_HANDSHAKE_HOLD",
+      "ground_truth_signal": "valid_out",
+      "ground_truth_match": "MATCH",
+      "symptom": "Timeout",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_axi_src",
+          "v7_baseline_diagnosis": "valid_out",
+          "v7_reuse_branch_diagnosis": "unknown",
+          "v7_reuse_rca_status": "INVALID_OUTPUT",
+          "source_certificate_trusted": false,
+          "rejection_reason": "Candidate root-cause signal is unknown, empty, or ungrounded."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "axi",
+            "only_trusted": true
+          },
+          "candidate_found": false
+        },
+        "4_target_validation": {
+          "validation_invoked": false,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 0
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "valid_out",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": true,
+          "v6_final_correct": true
+        }
+      },
+      "bottleneck_classification": "4. Correct source but certificate rejected"
+    },
+    {
+      "case_index": 6,
+      "target_id": "axi_vl_b1",
+      "design_family": "axi",
+      "defect_mechanism": "AXI_HANDSHAKE_HOLD",
+      "ground_truth_signal": "valid_out",
+      "ground_truth_match": "MATCH",
+      "symptom": "Timeout",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_axi_src",
+          "v7_baseline_diagnosis": "valid_out",
+          "v7_reuse_branch_diagnosis": "unknown",
+          "v7_reuse_rca_status": "INVALID_OUTPUT",
+          "source_certificate_trusted": false,
+          "rejection_reason": "Candidate root-cause signal is unknown, empty, or ungrounded."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "axi",
+            "only_trusted": true
+          },
+          "candidate_found": false
+        },
+        "4_target_validation": {
+          "validation_invoked": false,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 0
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "valid_out",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": true,
+          "v6_final_correct": true
+        }
+      },
+      "bottleneck_classification": "4. Correct source but certificate rejected"
+    },
+    {
+      "case_index": 7,
+      "target_id": "axi_vl_f1",
+      "design_family": "axi",
+      "defect_mechanism": "AXI_EARLY_READY",
+      "ground_truth_signal": "ready_out",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Timeout",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_axi_src",
+          "v7_baseline_diagnosis": "valid_out",
+          "v7_reuse_branch_diagnosis": "unknown",
+          "v7_reuse_rca_status": "INVALID_OUTPUT",
+          "source_certificate_trusted": false,
+          "rejection_reason": "Candidate root-cause signal is unknown, empty, or ungrounded."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "axi",
+            "only_trusted": true
+          },
+          "candidate_found": false
+        },
+        "4_target_validation": {
+          "validation_invoked": false,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 0
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "valid_out",
+          "final_correct": false,
+          "baseline_correct": false,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "4. Correct source but certificate rejected"
+    },
+    {
+      "case_index": 8,
+      "target_id": "axi_vl_i2",
+      "design_family": "axi",
+      "defect_mechanism": "AXI_HANDSHAKE_HOLD",
+      "ground_truth_signal": "valid_out",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Timeout",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_axi_src",
+          "v7_baseline_diagnosis": "valid_out",
+          "v7_reuse_branch_diagnosis": "unknown",
+          "v7_reuse_rca_status": "INVALID_OUTPUT",
+          "source_certificate_trusted": false,
+          "rejection_reason": "Candidate root-cause signal is unknown, empty, or ungrounded."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "axi",
+            "only_trusted": true
+          },
+          "candidate_found": false
+        },
+        "4_target_validation": {
+          "validation_invoked": false,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 0
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "ready_in",
+          "final_correct": false,
+          "baseline_correct": false,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "4. Correct source but certificate rejected"
+    },
+    {
+      "case_index": 9,
+      "target_id": "fsm_vl_a1",
+      "design_family": "fsm",
+      "defect_mechanism": "FSM_STUCK_STATE",
+      "ground_truth_signal": "state",
+      "ground_truth_match": "MATCH",
+      "symptom": "Stuck State",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_fsm_src",
+          "v7_baseline_diagnosis": "unknown",
+          "v7_reuse_branch_diagnosis": "state",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'state' is verified with observable causal anomaly and temporal evidence in design 'heldout_fsm_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "fsm",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "PASS",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "REUSE_RCA",
+          "reused_prior_rca": true,
+          "fallback_rca_executed": false
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "state",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": true,
+          "v6_final_correct": true
+        }
+      },
+      "bottleneck_classification": "2. Correct reuse"
+    },
+    {
+      "case_index": 10,
+      "target_id": "fsm_vl_b1",
+      "design_family": "fsm",
+      "defect_mechanism": "FSM_STUCK_STATE",
+      "ground_truth_signal": "state",
+      "ground_truth_match": "MATCH",
+      "symptom": "Stuck State",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_fsm_src",
+          "v7_baseline_diagnosis": "unknown",
+          "v7_reuse_branch_diagnosis": "state",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'state' is verified with observable causal anomaly and temporal evidence in design 'heldout_fsm_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "fsm",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "PASS",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "REUSE_RCA",
+          "reused_prior_rca": true,
+          "fallback_rca_executed": false
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "state",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": true,
+          "v6_final_correct": true
+        }
+      },
+      "bottleneck_classification": "2. Correct reuse"
+    },
+    {
+      "case_index": 11,
+      "target_id": "fsm_vl_f1",
+      "design_family": "fsm",
+      "defect_mechanism": "FSM_OUTPUT_TIMING",
+      "ground_truth_signal": "done",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Stuck State",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_fsm_src",
+          "v7_baseline_diagnosis": "unknown",
+          "v7_reuse_branch_diagnosis": "state",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'state' is verified with observable causal anomaly and temporal evidence in design 'heldout_fsm_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "fsm",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "FAIL",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "state",
+          "final_correct": false,
+          "baseline_correct": false,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "7. Reuse rejected correctly"
+    },
+    {
+      "case_index": 12,
+      "target_id": "fsm_vl_i2",
+      "design_family": "fsm",
+      "defect_mechanism": "FSM_STUCK_STATE",
+      "ground_truth_signal": "state",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Stuck State",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_fsm_src",
+          "v7_baseline_diagnosis": "unknown",
+          "v7_reuse_branch_diagnosis": "state",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'state' is verified with observable causal anomaly and temporal evidence in design 'heldout_fsm_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "fsm",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "state",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "7. Reuse rejected correctly"
+    },
+    {
+      "case_index": 13,
+      "target_id": "uart_vl_a1",
+      "design_family": "uart",
+      "defect_mechanism": "UART_BAUD_DIVIDER",
+      "ground_truth_signal": "cnt",
+      "ground_truth_match": "MATCH",
+      "symptom": "Bad Output",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_uart_src",
+          "v7_baseline_diagnosis": "cnt",
+          "v7_reuse_branch_diagnosis": "cnt",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'cnt' is verified with observable causal anomaly and temporal evidence in design 'heldout_uart_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "uart",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "tx",
+          "final_correct": false,
+          "baseline_correct": false,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "5. Correct source but no target match"
+    },
+    {
+      "case_index": 14,
+      "target_id": "uart_vl_b1",
+      "design_family": "uart",
+      "defect_mechanism": "UART_BAUD_DIVIDER",
+      "ground_truth_signal": "cnt",
+      "ground_truth_match": "MATCH",
+      "symptom": "Bad Output",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_uart_src",
+          "v7_baseline_diagnosis": "cnt",
+          "v7_reuse_branch_diagnosis": "cnt",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'cnt' is verified with observable causal anomaly and temporal evidence in design 'heldout_uart_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "uart",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "cnt",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": false,
+          "v6_final_correct": true
+        }
+      },
+      "bottleneck_classification": "5. Correct source but no target match"
+    },
+    {
+      "case_index": 15,
+      "target_id": "uart_vl_f1",
+      "design_family": "uart",
+      "defect_mechanism": "UART_STOP_BIT_GEN",
+      "ground_truth_signal": "tx",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Bad Output",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_uart_src",
+          "v7_baseline_diagnosis": "cnt",
+          "v7_reuse_branch_diagnosis": "cnt",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'cnt' is verified with observable causal anomaly and temporal evidence in design 'heldout_uart_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "uart",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "cnt",
+          "final_correct": false,
+          "baseline_correct": false,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "7. Reuse rejected correctly"
+    },
+    {
+      "case_index": 16,
+      "target_id": "uart_vl_i2",
+      "design_family": "uart",
+      "defect_mechanism": "UART_BAUD_DIVIDER",
+      "ground_truth_signal": "cnt",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Bad Output",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_uart_src",
+          "v7_baseline_diagnosis": "cnt",
+          "v7_reuse_branch_diagnosis": "cnt",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'cnt' is verified with observable causal anomaly and temporal evidence in design 'heldout_uart_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "uart",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "cnt",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "7. Reuse rejected correctly"
+    },
+    {
+      "case_index": 17,
+      "target_id": "pipeline_vl_a1",
+      "design_family": "pipeline",
+      "defect_mechanism": "PIPE_STALL_BUBBLE",
+      "ground_truth_signal": "v1",
+      "ground_truth_match": "MATCH",
+      "symptom": "Data Loss",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_pipe_src",
+          "v7_baseline_diagnosis": "d1",
+          "v7_reuse_branch_diagnosis": "d1",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'd1' is verified with observable causal anomaly and temporal evidence in design 'heldout_pipe_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "pipeline",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "FAIL",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "d1",
+          "final_correct": false,
+          "baseline_correct": false,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "6. Relevant certificate retrieved but validation rejected"
+    },
+    {
+      "case_index": 18,
+      "target_id": "pipeline_vl_b1",
+      "design_family": "pipeline",
+      "defect_mechanism": "PIPE_STALL_BUBBLE",
+      "ground_truth_signal": "v1",
+      "ground_truth_match": "MATCH",
+      "symptom": "Data Loss",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_pipe_src",
+          "v7_baseline_diagnosis": "d1",
+          "v7_reuse_branch_diagnosis": "d1",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'd1' is verified with observable causal anomaly and temporal evidence in design 'heldout_pipe_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "pipeline",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "FAIL",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "v1",
+          "final_correct": true,
+          "baseline_correct": true,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "6. Relevant certificate retrieved but validation rejected"
+    },
+    {
+      "case_index": 19,
+      "target_id": "pipeline_vl_f1",
+      "design_family": "pipeline",
+      "defect_mechanism": "PIPE_FORWARD_HAZARD",
+      "ground_truth_signal": "d1",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Data Loss",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_pipe_src",
+          "v7_baseline_diagnosis": "d1",
+          "v7_reuse_branch_diagnosis": "d1",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'd1' is verified with observable causal anomaly and temporal evidence in design 'heldout_pipe_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "pipeline",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "FAIL",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "v1",
+          "final_correct": false,
+          "baseline_correct": false,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "7. Reuse rejected correctly"
+    },
+    {
+      "case_index": 20,
+      "target_id": "pipeline_vl_i2",
+      "design_family": "pipeline",
+      "defect_mechanism": "PIPE_STALL_BUBBLE",
+      "ground_truth_signal": "v1",
+      "ground_truth_match": "MISMATCH",
+      "symptom": "Data Loss",
+      "pipeline_stages": {
+        "1_source_rca": {
+          "source_target_id": "heldout_pipe_src",
+          "v7_baseline_diagnosis": "d1",
+          "v7_reuse_branch_diagnosis": "d1",
+          "v7_reuse_rca_status": "SUCCESS",
+          "source_certificate_trusted": true,
+          "rejection_reason": "Candidate signal 'd1' is verified with observable causal anomaly and temporal evidence in design 'heldout_pipe_src'."
+        },
+        "2_memory_insertion": {
+          "inserted_into_store": false,
+          "registered_signal": null
+        },
+        "3_retrieval_and_matching": {
+          "retrieval_status": "EMPTY_STORE_UNTRUSTED_SOURCE",
+          "query_filter": {
+            "design_family": "pipeline",
+            "only_trusted": true
+          },
+          "candidate_found": true
+        },
+        "4_target_validation": {
+          "validation_invoked": true,
+          "raw_validator_decision": "INSUFFICIENT_EVIDENCE",
+          "validation_ops": 1
+        },
+        "5_reuse_policy_action": {
+          "policy_action": "FALLBACK_INDEPENDENT_RCA",
+          "reused_prior_rca": false,
+          "fallback_rca_executed": true
+        },
+        "6_final_resolution": {
+          "final_diagnosis": "d1",
+          "final_correct": false,
+          "baseline_correct": true,
+          "v6_reused": false,
+          "v6_final_correct": false
+        }
+      },
+      "bottleneck_classification": "7. Reuse rejected correctly"
+    }
+  ]
+}

@@ -1,0 +1,547 @@
+{
+  "total_val_errors": 41,
+  "total_test_errors": 17,
+  "val_errors": [
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_vl_e1",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_pos_rca_uart_b3",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_vl_i1",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "rst_n",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed failure to reset signal rather than sequential counter logic."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_bit_sampling_nb",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_pos_rca_fsm_b5",
+      "design_family": "fsm",
+      "ground_truth_signal": "done",
+      "predicted_signal": "state",
+      "error_category": "state_machine_mistake",
+      "distinguishing_evidence": "Model over-attributed failure to state register when output strobe done was the faulty logic."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_tx_busy_hold_na",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_empty_threshold_p2",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_axi_handshake_hold_p1",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "ready_out",
+      "error_category": "protocol_mistake",
+      "distinguishing_evidence": "Model confused master valid hold violation with slave backpressure ready throttling."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_symptom_axi_b1",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "ready_out",
+      "error_category": "protocol_mistake",
+      "distinguishing_evidence": "Model confused master valid hold violation with slave backpressure ready throttling."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_symptom_axi_b5",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "ready_out",
+      "error_category": "protocol_mistake",
+      "distinguishing_evidence": "Model confused master valid hold violation with slave backpressure ready throttling."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_axi_burst_count_nb",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "ready_out",
+      "error_category": "protocol_mistake",
+      "distinguishing_evidence": "Model confused master valid hold violation with slave backpressure ready throttling."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_vl_h2",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "write_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_empty_threshold_s1",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "write_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_symptom_pipe_b3",
+      "design_family": "pipeline",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "v1",
+      "error_category": "arithmetic_datapath_mistake",
+      "distinguishing_evidence": "Pipeline hazard/bypass attribution error: v1 vs valid_out."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_pos_rca_axi_b1",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "ready_out",
+      "error_category": "protocol_mistake",
+      "distinguishing_evidence": "Model confused master valid hold violation with slave backpressure ready throttling."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_axi_vl_h2",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "ready_out",
+      "error_category": "protocol_mistake",
+      "distinguishing_evidence": "Model confused master valid hold violation with slave backpressure ready throttling."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_vl_a2",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_vl_g1",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_tx_busy_hold_p1",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_vl_c2",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_simultaneous_rw_p1",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_vl_a2",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_simultaneous_rw_p3",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_tx_busy_hold_s1",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_symptom_uart_b2",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_d1",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_bit_sampling_s1",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_vl_c1",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_axi_burst_count_p3",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "ready_out",
+      "error_category": "protocol_mistake",
+      "distinguishing_evidence": "Model confused master valid hold violation with slave backpressure ready throttling."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_a1",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_stop_bit_gen_nb",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_symptom_fifo_b5",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_passive_input_fifo_b5",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_c1",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_passive_input_fsm_b5",
+      "design_family": "fsm",
+      "ground_truth_signal": "done",
+      "predicted_signal": "state",
+      "error_category": "state_machine_mistake",
+      "distinguishing_evidence": "Model over-attributed failure to state register when output strobe done was the faulty logic."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_passive_input_pipe_b5",
+      "design_family": "pipeline",
+      "ground_truth_signal": "d_out",
+      "predicted_signal": "v1",
+      "error_category": "correlated_signal",
+      "distinguishing_evidence": "Model attributed data path corruption to valid token staging."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_axi_handshake_hold_na",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "ready_out",
+      "error_category": "protocol_mistake",
+      "distinguishing_evidence": "Model confused master valid hold violation with slave backpressure ready throttling."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_fifo_bug1",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "unknown",
+      "error_category": "insufficient_evidence_mistake",
+      "distinguishing_evidence": "Model abstained as UNKNOWN despite presence of observable RTL/waveform failure trace."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_passive_input_fifo_b4",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_ptr",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model attributed occupancy tracking bug (simultaneous R/W) to pointer registers."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_hard_neg_passive_input_pipe_b1",
+      "design_family": "pipeline",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "d_in",
+      "error_category": "upstream_incorrect_candidate",
+      "distinguishing_evidence": "Model blamed input stimulus d_in instead of internal stage register valid_out."
+    },
+    {
+      "split": "validation",
+      "example_id": "v6_synth_variant_uart_vl_h1",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    }
+  ],
+  "test_errors": [
+    {
+      "split": "frozen_test",
+      "case_index": 1,
+      "target_id": "heldout_fifo_src",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "unknown",
+      "error_category": "insufficient_evidence_mistake",
+      "distinguishing_evidence": "Model abstained as UNKNOWN despite presence of observable RTL/waveform failure trace."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 3,
+      "target_id": "fifo_vl_b1",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "unknown",
+      "error_category": "insufficient_evidence_mistake",
+      "distinguishing_evidence": "Model abstained as UNKNOWN despite presence of observable RTL/waveform failure trace."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 4,
+      "target_id": "fifo_vl_f1",
+      "design_family": "fifo",
+      "ground_truth_signal": "write_ptr",
+      "predicted_signal": "read_data",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected data port or status flag read_data instead of internal counter/pointer write_ptr."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 5,
+      "target_id": "fifo_vl_i2",
+      "design_family": "fifo",
+      "ground_truth_signal": "count",
+      "predicted_signal": "read_data",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected data port or status flag read_data instead of internal counter/pointer count."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 7,
+      "target_id": "axi_vl_a1",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "unknown",
+      "error_category": "insufficient_evidence_mistake",
+      "distinguishing_evidence": "Model abstained as UNKNOWN despite presence of observable RTL/waveform failure trace."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 10,
+      "target_id": "axi_vl_i2",
+      "design_family": "axi",
+      "ground_truth_signal": "valid_out",
+      "predicted_signal": "unknown",
+      "error_category": "insufficient_evidence_mistake",
+      "distinguishing_evidence": "Model abstained as UNKNOWN despite presence of observable RTL/waveform failure trace."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 12,
+      "target_id": "fsm_vl_a1",
+      "design_family": "fsm",
+      "ground_truth_signal": "state",
+      "predicted_signal": "done,state",
+      "error_category": "state_machine_mistake",
+      "distinguishing_evidence": "FSM sequential state machine mistake: done,state vs state."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 14,
+      "target_id": "fsm_vl_f1",
+      "design_family": "fsm",
+      "ground_truth_signal": "done",
+      "predicted_signal": "state",
+      "error_category": "state_machine_mistake",
+      "distinguishing_evidence": "Model over-attributed failure to state register when output strobe done was the faulty logic."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 16,
+      "target_id": "heldout_uart_src",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "unknown",
+      "error_category": "insufficient_evidence_mistake",
+      "distinguishing_evidence": "Model abstained as UNKNOWN despite presence of observable RTL/waveform failure trace."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 17,
+      "target_id": "uart_vl_a1",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 18,
+      "target_id": "uart_vl_b1",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "tx",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected serial line output tx (where bit mismatch is observed) instead of internal baud rate divisor cnt."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 20,
+      "target_id": "uart_vl_i2",
+      "design_family": "uart",
+      "ground_truth_signal": "cnt",
+      "predicted_signal": "unknown",
+      "error_category": "insufficient_evidence_mistake",
+      "distinguishing_evidence": "Model abstained as UNKNOWN despite presence of observable RTL/waveform failure trace."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 21,
+      "target_id": "heldout_pipe_src",
+      "design_family": "pipeline",
+      "ground_truth_signal": "v1",
+      "predicted_signal": "d_out",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected downstream output d_out instead of internal pipeline staging register v1."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 22,
+      "target_id": "pipeline_vl_a1",
+      "design_family": "pipeline",
+      "ground_truth_signal": "v1",
+      "predicted_signal": "unknown",
+      "error_category": "insufficient_evidence_mistake",
+      "distinguishing_evidence": "Model abstained as UNKNOWN despite presence of observable RTL/waveform failure trace."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 23,
+      "target_id": "pipeline_vl_b1",
+      "design_family": "pipeline",
+      "ground_truth_signal": "v1",
+      "predicted_signal": "valid_out",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected downstream output valid_out instead of internal pipeline staging register v1."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 24,
+      "target_id": "pipeline_vl_f1",
+      "design_family": "pipeline",
+      "ground_truth_signal": "d1",
+      "predicted_signal": "d_out",
+      "error_category": "downstream_symptom",
+      "distinguishing_evidence": "Model selected downstream output d_out instead of internal pipeline staging register d1."
+    },
+    {
+      "split": "frozen_test",
+      "case_index": 25,
+      "target_id": "pipeline_vl_i2",
+      "design_family": "pipeline",
+      "ground_truth_signal": "v1",
+      "predicted_signal": "unknown",
+      "error_category": "insufficient_evidence_mistake",
+      "distinguishing_evidence": "Model abstained as UNKNOWN despite presence of observable RTL/waveform failure trace."
+    }
+  ]
+}

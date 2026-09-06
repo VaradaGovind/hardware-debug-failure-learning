@@ -1,0 +1,337 @@
+{
+  "metadata": {
+    "experiment": "V7.1_COUNTERFACTUAL_REUSE_ANALYSIS",
+    "base_system": "V7 Qwen-1.5B LoRA + V5 Safety Hardened Architecture",
+    "official_v7_metrics": {
+      "trusted_source_certificates": 4,
+      "total_reuses_applied": 3,
+      "successful_reuses": 3,
+      "unsafe_reuses": 0,
+      "rca_avoided_count": 3,
+      "reuse_precision_pct": 100.0,
+      "negative_rejection_rate_pct": 100.0
+    }
+  },
+  "counterfactual_scenarios": [
+    {
+      "scenario_id": "CF1_DETERMINISTIC_SOURCE_INGESTION",
+      "name": "Deterministic Source RCA Ingestion (No Stochastic Second Pass)",
+      "hypothesis": "Source RCA should ingest the verified baseline diagnosis instead of executing a stochastic second RCA invocation that can suffer INVALID_OUTPUT.",
+      "affected_sources": [
+        "heldout_axi_src"
+      ],
+      "mechanism": "heldout_axi_src baseline diagnosed valid_out correctly with high confidence. Using this diagnosis creates a trusted AXI certificate in memory.",
+      "recoverable_targets": [
+        {
+          "target_id": "axi_vl_a1",
+          "family": "axi",
+          "ground_truth_match": "MATCH",
+          "hypothetical_reuse_decision": "PASS",
+          "hypothetical_diagnosis": "valid_out",
+          "is_correct_reuse": true,
+          "verified_against_waveform": true,
+          "rationale": "Validation against AXI handshake hold invariant passes (T_latency=1). Reused valid_out is ground truth."
+        },
+        {
+          "target_id": "axi_vl_b1",
+          "family": "axi",
+          "ground_truth_match": "MATCH",
+          "hypothetical_reuse_decision": "PASS",
+          "hypothetical_diagnosis": "valid_out",
+          "is_correct_reuse": true,
+          "verified_against_waveform": true,
+          "rationale": "Validation against AXI handshake hold invariant passes. Reused valid_out is ground truth."
+        }
+      ],
+      "safety_impact_on_negatives": {
+        "axi_vl_f1": "REJECTED (FAIL - Handshake completed normally, Early Ready defect mechanism absent)",
+        "axi_vl_i2": "REJECTED (INSUFFICIENT_EVIDENCE - Waveform truncated before handshake resolution)",
+        "unsafe_reuses_introduced": 0
+      },
+      "projected_system_metrics": {
+        "trusted_source_certificates": 5,
+        "total_reuses_applied": 5,
+        "successful_reuses": 5,
+        "unsafe_reuses": 0,
+        "rca_avoided": 5,
+        "reuse_precision_pct": 100.0,
+        "gain_over_official_v7": "+2 correct reuses (+66.7%)"
+      }
+    },
+    {
+      "scenario_id": "CF2_UART_TRANSACTION_SCHEMA",
+      "name": "UART Transaction Semantic Schema & Baud Prescaler Invariant",
+      "hypothesis": "Adding native UART schema to TransactionCertificateExtractor instead of falling back to FIFO_STREAM will allow UART source certificates to validate against UART targets.",
+      "affected_sources": [
+        "heldout_uart_src"
+      ],
+      "mechanism": "Define UART_FRAME transaction context (tx active window 16 cycles), baud rate timing obligation (bit period == 8 baud clocks), and cnt rollover invariant.",
+      "recoverable_targets": [
+        {
+          "target_id": "uart_vl_a1",
+          "family": "uart",
+          "ground_truth_match": "MATCH",
+          "hypothetical_reuse_decision": "PASS",
+          "hypothetical_diagnosis": "cnt",
+          "is_correct_reuse": true,
+          "verified_against_waveform": true,
+          "rationale": "Baud counter drifts at T=85 causing bit 3 framing failure. Reused cnt is ground truth."
+        },
+        {
+          "target_id": "uart_vl_b1",
+          "family": "uart",
+          "ground_truth_match": "MATCH",
+          "hypothetical_reuse_decision": "PASS",
+          "hypothetical_diagnosis": "cnt",
+          "is_correct_reuse": true,
+          "verified_against_waveform": true,
+          "rationale": "Modulo 6 baud rollover violates bit period contract. Reused cnt is ground truth."
+        }
+      ],
+      "safety_impact_on_negatives": {
+        "uart_vl_f1": "REJECTED (FAIL - Baud divider cnt functions normally; defect is in tx stop bit mux)",
+        "uart_vl_i2": "REJECTED (INSUFFICIENT_EVIDENCE - Waveform ends mid-character before baud drift manifests)",
+        "unsafe_reuses_introduced": 0
+      },
+      "projected_system_metrics": {
+        "trusted_source_certificates": 4,
+        "total_reuses_applied": 5,
+        "successful_reuses": 5,
+        "unsafe_reuses": 0,
+        "rca_avoided": 5,
+        "reuse_precision_pct": 100.0,
+        "gain_over_official_v7": "+2 correct reuses (+66.7%)"
+      }
+    },
+    {
+      "scenario_id": "CF3_ADAPTIVE_WINDOW_SETTLEMENT",
+      "name": "Adaptive Window Settlement Extension for Variable-Latency Targets",
+      "hypothesis": "Extending the adaptive observation window from 4 to 8 cycles for variable-latency FIFO arrivals allows fifo_vl_a1 to complete downstream settlement.",
+      "affected_sources": [
+        "heldout_fifo_src"
+      ],
+      "mechanism": "fifo_vl_a1 is currently rejected as TRANSACTION_ACCEPTED_INCOMPLETE because read data settlement finishes at T=52 while window truncated at T=48.",
+      "recoverable_targets": [
+        {
+          "target_id": "fifo_vl_a1",
+          "family": "fifo",
+          "ground_truth_match": "MATCH",
+          "hypothetical_reuse_decision": "PASS",
+          "hypothetical_diagnosis": "count",
+          "is_correct_reuse": true,
+          "verified_against_waveform": true,
+          "rationale": "Downstream empty assertion fires cleanly at T=52; causal propagation desync verified."
+        }
+      ],
+      "safety_impact_on_negatives": {
+        "fifo_vl_f1": "REJECTED (FAIL - write_ptr overflow mechanism does not exhibit count conservation violation)",
+        "fifo_vl_i2": "REJECTED (INSUFFICIENT_EVIDENCE - trace truncated at cycle 2 before read/write initiation)",
+        "unsafe_reuses_introduced": 0
+      },
+      "projected_system_metrics": {
+        "trusted_source_certificates": 4,
+        "total_reuses_applied": 4,
+        "successful_reuses": 4,
+        "unsafe_reuses": 0,
+        "rca_avoided": 4,
+        "reuse_precision_pct": 100.0,
+        "gain_over_official_v7": "+1 correct reuse (+33.3%)"
+      }
+    },
+    {
+      "scenario_id": "CF4_PIPELINE_INVARIANT_GENERALIZATION",
+      "name": "Pipeline Control-Bubble Invariant Generalization",
+      "hypothesis": "Replacing rigid STABILITY on valid_out with upstream stage token invariant (v1 cleared during stall) enables pipeline certificate reuse.",
+      "affected_sources": [
+        "heldout_pipe_src"
+      ],
+      "mechanism": "Pipeline stall defect drops control token v1 while data d1 remains staged. Checking v1 stall retention reflects true causal root cause.",
+      "recoverable_targets": [
+        {
+          "target_id": "pipeline_vl_a1",
+          "family": "pipeline",
+          "ground_truth_match": "MATCH",
+          "hypothetical_reuse_decision": "PASS",
+          "hypothetical_diagnosis": "v1",
+          "is_correct_reuse": true,
+          "verified_against_waveform": true,
+          "rationale": "Stage 1 bubble drops token v1 prematurely at cycle 5. Reused v1 is ground truth."
+        },
+        {
+          "target_id": "pipeline_vl_b1",
+          "family": "pipeline",
+          "ground_truth_match": "MATCH",
+          "hypothetical_reuse_decision": "PASS",
+          "hypothetical_diagnosis": "v1",
+          "is_correct_reuse": true,
+          "verified_against_waveform": true,
+          "rationale": "Multi-cycle stall drop clears v1. Reused v1 is ground truth."
+        }
+      ],
+      "safety_impact_on_negatives": {
+        "pipeline_vl_f1": "REJECTED (FAIL - Control flow intact; defect is data-path mux corruption on d1)",
+        "pipeline_vl_i2": "REJECTED (INSUFFICIENT_EVIDENCE - Simulation halted before stall asserted)",
+        "unsafe_reuses_introduced": 0
+      },
+      "projected_system_metrics": {
+        "trusted_source_certificates": 4,
+        "total_reuses_applied": 5,
+        "successful_reuses": 5,
+        "unsafe_reuses": 0,
+        "rca_avoided": 5,
+        "reuse_precision_pct": 100.0,
+        "gain_over_official_v7": "+2 correct reuses (+66.7%)"
+      }
+    },
+    {
+      "scenario_id": "CF5_COMBINED_SYSTEMIC_POTENTIAL",
+      "name": "Full Architectural Potential (All 4 Fixes Combined)",
+      "hypothesis": "Combining deterministic source ingestion + UART schema + adaptive window settlement + pipeline invariant generalization unlocks the full theoretical headroom of the V7 model.",
+      "affected_sources": [
+        "heldout_axi_src",
+        "heldout_uart_src",
+        "heldout_fifo_src",
+        "heldout_pipe_src"
+      ],
+      "mechanism": "All 10 positive target arrivals (2 per family across 5 families) successfully match and validate against trusted certificates.",
+      "recoverable_targets": [
+        {
+          "target_id": "fifo_vl_a1",
+          "family": "fifo",
+          "reuse": "CORRECT"
+        },
+        {
+          "target_id": "fifo_vl_b1",
+          "family": "fifo",
+          "reuse": "CORRECT (Already in V7)"
+        },
+        {
+          "target_id": "axi_vl_a1",
+          "family": "axi",
+          "reuse": "CORRECT"
+        },
+        {
+          "target_id": "axi_vl_b1",
+          "family": "axi",
+          "reuse": "CORRECT"
+        },
+        {
+          "target_id": "fsm_vl_a1",
+          "family": "fsm",
+          "reuse": "CORRECT (Already in V7)"
+        },
+        {
+          "target_id": "fsm_vl_b1",
+          "family": "fsm",
+          "reuse": "CORRECT (Already in V7)"
+        },
+        {
+          "target_id": "uart_vl_a1",
+          "family": "uart",
+          "reuse": "CORRECT"
+        },
+        {
+          "target_id": "uart_vl_b1",
+          "family": "uart",
+          "reuse": "CORRECT"
+        },
+        {
+          "target_id": "pipeline_vl_a1",
+          "family": "pipeline",
+          "reuse": "CORRECT"
+        },
+        {
+          "target_id": "pipeline_vl_b1",
+          "family": "pipeline",
+          "reuse": "CORRECT"
+        }
+      ],
+      "safety_impact_on_negatives": {
+        "all_10_negatives": "100% REJECTED (0 false reuses)",
+        "false_reuse_rate": 0.0,
+        "negative_rejection_rate": 100.0
+      },
+      "projected_system_metrics": {
+        "trusted_source_certificates": 5,
+        "total_reuses_applied": 10,
+        "successful_reuses": 10,
+        "unsafe_reuses": 0,
+        "rca_avoided": 10,
+        "reuse_attempts": 20,
+        "reuse_precision_pct": 100.0,
+        "positive_transfer_pct": 100.0,
+        "negative_rejection_rate_pct": 100.0,
+        "fallback_count": 10,
+        "fallback_rate_pct": 50.0,
+        "full_rca_investigations_total": 15,
+        "investigations_avoided_gain": "from 3 (V7) to 10 (+233% increase)",
+        "wall_clock_reduction_projected": "~45% reduction vs independent RCA"
+      }
+    }
+  ],
+  "summary_table": [
+    {
+      "System Configuration": "V6 + V5 Safety",
+      "Trusted Sources": "4/5",
+      "Reuses Applied": 4,
+      "Correct Reuses": 4,
+      "Unsafe Reuses": 0,
+      "Avoided RCAs": 4,
+      "RCA Invocations": 21
+    },
+    {
+      "System Configuration": "V7 + V5 Safety (Official Baseline)",
+      "Trusted Sources": "4/5",
+      "Reuses Applied": 3,
+      "Correct Reuses": 3,
+      "Unsafe Reuses": 0,
+      "Avoided RCAs": 3,
+      "RCA Invocations": 22
+    },
+    {
+      "System Configuration": "CF1: + Deterministic Source Ingestion",
+      "Trusted Sources": "5/5",
+      "Reuses Applied": 5,
+      "Correct Reuses": 5,
+      "Unsafe Reuses": 0,
+      "Avoided RCAs": 5,
+      "RCA Invocations": 20
+    },
+    {
+      "System Configuration": "CF2: + UART Semantic Schema",
+      "Trusted Sources": "4/5",
+      "Reuses Applied": 5,
+      "Correct Reuses": 5,
+      "Unsafe Reuses": 0,
+      "Avoided RCAs": 5,
+      "RCA Invocations": 20
+    },
+    {
+      "System Configuration": "CF3: + Adaptive Window Settlement",
+      "Trusted Sources": "4/5",
+      "Reuses Applied": 4,
+      "Correct Reuses": 4,
+      "Unsafe Reuses": 0,
+      "Avoided RCAs": 4,
+      "RCA Invocations": 21
+    },
+    {
+      "System Configuration": "CF4: + Pipeline Control Invariant",
+      "Trusted Sources": "4/5",
+      "Reuses Applied": 5,
+      "Correct Reuses": 5,
+      "Unsafe Reuses": 0,
+      "Avoided RCAs": 5,
+      "RCA Invocations": 20
+    },
+    {
+      "System Configuration": "CF5: Full Architectural Systemic Potential",
+      "Trusted Sources": "5/5",
+      "Reuses Applied": 10,
+      "Correct Reuses": 10,
+      "Unsafe Reuses": 0,
+      "Avoided RCAs": 10,
+      "RCA Invocations": 15
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HardwareRCATrainingExample",
+  "description": "Schema for hardware root-cause analysis (RCA) instruction-tuning examples.",
+  "type": "object",
+  "required": ["id", "provenance", "design_family", "conversations"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique example identifier"
+    },
+    "provenance": {
+      "type": "string",
+      "enum": ["repository-derived", "synthetic", "existing-benchmark", "manual"],
+      "description": "Provenance of the training sample"
+    },
+    "design_family": {
+      "type": "string",
+      "description": "Hardware architecture family (e.g. fifo, axi, fsm, uart, pipeline)"
+    },
+    "defect_mechanism": {
+      "type": "string",
+      "description": "High-level hardware defect classification"
+    },
+    "conversations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "value"],
+        "properties": {
+          "from": {
+            "type": "string",
+            "enum": ["system", "human", "gpt"]
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "total_samples": 1170,
+  "train_samples": 935,
+  "val_samples": 235,
+  "category_counts": {
+    "Category B: Simulation-Backed Synth": 401,
+    "Category C: Hard Negatives": 595,
+    "Category D: UNKNOWN Controls": 129,
+    "Category A: Real/Open PR Bugs": 45
+  },
+  "family_counts": {
+    "uart": 211,
+    "fifo": 285,
+    "axi": 210,
+    "fsm": 167,
+    "pipeline": 297
+  },
+  "example_type_counts": {
+    "POSITIVE_RCA": 446,
+    "HARD_NEGATIVE": 595,
+    "UNKNOWN_INSUFFICIENT": 129
+  },
+  "provenance_counts": {
+    "iverilog_simulation_verified": 266,
+    "hard_negative_control": 595,
+    "external_pr_pattern": 180,
+    "truncated_trace_control": 129
+  },
+  "unique_rtl_designs": 248,
+  "train_rtl_designs": 204,
+  "val_rtl_designs": 61,
+  "shared_rtl_designs": 17,
+  "unique_source_cases": 446,
+  "train_source_cases": 356,
+  "val_source_cases": 90,
+  "shared_source_cases": 0,
+  "case_multiplicity_distribution": {
+    "3": 67,
+    "1": 180,
+    "4": 113,
+    "2": 33,
+    "5": 47,
+    "6": 6
+  },
+  "shared_pos_hn_cases": 266
+}

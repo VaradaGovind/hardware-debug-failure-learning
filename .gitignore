@@ -47,23 +47,22 @@ Desktop.ini
 *.bak
 *.orig
 *.rej
-*.jsonl
 logs/
 tmp/
 temp/
 
-# Generated experiment outputs. Keep the explanatory README only.
+# Generated experiment outputs. Keep reports, manifests, and analysis summaries.
 /results/*
 !/results/README.md
+!/results/reports/
+!/results/reports/**
 !/results/blind_test/
-!/results/blind_test/README.md
-!/results/blind_test/summary.csv
+!/results/blind_test/**
 !/results/variable_latency/
-!/results/variable_latency/README.md
-!/results/variable_latency/summary.csv
+!/results/variable_latency/**
 !/results/cost_analysis/
-!/results/cost_analysis/README.md
-!/results/cost_analysis/summary.csv
+!/results/cost_analysis/**
+results/cost_analysis/logs/
 
 # Local/private benchmark artifacts. Keep the explanatory README only.
 /datasets/*
@@ -84,7 +83,7 @@ simv.daidir/
 csrc/
 work/
 
-# Generated reports and tabular outputs outside results/
+# Generated serialized binaries outside results/
 *.pickle
 *.pkl
 *.feather
@@ -114,27 +113,23 @@ credentials.yaml
 secrets.json
 secrets.yml
 secrets.yaml
-*token*
+*api_token*
 *access_token*
+*auth_token*
+*secret_token*
+*_token.txt
+*_token.json
+*_token.key
 *api_key*
 
-# Scratch and temporary audit scripts
+# Scratch directory (temporary development scripts and transient logs)
 scratch/
 
-# Post-V8 private research, experiments, datasets, checkpoints, and audits
-# Strict research boundary: V8 is the public release cutoff.
-rtl/designs/v10_*
-rtl/testbenches/v10_*
-scripts/*v9*
-scripts/*v10*
-scripts/evaluate_pipeline_generalization.py
-scripts/run_full_validation_comparison.py
-docs/*V9*
-docs/*V10*
-docs/FINAL_PROJECT_INTEGRITY_STATUS.md
-results/**/*v9*
-results/**/*v10*
-experiments/run_v9_evaluation.py
-tests/test_v10*
-training/
-
+# Model checkpoints, fine-tuned weights, and private cache directories
+checkpoints/
+ml-cache/
+*.safetensors
+*.pt
+*.pth
+*.bin
+training/checkpoints/
