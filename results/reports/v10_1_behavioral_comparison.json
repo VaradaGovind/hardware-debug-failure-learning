@@ -1,0 +1,1967 @@
+{
+  "timestamp": "2026-09-04 09:32:30",
+  "total_cases_evaluated": 20,
+  "stage_failure_counts": {
+    "V8": {
+      "initial_interpretation": 0,
+      "tool_selection": 2,
+      "tool_arg_gen": 8,
+      "tool_result_interpretation": 0,
+      "temporal_reasoning": 0,
+      "candidate_discrimination": 0,
+      "final_rca": 0,
+      "formatting": 0,
+      "success": 10
+    },
+    "Model_A": {
+      "initial_interpretation": 0,
+      "tool_selection": 17,
+      "tool_arg_gen": 0,
+      "tool_result_interpretation": 0,
+      "temporal_reasoning": 0,
+      "candidate_discrimination": 0,
+      "final_rca": 0,
+      "formatting": 0,
+      "success": 3
+    },
+    "Model_B": {
+      "initial_interpretation": 0,
+      "tool_selection": 17,
+      "tool_arg_gen": 0,
+      "tool_result_interpretation": 0,
+      "temporal_reasoning": 0,
+      "candidate_discrimination": 0,
+      "final_rca": 0,
+      "formatting": 0,
+      "success": 3
+    }
+  },
+  "schema_statistics": {
+    "V8": {
+      "total": 20,
+      "valid_json": 20,
+      "tool_call": 15,
+      "conclude": 5,
+      "invalid_output": 0,
+      "premature_conclude": 5,
+      "hallucinated_candidate": 3
+    },
+    "Model_A": {
+      "total": 20,
+      "valid_json": 20,
+      "tool_call": 0,
+      "conclude": 20,
+      "invalid_output": 0,
+      "premature_conclude": 20,
+      "hallucinated_candidate": 7
+    },
+    "Model_B": {
+      "total": 20,
+      "valid_json": 20,
+      "tool_call": 0,
+      "conclude": 20,
+      "invalid_output": 0,
+      "premature_conclude": 20,
+      "hallucinated_candidate": 3
+    }
+  },
+  "cases": [
+    {
+      "case_id": "heldout_fifo_src",
+      "family": "fifo",
+      "type": "SOURCE",
+      "ground_truth": "count",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "write_en",
+        "read_en",
+        "count",
+        "write_ptr",
+        "read_ptr"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "write_ptr",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "search_rtl",
+          "failure_stage": "tool_arg_gen",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "search_rtl",
+              "tool_args": {
+                "design_path": "heldout_fifo_src.v",
+                "candidate_signals": [
+                  "write_ptr",
+                  "read_ptr",
+                  "count"
+                ],
+                "commit_message": "Selected 'write_ptr' as the candidate signal due to initial anomalous transition.",
+                "task_id": "heldout_fifo_src",
+                "design_family": "fifo"
+              },
+              "tool_status": "ERROR"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "write_ptr",
+              "confidence": 0.0
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "write_enable",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at time T=30, signal WRITE_ENABLE was held false indefinitely without triggering any state transitions or assertion violations prior to that point. Therefore, WRITE_ENABLE is the causal root cause herein.",
+              "candidate_signal": "write_enable",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Examine waveform transitions carefully. Starting from the latest transition, trace back to the earliest possible change. Output status register 'full' changed at T=35 due to illegal simultaneous data access. Because the count register 'empty' did not change, the root cause is 'full'. 'empty' is a symptom induced by 'full'. In hardware debugging, sometimes symptoms persist even when counts drop. Choose the smallest possible count signal as the root cause.",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "heldout_axi_src",
+      "family": "axi",
+      "type": "SOURCE",
+      "ground_truth": "wvalid",
+      "candidate_signals": [
+        "aclk",
+        "aresetn",
+        "wvalid",
+        "wready",
+        "wdata",
+        "bvalid",
+        "bready"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "valid_out",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "get_waveform_summary",
+          "failure_stage": "tool_arg_gen",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "Need to examine the waveforms to determine the candidate signal causing the assertion failure.",
+              "tool_name": "get_waveform_summary",
+              "tool_args": {
+                "task_id": "heldout_axi_src",
+                "signals": [
+                  "valid_in",
+                  "ready_out",
+                  "valid_out",
+                  "ready_in"
+                ],
+                "design_family": "axi"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "valid_out",
+              "confidence": 0.8
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "held_out",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at time T=35, signal held_out dropped to 0 without receiving acknowledgment from ready_in first. Holding itself did not cause this fault; the root cause is the inactive handshake line on held_out.",
+              "candidate_signal": "held_out",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Cross-examining both RTL and waveform data reveals that heldout_axi_src changed its state prematurely without updating control handshake tokens. Therefore, 'ready_out' is an OBSERVED symptom rather than a causal signal. The correct RCA rule is: \\",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "heldout_fsm_src",
+      "family": "fsm",
+      "type": "SOURCE",
+      "ground_truth": "state",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "start",
+        "state",
+        "next_state",
+        "done",
+        "out_pulse"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "state",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "read_simulation_log",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "Need to query simulation waveform to find the internal candidate signal causing the assertion failure.",
+              "tool_name": "read_simulation_log",
+              "tool_args": {
+                "task_id": "heldout_fsm_src",
+                "design_family": "fsm",
+                "simulation_log_path": "sim_output/vivado_sim.log"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "state",
+              "confidence": 0.95
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "state",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at time T=30, state register entered an illegal state without updating promptly. This is the first abnormal transition observable during simulation.",
+              "candidate_signal": "state",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Examine the waveform more closely than the signal. The counter state progressed normally without advancing the selector token. Thus, state is the root cause of failure.",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "heldout_uart_src",
+      "family": "uart",
+      "type": "SOURCE",
+      "ground_truth": "baud_cnt",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "tx_start",
+        "baud_cnt",
+        "bit_idx",
+        "tx_out",
+        "busy"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "tx",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "get_waveform_summary",
+          "failure_stage": "tool_arg_gen",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "Need to query waveforms to isolate the candidate signal with precise temporal confidence.",
+              "tool_name": "get_waveform_summary",
+              "tool_args": {
+                "task_id": "heldout_uart_src",
+                "signals": [
+                  "tx",
+                  "cnt",
+                  "start"
+                ],
+                "timestamps": [
+                  0,
+                  30,
+                  70
+                ],
+                "design_family": "uart"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "tx",
+              "confidence": 0.9
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "cnt",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at time T=70, the UART baud divider exited its reset window without updating the transmit line. This is the first abnormal transition observable during simulation.",
+              "candidate_signal": "cnt",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "cnt",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Cross-examining both RTL and waveform data reveals that UART baud rate divider operation was corrupted early in cycle #3. Output register cnt missed its duty cycle due to invalid initial state. Hence, 'cnt' is the correct candidate signal.)",
+              "candidate_signal": "cnt",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        }
+      }
+    },
+    {
+      "case_id": "heldout_pipe_src",
+      "family": "pipeline",
+      "type": "SOURCE",
+      "ground_truth": "v1",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "in_val",
+        "in_dat",
+        "v1",
+        "d1",
+        "v2",
+        "d2",
+        "out_val",
+        "out_dat"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "v1",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "v1",
+              "confidence": 0.7
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "clk",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at cycle T=30, the pipe stall bubble exited prematurely without passing data downstream. The control signal 'rst_n' was not actively asserted during simulation until T=70, leading to an\u65e0\u6548 stream transaction on the output port.",
+              "candidate_signal": "clk",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Examine pipeline stage control tokens more closely than observable registers. Holding the token under control prevented operation completion without breaking any core rule. Register d_out is free of defects.",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "fifo_vl_a1",
+      "family": "fifo",
+      "type": "TARGET_REUSE",
+      "ground_truth": "count",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "write_en",
+        "read_en",
+        "count",
+        "write_ptr",
+        "read_ptr"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "count",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 3,
+          "first_action": "tool_call",
+          "first_tool": "search_rtl",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "search_rtl",
+              "tool_args": {
+                "design_family": "fifo",
+                "candidate_signals": [
+                  "write_ptr",
+                  "read_ptr",
+                  "count"
+                ],
+                "target_module": "fifo_vl_a1",
+                "task_id": "fifo_vl_a1"
+              },
+              "tool_status": "ERROR"
+            },
+            {
+              "step": 2,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "search_rtl",
+              "tool_args": {
+                "design_family": "fifo",
+                "candidate_signals": [
+                  "write_ptr",
+                  "read_ptr",
+                  "count"
+                ],
+                "target_module": "fifo_vl_a1",
+                "task_id": "fifo_vl_a1"
+              },
+              "tool_status": "ERROR"
+            },
+            {
+              "step": 3,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "count",
+              "confidence": 0.95
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Temporal waveform analysis reveals that at time T=30, the write enable signal 'write_en' dropped to 0 immediately without violating any pipeline integrity gates. Therefore, 'write_en' is an innocent operand causing the assertion failure.",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        },
+        "Model_B": {
+          "prediction": "count",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Comparing waveform transitions against RTL logic reveals that count dropped to an illegal low bubble before assertion failure occurred. Thus, 'count' is the correct candidate signal.",
+              "candidate_signal": "count",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        }
+      }
+    },
+    {
+      "case_id": "axi_vl_a1",
+      "family": "axi",
+      "type": "TARGET_REUSE",
+      "ground_truth": "wvalid",
+      "candidate_signals": [
+        "aclk",
+        "aresetn",
+        "wvalid",
+        "wready",
+        "wdata",
+        "bvalid",
+        "bready"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "valid_out",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "valid_out",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "ready_in",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at time T=35, signal READY_IN dropped unexpectedly to 0 before VALID_IN arrived. Signal READY_IN is the first abnormal transition herein; therefore, READY_IN is the candidate causal signal for this assertion failure.",
+              "candidate_signal": "ready_in",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Examine the temporal waveform more closely than just the register value. The clock cycle leading to assertion failure was brief and isolated. The register value change occurred moments after stability was reached rather than as a result of instability. Therefore, the register value is not the fault root cause.",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "pipeline_vl_a1",
+      "family": "pipeline",
+      "type": "TARGET_REUSE",
+      "ground_truth": "v1",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "in_val",
+        "in_dat",
+        "v1",
+        "d1",
+        "v2",
+        "d2",
+        "out_val",
+        "out_dat"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "v1",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "v1",
+              "confidence": 0.7
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "clk",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at cycle T=30, the PIPELINE DROP SHORT instruction violated its self-set stall condition through an unintended instantiation pause (T=0->T=-1). Signal 'valid_in' was correct but its control input 'clk' was reset prematurely before acceptable data propagated.",
+              "candidate_signal": "clk",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "d_in",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Examine pipeline waveforms carefully. Stage control tokens usually precede data stages in the pipeline. Here, data stage token d1 lags behind port operand d_in by one cycle. The buffer register d_out is free of fault causality.; Therefore, d_in is the correct candidate signal.",
+              "candidate_signal": "d_in",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        }
+      }
+    },
+    {
+      "case_id": "fifo_vl_f1",
+      "family": "fifo",
+      "type": "TARGET_NEGATIVE",
+      "ground_truth": "read_ptr",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "write_en",
+        "read_en",
+        "count",
+        "write_ptr",
+        "read_ptr"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "count",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "read_simulation_log",
+          "failure_stage": "tool_arg_gen",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "read_simulation_log",
+              "tool_args": {
+                "design_family": "fifo",
+                "simulation_log_path": "fifo_vl_f1.sim.log",
+                "task_id": "fifo_vl_f1"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "count",
+              "confidence": 0.8
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "read_en",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at time T=50, the read enable signal 'read_en' dropped to 0 immediately upon receiving its asserted reset without waiting for any latency or condition to clear.",
+              "candidate_signal": "read_en",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "count",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Cross-examining both RTL and waveform data reveals that count register overflow occurred at T=90 prior to assertion execution. Output status register read_data was incorrect but not the faulting count register. Choosing count as the candidate signal.",
+              "candidate_signal": "count",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        }
+      }
+    },
+    {
+      "case_id": "pipeline_vl_f1",
+      "family": "pipeline",
+      "type": "TARGET_NEGATIVE",
+      "ground_truth": "d1",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "in_val",
+        "in_dat",
+        "v1",
+        "d1",
+        "v2",
+        "d2",
+        "out_val",
+        "out_dat"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "v1",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "read_simulation_log",
+          "failure_stage": "tool_arg_gen",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "read_simulation_log",
+              "tool_args": {
+                "task_id": "pipeline_vl_f1",
+                "design_family": "pipeline"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "v1",
+              "confidence": 0.7
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "valid_in",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Based on rigorous waveform inspection, the CONTROL INPUT TRANSACTION AT TIME=T=30 CAUSED INVALID OUTPUT RESPONSE on pipeline_vl_f1. Signal 'valid_in' had an INCORRECT VALUE INPUT TRANSACTION prior to DROP SHORT:A1 at T=30 unlessRESET was asserted first. Caused Signal: valid_in. Root Cause Signal: valid_in with value 0 prior to DROP SHORT:A1.",
+              "candidate_signal": "valid_in",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "d1",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Comparing pipeline stage outputs sequentially yields a definitive causal relationship between input valid_in and output d_out. Output d_out is a downstream fault triggered by stale stage output port d1. Inference: d1 \u2192 d_out (cosmetic fault) vs. valid_in \u2192 d_out (causal change to pipeline control token) on stage output port d1.",
+              "candidate_signal": "d1",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        }
+      }
+    },
+    {
+      "case_id": "v10_val_pipe_3stage_split",
+      "family": "pipeline",
+      "type": "VAL_POSITIVE",
+      "ground_truth": "p1_val",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "p_in_val",
+        "p_in_dat",
+        "p1_val",
+        "p1_dat",
+        "p2_val",
+        "p2_dat",
+        "p_out_val"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "p1_val",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "p1_val",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "clk",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Based on rigorous waveform inspection, the clock signal 'clk' terminated its cycle before receiving its asserted reset pulse 'rst_n' at all during simulation runtime. Therefore, 'clk' is the first causal signal responsible for the failure.",
+              "candidate_signal": "clk",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "p2_val",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Examine pipeline stage control tokens carefully; p1_val was correct but p2_val initiated an invalid bubble token. Returning p2_val as the candidate signal.",
+              "candidate_signal": "p2_val",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        }
+      }
+    },
+    {
+      "case_id": "v10_val_fifo_ring_buf",
+      "family": "fifo",
+      "type": "VAL_POSITIVE",
+      "ground_truth": "items_avail",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "push_cmd",
+        "pop_cmd",
+        "data_in",
+        "head_idx",
+        "tail_idx",
+        "items_avail",
+        "data_out"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "items_avail",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "search_rtl",
+          "failure_stage": "tool_arg_gen",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "search_rtl",
+              "tool_args": {
+                "design_path": "v10_val_fifo_ring_buf.v",
+                "candidate_signals": [
+                  "items_avail",
+                  "data_in",
+                  "head_idx",
+                  "tail_idx",
+                  "push_cmd",
+                  "pop_cmd",
+                  "rst_n",
+                  "clk",
+                  "data_out"
+                ],
+                "commit_message": "Selected 'items_avail' as the candidate signal due to its role in counting remaining space.",
+                "task_id": "v10_val_fifo_ring_buf",
+                "design_family": "fifo"
+              },
+              "tool_status": "ERROR"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "items_avail",
+              "confidence": 0.0
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "data_out",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Based on rigorous waveform inspection, the DATA_VALID clock pulse exited its slot before wrapping back to zero. This is an outright hardware fault signal whose value directly violated its own latency constraint.",
+              "candidate_signal": "data_out",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Examine waveform transitions carefully; data_in was correct but ring_cnt suffered a premature bubble at T=35000. Therefore, data_out is incorrect and diagnosed as the fault signal ring_cnt.)",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "v10_val_axi_stream_fifo",
+      "family": "axi",
+      "type": "VAL_POSITIVE",
+      "ground_truth": "strm_val",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "strm_val_in",
+        "strm_rdy_out",
+        "strm_val",
+        "strm_rdy",
+        "occupancy_tok",
+        "strm_val_out"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "strm_val",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "get_waveform_summary",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "get_waveform_summary",
+              "tool_args": {
+                "task_id": "v10_val_axi_stream_fifo",
+                "signals": [
+                  "strm_val",
+                  "strm_rdy",
+                  "strm_val_out"
+                ],
+                "design_family": "axi"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "strm_val",
+              "confidence": 0.95
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "strm_val_in",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Based on rigorous waveform inspection, the signal 'strm_val_in' controlled the stream token but failed to deassert immediately upon receipt of a zero pulse. Thus, 'strm_val_in' is the causal signal responsible for AssertionError on v10_val_axi_stream_fifo.",
+              "candidate_signal": "strm_val_in",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "The waveform observation is misleading; the actual reason for failure is that output regstm_val was held low for too long. Deleting stage handshake signal strm_rdy results in passing an invalid token to downstream devices.",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "v10_pipe_3stage_hazard",
+      "family": "pipeline",
+      "type": "TRAIN_HARD_NEG",
+      "ground_truth": "fwd_data",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "in_valid",
+        "in_payload",
+        "stage1_vld",
+        "stage2_vld",
+        "fwd_data",
+        "op_reg",
+        "out_valid",
+        "out_payload"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "fwd_data",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "read_simulation_log",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "read_simulation_log",
+              "tool_args": {
+                "design_family": "pipeline",
+                "simulation_log_path": "waveforms/v10_pipe_3stage_hazard.vcd",
+                "task_id": "v10_pipe_3stage_hazard"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "fwd_data",
+              "confidence": 0.95
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "fwd_data",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Based on rigorous inspection of the Verilog source code and synthetic waveform, we observe that during cycle T=55, stage2 register received stale data from stage1 without proper synchronization or hazard detection. This is the first abnormal transition observable here.",
+              "candidate_signal": "fwd_data",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "op_reg",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Examine waveform transitions carefully; stage control signal op_reg is the culprit signal. Output payload is consistent.). Control signal out_valid was incorrectly asserted due to waveform noise.)",
+              "candidate_signal": "op_reg",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        }
+      }
+    },
+    {
+      "case_id": "v10_fifo_gray_ptr",
+      "family": "fifo",
+      "type": "TRAIN_HARD_NEG",
+      "ground_truth": "gray_wr_ptr",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "wr_strobe",
+        "rd_strobe",
+        "wr_payload",
+        "gray_wr_ptr",
+        "gray_rd_ptr",
+        "bin_wr_ptr",
+        "bin_rd_ptr",
+        "fifo_occ",
+        "buf_full"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "gray_wr_ptr",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 3,
+          "first_action": "tool_call",
+          "first_tool": "read_simulation_log",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "read_simulation_log",
+              "tool_args": {
+                "design_family": "fifo",
+                "simulation_log_path": "v10_fifo_gray_ptr_sim.log",
+                "task_id": "v10_fifo_gray_ptr"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 2,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "read_simulation_log",
+              "tool_args": {
+                "design_family": "fifo",
+                "simulation_log_path": "v10_fifo_gray_ptr_sim.log",
+                "task_id": "v10_fifo_gray_ptr"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 3,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "gray_wr_ptr",
+              "confidence": 0.95
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "gray_wr_ptr",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at cycle T=45000, synchronous write pointer \\\\textbf{gray_wr_ptr}\\\\\\\\ violated logical consistency by progressing past its capacity without draining. Although both strobe lines operate under synchronous clock/granduration protocol, \\\\textbf{gray_wr_ptr}\\\\\\\\ was defective during its activation window instead of subsequent recovery. Therefore, \\\\textbf{gray_wr_ptr}\\\\\\\\ is the causally distinct root cause signal causing assertion failure on T=45000.",
+              "candidate_signal": "gray_wr_ptr",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Temporal waveform observation is misleading.,buf_full was not set during valid operation period and resulted in an assertion failure. Correcting signal buf_full and updating status register buf_occ instead of a downstream delete-delete conflict signal.",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "v10_val_fifo_ring_buf",
+      "family": "fifo",
+      "type": "VAL_UNKNOWN",
+      "ground_truth": "unknown",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "push_cmd",
+        "pop_cmd",
+        "data_in",
+        "head_idx",
+        "tail_idx",
+        "items_avail"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "items_avail",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "search_rtl",
+          "failure_stage": "tool_arg_gen",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "search_rtl",
+              "tool_args": {
+                "design_path": "v10_val_fifo_ring_buf.v",
+                "candidate_signals": [
+                  "items_avail",
+                  "data_in",
+                  "head_idx",
+                  "tail_idx",
+                  "push_cmd",
+                  "pop_cmd",
+                  "rst_n",
+                  "clk",
+                  "data_out"
+                ],
+                "commit_message": "Selected 'items_avail' as the candidate signal due to its role in counting remaining space.",
+                "task_id": "v10_val_fifo_ring_buf",
+                "design_family": "fifo"
+              },
+              "tool_status": "ERROR"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "items_avail",
+              "confidence": 0.0
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "data_out",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Based on rigorous waveform inspection, the DATA_VALID clock pulse exited its slot before wrapping back to zero. This is an outright hardware fault signal whose value directly violated its own latency constraint.",
+              "candidate_signal": "data_out",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Examine waveform transitions carefully; data_in was correct but ring_cnt suffered a premature bubble at T=35000. Therefore, data_out is incorrect and diagnosed as the fault signal ring_cnt.)",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "v10_val_pipe_3stage_split",
+      "family": "pipeline",
+      "type": "VAL_UNKNOWN",
+      "ground_truth": "unknown",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "p_in_val",
+        "p_in_dat",
+        "p1_val",
+        "p1_dat",
+        "p_out_val"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "p1_val",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "p1_val",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "clk",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Based on rigorous waveform inspection, the clock signal 'clk' terminated its cycle before receiving its asserted reset pulse 'rst_n' at all during simulation runtime. Therefore, 'clk' is the first causal signal responsible for the failure.",
+              "candidate_signal": "clk",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "p2_val",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Examine pipeline stage control tokens carefully; p1_val was correct but p2_val initiated an invalid bubble token. Returning p2_val as the candidate signal.",
+              "candidate_signal": "p2_val",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        }
+      }
+    },
+    {
+      "case_id": "v10_gen_pipe_5stage_branch",
+      "family": "pipeline",
+      "type": "GEN_TOPOLOGY",
+      "ground_truth": "ex_v",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "fetch_req",
+        "fetch_v",
+        "dec_v",
+        "ex_v",
+        "mem_v",
+        "wb_v",
+        "branch_flush",
+        "retire_v"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "wb_v",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 3,
+          "first_action": "tool_call",
+          "first_tool": "search_rtl",
+          "failure_stage": "tool_arg_gen",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "search_rtl",
+              "tool_args": {
+                "design_path": "v10_gen_pipe_5stage_branch.v",
+                "candidate_signals": [
+                  "fetch_v",
+                  "dec_v",
+                  "ex_v",
+                  "mem_v",
+                  "wb_v",
+                  "byp_reg"
+                ],
+                "pattern": "ASSERTION_FAILED",
+                "task_id": "v10_gen_pipe_5stage_branch",
+                "design_family": "pipeline"
+              },
+              "tool_status": "ERROR"
+            },
+            {
+              "step": 2,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "",
+              "tool_name": "search_rtl",
+              "tool_args": {
+                "design_path": "v10_gen_pipe_5stage_branch.v",
+                "candidate_signals": [
+                  "fetch_v",
+                  "dec_v",
+                  "ex_v",
+                  "mem_v",
+                  "wb_v",
+                  "byp_reg"
+                ],
+                "pattern": "ASSERTION_FAILED",
+                "task_id": "v10_gen_pipe_5stage_branch",
+                "design_family": "pipeline"
+              },
+              "tool_status": "ERROR"
+            },
+            {
+              "step": 3,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "wb_v",
+              "confidence": 0.95
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Based on observed waveform activity, the CONTROL REGISTER SIGNAL 'fetch_req' held its initial value of '0' without any prior instability before assertion FAILURE at cycle T=35000. Therefore, 'fetch_req' is the DIRECT causal ancestor of the FAILED TRANSACTION at T=35000, but it is an INPUT port whose VALUE was STABLE until EXCEPTION occurred. Its SIGNAL itself is irrelevant to causal analysis in this case.",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "The waveform reveals that the Pipeline Control Stream exited normal without asserting. The instruction pointer register \\",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    },
+    {
+      "case_id": "v10_gen_pipe_elastic_ring",
+      "family": "pipeline",
+      "type": "GEN_TOPOLOGY",
+      "ground_truth": "token_ring",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "ring_inject",
+        "token_ring",
+        "packet_id",
+        "route_valid",
+        "ring_eject"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "token_ring",
+          "is_correct": true,
+          "status": "SUCCESS",
+          "steps_taken": 2,
+          "first_action": "tool_call",
+          "first_tool": "read_simulation_log",
+          "failure_stage": "none",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "Need to inspect waveforms to determine which signal exhibited anomalous behavior first.",
+              "tool_name": "read_simulation_log",
+              "tool_args": {
+                "task_id": "v10_gen_pipe_elastic_ring",
+                "design_family": "pipeline"
+              },
+              "tool_status": "SUCCESS"
+            },
+            {
+              "step": 2,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "",
+              "candidate_signal": "token_ring",
+              "confidence": 0.95
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_A": {
+          "prediction": "token",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Temporal waveform analysis reveals that at time T=45000, signal \\",
+              "candidate_signal": "token",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        },
+        "Model_B": {
+          "prediction": "ring_eject",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "FINAL_RCA",
+              "thought": "Comparing waveform transitions versus signal values, we see that ring_eject occurred first at T=45000 due to an illegal token_passing sequence on ring_ring. Although signal value anomaly was delayed, it is a downstream symptom rather than the root cause signal. In this case, the pipeline operand was incorrectly skipped during injection. Therefore, 'packet_id' is incorrect, and 'ring_eject' is the true causal signal leading to assertion failure.",
+              "candidate_signal": "ring_eject",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: FINAL_RCA)"
+        }
+      }
+    },
+    {
+      "case_id": "gen_pipe_4stage_hazard",
+      "family": "pipeline",
+      "type": "GEN_PIPELINE_SUITE",
+      "ground_truth": "fwd_data",
+      "candidate_signals": [
+        "clk",
+        "rst_n",
+        "in_valid",
+        "in_data",
+        "s1_valid",
+        "s1_data",
+        "fwd_data",
+        "out_valid"
+      ],
+      "model_runs": {
+        "V8": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 3,
+          "first_action": "tool_call",
+          "first_tool": "read_simulation_log",
+          "failure_stage": "tool_arg_gen",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "Dynamic simulation waveforms are incomplete without a top-level reset deactivation assertion. Adding 'reset_deactivate' simoption completes the simulation log.",
+              "tool_name": "read_simulation_log",
+              "tool_args": {
+                "task_id": "gen_pipe_4stage_hazard",
+                "design_family": "pipeline",
+                "sim_options": [
+                  "reset_deactivate"
+                ],
+                "assertions": [
+                  "initial_prg_wiz_assert"
+                ]
+              },
+              "tool_status": "COMPILE_FAILED"
+            },
+            {
+              "step": 2,
+              "action": "tool_call",
+              "machine_state": "TOOL_CALL",
+              "thought": "Simulator simulation log is incomplete without a reset deactivation assertion. Adding 'reset_activate' simoption completes the simulation.",
+              "tool_name": "read_simulation_log",
+              "tool_args": {
+                "task_id": "gen_pipe_4stage_hazard",
+                "design_family": "pipeline",
+                "sim_options": [
+                  "reset_activate"
+                ],
+                "assertions": [
+                  "initial_prg_wiz_assert"
+                ]
+              },
+              "tool_status": "COMPILE_FAILED"
+            },
+            {
+              "step": 3,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "",
+              "candidate_signal": "unknown",
+              "confidence": 0.2
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        },
+        "Model_A": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Based on rigorous waveform inspection, there are NO SIGNAL TRANITIONS OBSERVED EXCEPTION BEFORE TRANSACTION TERMINATION. THE VIDEOWAVEFORM IS CLEAN AND SYNTHETIC WITHOUT ANY TRACEABLE DEFECT SIGNAL PRIOR TO FAILURE.",
+              "candidate_signal": "unknown",
+              "confidence": 0.67
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        },
+        "Model_B": {
+          "prediction": "unknown",
+          "is_correct": false,
+          "status": "SUCCESS",
+          "steps_taken": 1,
+          "first_action": "conclude",
+          "first_tool": "",
+          "failure_stage": "tool_selection",
+          "trajectory": [
+            {
+              "step": 1,
+              "action": "conclude",
+              "machine_state": "UNKNOWN",
+              "thought": "Cross-examining both RTL logic and waveform reveals that stage control token propagation was flawless. Therefore, the observer failed due to stale status information from the pipeline stage operand.",
+              "candidate_signal": "unknown",
+              "confidence": 0.85
+            }
+          ],
+          "notes": "Tool-assisted Agentic RCA via PeftLLMProvider (Status: UNKNOWN)"
+        }
+      }
+    }
+  ]
+}

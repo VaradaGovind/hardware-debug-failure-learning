@@ -1,0 +1,158 @@
+{
+  "experiment_id": "V10.1_CONTROLLED_BUG_RESOLUTION",
+  "timestamp": "2026-09-06T06:40:32Z",
+  "base_model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "adapter_path": "C:/Users/varad/ml-cache/rca-reuse/v7/checkpoints/soup_v7_qwen_lora/best_v7_checkpoint",
+  "total_cases": 25,
+  "primary_results": {
+    "bug_resolution_rate_system_a": 0.48,
+    "bug_resolution_rate_system_b": 0.56,
+    "bug_resolution_difference_absolute": 0.08,
+    "bug_resolution_difference_relative_pct": 16.67,
+    "diagnostic_accuracy_system_a": 0.6,
+    "diagnostic_accuracy_system_b": 0.68,
+    "total_llm_tokens_system_a": 83238,
+    "total_llm_tokens_system_b": 64896,
+    "token_reduction_pct": 22.04,
+    "total_llm_calls_system_a": 48,
+    "total_llm_calls_system_b": 35,
+    "llm_call_reduction_pct": 27.08,
+    "full_rca_investigations_system_a": 25,
+    "full_rca_investigations_system_b": 18,
+    "rca_investigations_avoided": 7,
+    "rca_avoidance_rate_pct": 28.0,
+    "correct_reuses": 7,
+    "false_reuses": 0,
+    "reuse_precision_pct": 100.0,
+    "false_reuse_rate_pct": 0.0,
+    "safe_rejections": 10,
+    "negative_rejection_rate_pct": 100.0,
+    "missed_reuses": 3
+  },
+  "latency_analysis": {
+    "system_a_total_ms": 1201.69,
+    "system_b_total_ms": 1352.2,
+    "system_a_avg_per_bug_ms": 48.07,
+    "system_b_avg_per_bug_ms": 54.09,
+    "system_a_llm_latency_ms": 680277.0,
+    "system_a_verification_latency_ms": 1185.15,
+    "system_b_llm_latency_ms": 512512.5,
+    "system_b_verification_latency_ms": 1292.74,
+    "latency_reduction_pct": -12.52
+  },
+  "ablation_comparison": {
+    "plain_llm_resolution_rate": 0.48,
+    "unverified_reuse_resolution_rate": 0.56,
+    "unverified_reuse_false_reuses": 6,
+    "unverified_reuse_precision": 0.6,
+    "verified_reuse_resolution_rate": 0.56,
+    "verified_reuse_false_reuses": 0,
+    "verified_reuse_precision": 1.0
+  },
+  "repeated_runs_analysis": {
+    "num_runs": 3,
+    "seeds_evaluated": [
+      42,
+      43,
+      44
+    ],
+    "bug_resolution_rate_system_a": {
+      "mean": 0.48,
+      "min": 0.48,
+      "max": 0.48,
+      "std": 0.0
+    },
+    "bug_resolution_rate_system_b": {
+      "mean": 0.56,
+      "min": 0.56,
+      "max": 0.56,
+      "std": 0.0
+    },
+    "diagnostic_accuracy_system_a": {
+      "mean": 0.6,
+      "min": 0.6,
+      "max": 0.6,
+      "std": 0.0
+    },
+    "diagnostic_accuracy_system_b": {
+      "mean": 0.68,
+      "min": 0.68,
+      "max": 0.68,
+      "std": 0.0
+    },
+    "reproducibility_status": "DETERMINISTIC_REPRODUCIBILITY_VERIFIED"
+  },
+  "hardware_family_breakdown": {
+    "fifo": {
+      "cases": 5,
+      "plain_resolved": 3,
+      "reuse_resolved": 3,
+      "plain_acc": 4,
+      "reuse_acc": 4,
+      "plain_tokens": 20316,
+      "reuse_tokens": 17000,
+      "plain_calls": 10,
+      "reuse_calls": 8,
+      "correct_reuses": 1,
+      "false_reuses": 0
+    },
+    "axi": {
+      "cases": 5,
+      "plain_resolved": 3,
+      "reuse_resolved": 3,
+      "plain_acc": 3,
+      "reuse_acc": 3,
+      "plain_tokens": 13961,
+      "reuse_tokens": 8786,
+      "plain_calls": 9,
+      "reuse_calls": 6,
+      "correct_reuses": 2,
+      "false_reuses": 0
+    },
+    "fsm": {
+      "cases": 5,
+      "plain_resolved": 3,
+      "reuse_resolved": 4,
+      "plain_acc": 3,
+      "reuse_acc": 4,
+      "plain_tokens": 14261,
+      "reuse_tokens": 9340,
+      "plain_calls": 10,
+      "reuse_calls": 6,
+      "correct_reuses": 2,
+      "false_reuses": 0
+    },
+    "uart": {
+      "cases": 5,
+      "plain_resolved": 2,
+      "reuse_resolved": 3,
+      "plain_acc": 3,
+      "reuse_acc": 4,
+      "plain_tokens": 16301,
+      "reuse_tokens": 11371,
+      "plain_calls": 10,
+      "reuse_calls": 6,
+      "correct_reuses": 2,
+      "false_reuses": 0
+    },
+    "pipeline": {
+      "cases": 5,
+      "plain_resolved": 1,
+      "reuse_resolved": 1,
+      "plain_acc": 2,
+      "reuse_acc": 2,
+      "plain_tokens": 18399,
+      "reuse_tokens": 18399,
+      "plain_calls": 9,
+      "reuse_calls": 9,
+      "correct_reuses": 0,
+      "false_reuses": 0
+    }
+  },
+  "transitions_summary": {
+    "both_resolved": 12,
+    "system_a_only_resolved": 0,
+    "system_b_only_resolved": 2,
+    "neither_resolved": 11
+  }
+}
