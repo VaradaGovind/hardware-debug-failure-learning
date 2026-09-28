@@ -30,13 +30,13 @@ This directory contains the training configuration, data schemas, and compatibil
 To prevent test-set data leakage, `scripts/prepare_soup_dataset.py` constructs training and validation splits from the non-heldout benchmark catalog while strictly excluding all 25 evaluation stream cases (`heldout_*`, `*_vl_*`, etc.).
 
 ### Generating the Dataset
-```powershell
-& C:\Users\varad\venvs\rca-reuse\Scripts\python.exe scripts/prepare_soup_dataset.py
+```bash
+python scripts/prepare_soup_dataset.py
 ```
 
-### Dataset Artifacts (Stored Externally)
-- Training Split: `C:\Users\varad\ml-cache\rca-reuse\training\rca_train.json` (24 examples)
-- Validation Split: `C:\Users\varad\ml-cache\rca-reuse\training\rca_val.json` (6 examples)
+### Dataset Artifacts (Stored in Local Cache)
+- Training Split: `~/.cache/rca-reuse/training/rca_train.json` (24 examples, or configured via `$RCA_REUSE_CACHE_DIR`)
+- Validation Split: `~/.cache/rca-reuse/training/rca_val.json` (6 examples)
 - Schema Definition: [`training/schemas/rca_training_schema.json`](schemas/rca_training_schema.json)
 
 ---
