@@ -39,7 +39,7 @@
 ## 4. Commit
 
 * **Release Base Commit**: `c9847d7`
-* **Public Release Preparation Commit**: *(Recorded upon final commit)*
+* **Public Release Preparation Commit**: `e33b52d`
 
 ---
 
