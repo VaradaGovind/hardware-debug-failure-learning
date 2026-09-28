@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this software or benchmark in your research, please cite it as below."
+title: "RCA-Reuse: Verified Root Cause Analysis Reuse for Hardware Debugging"
+version: 12.1.0
+date-released: 2026-09-28
+url: "https://github.com/VaradaGovind/hardware-debug-failure-learning"
+repository-code: "https://github.com/VaradaGovind/hardware-debug-failure-learning"
+authors:
+  - family-names: "Aakula"
+    given-names: "Varada Govind"
+license: "MIT"
+abstract: "RCA-Reuse is a hardware debugging research framework investigating whether verified previous root cause analysis (RCA) results can be safely reused to resolve subsequent RTL simulation failures while reducing repeated LLM inference."
