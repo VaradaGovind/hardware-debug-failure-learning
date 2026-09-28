@@ -5,6 +5,7 @@
 ![Base Model](https://img.shields.io/badge/Base%20Model-Qwen2.5--Coder--1.5B-purple)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Tests](https://img.shields.io/badge/Tests-100%20passed%2C%2011%20skipped-brightgreen)
+[![CI](https://github.com/VaradaGovind/hardware-debug-failure-learning/actions/workflows/ci.yml/badge.svg)](https://github.com/VaradaGovind/hardware-debug-failure-learning/actions/workflows/ci.yml)
 
 > 📘 **Comprehensive System Architecture & Technical Reports:**<br/>
 > For in-depth architectural specifications, formal semantic contracts, and full benchmark evaluations, see the [**System Architecture Specification**](docs/ARCHITECTURE.md), [**Benchmark Provenance Report**](docs/BENCHMARK_PROVENANCE.md), and [**Master Results Summary**](RESULTS.md).

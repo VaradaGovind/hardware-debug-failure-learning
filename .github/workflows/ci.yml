@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: Regression & Integrity Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run full test suite
+        run: pytest -q
+
+      - name: Run V11 regression suite
+        run: pytest tests/test_v11_generalization.py -v
+
+      - name: Run V12 regression suite
+        run: pytest tests/test_v12_external_validation.py -v
+
+      - name: Run historical integrity check
+        run: python scripts/check_integrity.py
