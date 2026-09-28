@@ -29,6 +29,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y iverilog
 
+      - name: Restore historical artifact line endings
+        run: |
+          python -c "
+          import json, os, hashlib
+          with open('results/reports/v12_frozen_artifacts.json') as f:
+              data = json.load(f)
+          for path, exp_sha in data['frozen_artifacts_sha256'].items():
+              if os.path.exists(path):
+                  with open(path, 'rb') as f:
+                      content = f.read()
+                  crlf = content.replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')
+                  if hashlib.sha256(crlf).hexdigest() == exp_sha and hashlib.sha256(content).hexdigest() != exp_sha:
+                      with open(path, 'wb') as f:
+                          f.write(crlf)
+          "
+
       - name: Run full test suite
         run: pytest -q
 
