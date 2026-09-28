@@ -100,9 +100,9 @@ No LLM is permitted to evaluate its own repair. All patched circuits are written
 
 ## 4. The Safety Principle
 
-> **"The system should prefer fallback over unsafe reuse."**
+> **"The system should reject uncertain reuse rather than force a match."**
 
-In software engineering, a speculative patch can be tested and discarded at low cost. In hardware design, an invalid repair committed to RTL can corrupt downstream synthesis, introduce silicon respins costing millions of dollars, or inject silent data corruption into hardware pipelines.
+In software engineering, a speculative patch can be tested and discarded at low cost. In hardware design, an invalid repair committed to RTL can corrupt downstream synthesis, introduce silicon respins costing millions of dollars, or inject silent data corruption into hardware pipelines. The core safety principle is that the system must prefer fallback over unsafe reuse.
 
 ### Why Naive Reuse is Hazardous
 Naive retrieval systems (such as semantic vector lookups or unverified RAG) match failures based on lexical or embedding similarity. In hardware:
